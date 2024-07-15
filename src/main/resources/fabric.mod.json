@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "not-enough-keybinds",
+	"version": "${version}",
+	"name": "Not Enough Keybinds",
+	"description": "Adds more keybinds and makes the keybind menu better.",
+	"authors": [
+		"Sn0wix_"
+	],
+	"contact": {
+		"homepage": "https://example.com",
+		"sources": "https://example.com",
+		"issues": "https://example.com"
+	},
+	"license": "MIT",
+	"icon": "assets/not-enough-keybinds/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"net.sn0wix_.NotEnoughKeybinds"
+		]
+	},
+	"mixins": [
+		"not-enough-keybinds.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"fabric-api": "https://modrinth.com/mod/fabric-api"
+	}
+}
