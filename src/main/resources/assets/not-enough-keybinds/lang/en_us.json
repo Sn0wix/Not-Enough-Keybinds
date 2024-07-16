@@ -1,5 +1,15 @@
 {
-  "controls.not-enough-keybinds.notBound.tooltip": "Set the key to Not Bound (or bind to esc)",
   "key.category.not-enough-keybinds.general": "Not Enough Keybinds",
-  "key.not-enough-keybinds.always_use_item": "Always Use Item"
+  "key.category.not-enough-keybinds.f3_shortcuts": "F3 Shortcuts",
+  "controls.not-enough-keybinds.notBound.tooltip": "Set the key to Not Bound (or bind to esc)",
+  "key.not-enough-keybinds.always_use_item": "Always Use Item",
+  "key.not-enough-keybinds.toggle_hide_hud": "Toggle Hide Hud",
+  "key.not-enough-keybinds.toggle_hitboxes": "Toggle Hitboxes",
+  "key.not-enough-keybinds.toggle_chunk_grid": "Toggle Chunk Grid",
+  "key.not-enough-keybinds.toggle_advanced_tooltips": "Toggle Advanced Tooltips",
+  "key.not-enough-keybinds.clear_chat_history": "Clear Chat History",
+  "key.not-enough-keybinds.toggle_spectator_mode": "Toggle Spectator Mode",
+  "key.not-enough-keybinds.toggle_auto_pause": "Toggle Auto Pause",
+  "key.not-enough-keybinds.reload_all_chunks": "Reload All Chunks",
+  "key.not-enough-keybinds.reload_resource_packs": "Reload Resource Packs"
 }

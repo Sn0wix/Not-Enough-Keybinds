@@ -43,7 +43,7 @@ public abstract class ControlsListWidgetMixin {
                     //((ControlsListWidget) (Object) this).update();
                 }, true)
                 .dimension(20, 20)
-                .texture(new Identifier(NotEnoughKeybinds.MOD_ID, "icon/cross_button1"), 14, 14)
+                .texture(new Identifier("spectator/close"), 14, 14)
                 .build();
 
         notBoundButton.setTooltip(Tooltip.of(Text.translatable("controls." + NotEnoughKeybinds.MOD_ID + ".notBound.tooltip")));
@@ -57,7 +57,7 @@ public abstract class ControlsListWidgetMixin {
             xOffset = 25;
         }
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(NotEnoughKeybinds.MOD_ID, "icon/cross_button1"));
+        //MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(NotEnoughKeybinds.MOD_ID, "textures/gui/sprite/icon/cross_button1.png"));
 
         this.notBoundButton.setX(xOffset - 25);
         this.notBoundButton.setY(y);
