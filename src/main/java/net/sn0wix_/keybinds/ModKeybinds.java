@@ -18,9 +18,13 @@ public class ModKeybinds {
 
     //custom
     public static final KeyBinding ALWAYS_USE_ITEM = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_use_item", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+    public static final KeyBinding ALWAYS_USE_ITEM_ON_BLOCK = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_use_item_on_block", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+    public static final KeyBinding ALWAYS_INTERACT_WITH_ENTITY = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_interact_with_entity", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+
 
     //why this isn't a thing in vanilla
     public static final KeyBinding TOGGLE_HIDE_HUD = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "toggle_hide_hud", InputUtil.GLFW_KEY_F1, KeyBinding.MISC_CATEGORY));
+
 
     //f3 shortcuts
     public static final KeyBinding TOGGLE_HITBOXES = registerKeyBinding(new F3ShortcutKeybinding(KEY_BINDING_PREFIX + "toggle_hitboxes", InputUtil.UNKNOWN_KEY.getCode(), F3_SHORTCUTS_CATEGORY, 66));

@@ -1,14 +1,15 @@
 package net.sn0wix_.mixin;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextIconButtonWidget;
+import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -27,7 +28,10 @@ import java.util.List;
 
 @Mixin(ControlsListWidget.KeyBindingEntry.class)
 public abstract class ControlsListWidgetMixin {
-    @Shadow @Final private KeyBinding binding;
+    private static final Identifier ICON = new Identifier(NotEnoughKeybinds.MOD_ID, "textures/gui/cross_button.png");
+    @Shadow
+    @Final
+    private KeyBinding binding;
     @Unique
     private ButtonWidget notBoundButton;
 
@@ -37,11 +41,11 @@ public abstract class ControlsListWidgetMixin {
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/option/ControlsListWidget$KeyBindingEntry;update()V", shift = At.Shift.BEFORE))
     private void init(ControlsListWidget controlsListWidget, KeyBinding binding, Text bindingName, CallbackInfo ci) {
-        notBoundButton = TextIconButtonWidget.builder(Text.empty(), button -> {
-                    NotEnoughKeybinds.LOGGER.info("PRESS");
-                    //MinecraftClient.getInstance().options.setKeyCode(binding, InputUtil.UNKNOWN_KEY);
-                    //((ControlsListWidget) (Object) this).update();
-                }, true)
+        /*notBoundButton = new TexturedButtonWidget(0, 0, 20, 20, new ButtonTextures(ICON, ICON), button -> {
+           NotEnoughKeybinds.LOGGER.info("PRESSED");
+        });*/
+
+        notBoundButton = TextIconButtonWidget.builder(Text.empty(), button -> NotEnoughKeybinds.LOGGER.info("PRESEDPOIAHEFOPIHSDPOIHSPDOFih"), false)
                 .dimension(20, 20)
                 .texture(new Identifier("spectator/close"), 14, 14)
                 .build();
@@ -57,8 +61,6 @@ public abstract class ControlsListWidgetMixin {
             xOffset = 25;
         }
 
-        //MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(NotEnoughKeybinds.MOD_ID, "textures/gui/sprite/icon/cross_button1.png"));
-
         this.notBoundButton.setX(xOffset - 25);
         this.notBoundButton.setY(y);
         this.notBoundButton.render(context, mouseX, mouseY, tickDelta);
@@ -68,7 +70,6 @@ public abstract class ControlsListWidgetMixin {
     private void update(CallbackInfo ci) {
         notBoundButton.active = !this.binding.isUnbound();
     }
-
 
     @Inject(method = "children", at = @At("RETURN"))
     private void children(CallbackInfoReturnable<List<? extends Element>> cir) {

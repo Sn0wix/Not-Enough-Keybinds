@@ -17,19 +17,5 @@ public class NotEnoughKeybinds implements ClientModInitializer {
         ModKeybinds.registerModKeybinds();
 
         ClientTickEvents.END_CLIENT_TICK.register(new ClientEndTickEvent());
-
-        /*ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener() {
-            @Override
-            public Identifier getFabricId() {
-                return new Identifier(MOD_ID, "icon_loader");
-            }
-
-            @Override
-            public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
-                return CompletableFuture.runAsync(() -> {
-                    MinecraftClient.getInstance().getTextureManager().registerTexture(Sprites.NOT_BOUND_BUTTON_ICON, new SpriteAtlasTexture(Sprites.NOT_BOUND_BUTTON_ICON));
-                });
-            }
-        });*/
     }
 }
