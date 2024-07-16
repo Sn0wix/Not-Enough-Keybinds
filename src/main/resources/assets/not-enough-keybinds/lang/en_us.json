@@ -1,3 +1,5 @@
 {
-  "controls.not-enough-keybinds.notBound.tooltip": "Set the key to Not Bound (or bind to esc)"
+  "controls.not-enough-keybinds.notBound.tooltip": "Set the key to Not Bound (or bind to esc)",
+  "key.category.not-enough-keybinds.general": "Not Enough Keybinds",
+  "key.not-enough-keybinds.always_use_item": "Always Use Item"
 }

@@ -13,7 +13,6 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.gui.Sprites;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -44,7 +43,7 @@ public abstract class ControlsListWidgetMixin {
                     //((ControlsListWidget) (Object) this).update();
                 }, true)
                 .dimension(20, 20)
-                .texture(new Identifier("icon/language"), 14, 14)
+                .texture(new Identifier(NotEnoughKeybinds.MOD_ID, "icon/cross_button1"), 14, 14)
                 .build();
 
         notBoundButton.setTooltip(Tooltip.of(Text.translatable("controls." + NotEnoughKeybinds.MOD_ID + ".notBound.tooltip")));
@@ -58,7 +57,7 @@ public abstract class ControlsListWidgetMixin {
             xOffset = 25;
         }
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(Sprites.NOT_BOUND_BUTTON_ICON);
+        MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(NotEnoughKeybinds.MOD_ID, "icon/cross_button1"));
 
         this.notBoundButton.setX(xOffset - 25);
         this.notBoundButton.setY(y);
@@ -75,7 +74,6 @@ public abstract class ControlsListWidgetMixin {
     private void children(CallbackInfoReturnable<List<? extends Element>> cir) {
         ImmutableList.builder().addAll(cir.getReturnValue()).add(notBoundButton);
     }
-
 
     @Inject(method = "selectableChildren", at = @At("RETURN"))
     private void selectableChildren(CallbackInfoReturnable<List<? extends Selectable>> cir) {
