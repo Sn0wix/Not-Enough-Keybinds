@@ -29,6 +29,7 @@ import java.util.List;
 @Mixin(ControlsListWidget.KeyBindingEntry.class)
 public abstract class ControlsListWidgetMixin {
     private static final Identifier ICON = new Identifier(NotEnoughKeybinds.MOD_ID, "textures/gui/cross_button.png");
+    //https://github.com/kawashirov/distant-horizons/blob/main-kawashirov/fabric/src/main/java/com/seibel/distanthorizons/fabric/mixins/client/MixinOptionsScreen.java
     @Shadow
     @Final
     private KeyBinding binding;

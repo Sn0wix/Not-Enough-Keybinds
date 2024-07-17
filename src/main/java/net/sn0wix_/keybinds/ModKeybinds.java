@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModKeybinds {
+    //fast building, throw potion, use ender pearl
     private static final ArrayList<F3ShortcutKeybinding> F3_SHORTCUT_KEYS = new ArrayList<>(8);
 
     public static final String NOT_ENOUGH_KEYBINDS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".general";
@@ -18,8 +19,10 @@ public class ModKeybinds {
 
     //custom
     public static final KeyBinding ALWAYS_USE_ITEM = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_use_item", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
-    public static final KeyBinding ALWAYS_USE_ITEM_ON_BLOCK = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_use_item_on_block", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+    public static final KeyBinding ALWAYS_PLACE_ITEM = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_place_item", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
     public static final KeyBinding ALWAYS_INTERACT_WITH_ENTITY = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_interact_with_entity", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+    public static final KeyBinding THROW_ENDER_PEARL = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "throw_ender_pearl", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+
 
 
     //why this isn't a thing in vanilla
