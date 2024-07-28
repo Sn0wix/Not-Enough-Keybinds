@@ -105,14 +105,14 @@ public class ClientEndTickEvent implements ClientTickEvents.EndTick {
         }
     }
 
-    public static boolean interactItem(ItemStack itemStack, Hand hand, MinecraftClient client) {
+    public static boolean interactItem(ItemStack itemStack, Hand hand, MinecraftClient client) throws NullPointerException {
         if (!itemStack.isEmpty()) {
             return interactItem(hand, client);
         }
         return false;
     }
 
-    public static boolean interactItem(Hand hand, MinecraftClient client) {
+    public static boolean interactItem(Hand hand, MinecraftClient client) throws NullPointerException {
         ActionResult actionResult3 = client.interactionManager.interactItem(client.player, hand);
         if (actionResult3.isAccepted()) {
             if (actionResult3.shouldSwingHand()) {

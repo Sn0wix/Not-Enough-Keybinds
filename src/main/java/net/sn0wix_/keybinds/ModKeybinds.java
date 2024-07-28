@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModKeybinds {
-    //fast building, throw potion, use ender pearl
+    //fast building, throw potion
     private static final ArrayList<F3ShortcutKeybinding> F3_SHORTCUT_KEYS = new ArrayList<>(8);
 
     public static final String NOT_ENOUGH_KEYBINDS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".general";
