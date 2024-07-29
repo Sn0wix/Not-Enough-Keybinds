@@ -1,12 +1,8 @@
 package net.sn0wix_.mixin;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.BlockPos;
 import net.sn0wix_.keybinds.ModKeybinds;
-import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

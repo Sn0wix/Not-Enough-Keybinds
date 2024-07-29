@@ -6,8 +6,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "KeyBindingEntryMixin",
-    "KeyBindingEntryMixin$ControlsListMixin",
     "KeyboardMixin"
   ]
 }

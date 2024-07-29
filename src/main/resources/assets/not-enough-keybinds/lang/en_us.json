@@ -15,5 +15,8 @@
   "key.not-enough-keybinds.toggle_spectator_mode": "Toggle Spectator Mode",
   "key.not-enough-keybinds.toggle_auto_pause": "Toggle Auto Pause",
   "key.not-enough-keybinds.reload_all_chunks": "Reload All Chunks",
-  "key.not-enough-keybinds.reload_resource_packs": "Reload Resource Packs"
+  "key.not-enough-keybinds.reload_resource_packs": "Reload Resource Packs",
+
+  "link.not-enough-keybinds.curseforge": "§6§n§lCurseforge",
+  "link.not-enough-keybinds.modrinth": "§2§n§lMondrinth"
 }
