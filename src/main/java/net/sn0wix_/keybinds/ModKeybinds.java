@@ -19,7 +19,9 @@ public class ModKeybinds {
     //custom
     public static final KeyBinding ALWAYS_PLACE_ITEM = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "always_place_item", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
     public static final KeyBinding THROW_ENDER_PEARL = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "throw_ender_pearl", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
-
+    public static final KeyBinding FAST_BUILDING = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "fast_building", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+    public static final KeyBinding FAST_BLOCK_BREAKING = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "fast_block_breaking", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
+    public static final KeyBinding SWITCH_TOTEM_SHIELD = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "switch_totem_shield", InputUtil.UNKNOWN_KEY.getCode(), NOT_ENOUGH_KEYBINDS_CATEGORY));
 
 
     //why this isn't a thing in vanilla
