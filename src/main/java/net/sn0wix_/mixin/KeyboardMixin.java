@@ -4,6 +4,7 @@ import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.sn0wix_.keybinds.ModKeybinds;
+import net.sn0wix_.util.Utils;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,7 +36,7 @@ public abstract class KeyboardMixin {
     //f3 shortcuts
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;setKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;Z)V", ordinal = 0, shift = At.Shift.BEFORE))
     private void injectProcessF3(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        List<Integer> codes = ModKeybinds.checkF3Shortcuts(key, scancode);
+        List<Integer> codes = Utils.checkF3Shortcuts(key, scancode);
         if (client.world != null && !codes.isEmpty() && !(client.currentScreen instanceof KeybindsScreen)) {
             codes.forEach(this::processF3);
         }
