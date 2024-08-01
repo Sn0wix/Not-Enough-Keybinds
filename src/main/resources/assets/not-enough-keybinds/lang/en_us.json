@@ -1,7 +1,9 @@
 {
-  "key.category.not-enough-keybinds.general": "Not Enough Keybinds",
+  "key.category.not-enough-keybinds.inventory": "Inventory Management",
   "key.category.not-enough-keybinds.f3_shortcuts": "F3 Shortcuts",
-  "controls.not-enough-keybinds.notBound.tooltip": "Set the key to Not Bound (or bind to esc)",
+  "key.category.not-enough-keybinds.skin_layers": "Skin Layers",
+  "key.category.not-enough-keybinds.building": "Building",
+
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",
   "text.not-enough-keybinds.confirm.1": "Yes sir!",
@@ -11,11 +13,13 @@
   "text.not-enough-keybinds.cancel.1": "No, this was a miss-click",
   "text.not-enough-keybinds.cancel.2": "Nope, i don't want to",
   "text.not-enough-keybinds.cancel.3": "No",
+
   "key.not-enough-keybinds.always_place_item": "Always Place Item",
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",
   "key.not-enough-keybinds.switch_totem_shield": "Switch Totem and Shield",
   "key.not-enough-keybinds.fast_building": "Fast Building",
   "key.not-enough-keybinds.fast_block_breaking": "Fast Block Breaking",
+
   "key.not-enough-keybinds.toggle_hide_hud": "Toggle Hide Hud",
   "key.not-enough-keybinds.toggle_hitboxes": "Toggle Hitboxes",
   "key.not-enough-keybinds.toggle_chunk_grid": "Toggle Chunk Grid",
