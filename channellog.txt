@@ -1,2 +1,0 @@
-Added:
-    Reset all keybinds - confirm screen
