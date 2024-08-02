@@ -4,12 +4,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.sn0wix_.keybinds.ModKeybindings;
 import net.sn0wix_.keybinds.custom.ModKeyBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.sn0wix_.keybinds.ModKeybinds.F3_SHORTCUT_KEYS;
 
 public class Utils {
     public static KeyBinding[] filterModKeybindings(KeyBinding[] keyBindings) {
@@ -35,7 +34,7 @@ public class Utils {
     public static List<Integer> checkF3Shortcuts(int key, int scanCode) {
         ArrayList<Integer> codes = new ArrayList<>();
 
-        F3_SHORTCUT_KEYS.forEach(f3ShortcutKeybinding -> {
+        ModKeybindings.getF3ShortcutKeys().forEach(f3ShortcutKeybinding -> {
             if (f3ShortcutKeybinding.matchesKey(key, scanCode)) {
                 codes.add(f3ShortcutKeybinding.getCodeToEmulate());
             }

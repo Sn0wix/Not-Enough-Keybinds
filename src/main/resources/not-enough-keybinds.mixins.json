@@ -8,6 +8,7 @@
   "client": [
     "ControlsListWidgetMixin",
     "KeybindsScreenMixin",
-    "KeyboardMixin"
+    "KeyboardMixin",
+    "ControlsListWidgetAccessor"
   ]
 }

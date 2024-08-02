@@ -3,29 +3,29 @@ package net.sn0wix_.keybinds.custom;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.sn0wix_.keybinds.ModKeybinds;
+import net.sn0wix_.keybinds.ModKeybindings;
 
 public class ModKeyBinding extends KeyBinding {
     private final OnClientTick onWasPressed;
 
 
     public ModKeyBinding(String translationKey, int code, String category, OnClientTick onTick) {
-        super(ModKeybinds.KEY_BINDING_PREFIX + translationKey, code, category);
+        super(ModKeybindings.KEY_BINDING_PREFIX + translationKey, code, category);
         this.onWasPressed = onTick;
     }
 
     public ModKeyBinding(String translationKey, InputUtil.Type type, int code, String category, OnClientTick onTick) {
-        super(ModKeybinds.KEY_BINDING_PREFIX + translationKey, type, code, category);
+        super(ModKeybindings.KEY_BINDING_PREFIX + translationKey, type, code, category);
         this.onWasPressed = onTick;
     }
 
     public ModKeyBinding(String translationKey, int code, String category, OnClientTick onTick, boolean useCustomTranslation) {
-        super(useCustomTranslation ? translationKey : ModKeybinds.KEY_BINDING_PREFIX + translationKey, code, category);
+        super(useCustomTranslation ? translationKey : ModKeybindings.KEY_BINDING_PREFIX + translationKey, code, category);
         this.onWasPressed = onTick;
     }
 
     public ModKeyBinding(String translationKey, InputUtil.Type type, int code, String category, OnClientTick onTick, boolean useCustomTranslation) {
-        super(useCustomTranslation ? translationKey : ModKeybinds.KEY_BINDING_PREFIX + translationKey, type, code, category);
+        super(useCustomTranslation ? translationKey : ModKeybindings.KEY_BINDING_PREFIX + translationKey, type, code, category);
         this.onWasPressed = onTick;
     }
 
@@ -41,17 +41,7 @@ public class ModKeyBinding extends KeyBinding {
 
     public void tick(MinecraftClient client) {
         if (onWasPressed != null && wasPressed()) {
-            if (client.world != null) {
-                onWasPressed.onWasPressedInGame(client, this);
-            } else {
-                onWasPressed.onWasPressed(client, this);
-            }
-        } else if (onWasPressed != null){
-            if (client.world != null) {
-                onWasPressed.onGameTick(client);
-            } else {
-                onWasPressed.onTick(client);
-            }
+            onWasPressed.onTick(client, this);
         }
     }
 
@@ -60,21 +50,19 @@ public class ModKeyBinding extends KeyBinding {
         /**
          * Executes if the keybind is pressed while a world is loaded
          * */
-        void onWasPressedInGame(MinecraftClient client, KeyBinding keyBinding);
-
-        /**
-         * Executes every tick while a world is loaded
-         * */
-        default void onGameTick(MinecraftClient client) {}
+        void onWasPressed(MinecraftClient client, KeyBinding keyBinding);
 
         /**
          * Executes every tick
          * */
-        default void onTick(MinecraftClient client) {}
+        default void onTick(MinecraftClient client, KeyBinding keyBinding) {
+            if (keyBinding.wasPressed() && isInGame(client)) {
+                onWasPressed(client, keyBinding);
+            }
+        }
 
-        /**
-         * Executes if the keybind is pressed, world doesn't have to be loaded
-         * */
-        default void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {}
+        default boolean isInGame(MinecraftClient client) {
+            return client.player != null;
+        }
     }
 }

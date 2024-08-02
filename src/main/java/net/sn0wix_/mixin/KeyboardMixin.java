@@ -3,7 +3,7 @@ package net.sn0wix_.mixin;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;
-import net.sn0wix_.keybinds.ModKeybinds;
+import net.sn0wix_.keybinds.ModKeybindings;
 import net.sn0wix_.util.Utils;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
@@ -25,10 +25,10 @@ public abstract class KeyboardMixin {
     //missing F1 keybind
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/DebugHud;shouldShowRenderingChart()Z", shift = At.Shift.BEFORE))
     private void injectOnKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        if (key == GLFW.GLFW_KEY_F1 && !ModKeybinds.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
+        if (key == GLFW.GLFW_KEY_F1 && !ModKeybindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
             this.client.options.hudHidden = !this.client.options.hudHidden;
         }
-        if (key != GLFW.GLFW_KEY_F1 && ModKeybinds.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
+        if (key != GLFW.GLFW_KEY_F1 && ModKeybindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
             this.client.options.hudHidden = !this.client.options.hudHidden;
         }
     }

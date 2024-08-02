@@ -4,6 +4,8 @@
   "key.category.not-enough-keybinds.skin_layers": "Skin Layers",
   "key.category.not-enough-keybinds.building": "Building",
 
+  "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
+
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",
   "text.not-enough-keybinds.confirm.1": "Yes sir!",
@@ -29,6 +31,15 @@
   "key.not-enough-keybinds.toggle_auto_pause": "Toggle Auto Pause",
   "key.not-enough-keybinds.reload_all_chunks": "Reload All Chunks",
   "key.not-enough-keybinds.reload_resource_packs": "Reload Resource Packs",
+
+  "key.not-enough-keybinds.toggle_skin_layer_cape": "Toggle Cape",
+  "key.not-enough-keybinds.toggle_skin_layer_hat": "Toggle Hat",
+  "key.not-enough-keybinds.toggle_skin_layer_jacket": "Toggle Jacket",
+  "key.not-enough-keybinds.toggle_skin_layer_left_sleeve": "Toggle Left Sleeve",
+  "key.not-enough-keybinds.toggle_skin_layer_right_sleeve": "Toggle Right Sleeve",
+  "key.not-enough-keybinds.toggle_skin_layer_left_pants_leg": "Toggle Left Pants Leg",
+  "key.not-enough-keybinds.toggle_skin_layer_right_pants_leg": "Toggle Right Pants Leg",
+  "key.not-enough-keybinds.toggle_second_skin_layer": "Toggle Second Skin Layer",
 
   "link.not-enough-keybinds.curseforge": "§6§n§lCurseforge",
   "link.not-enough-keybinds.modrinth": "§2§n§lMondrinth"
