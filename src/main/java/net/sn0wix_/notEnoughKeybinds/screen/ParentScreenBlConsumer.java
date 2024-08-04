@@ -1,4 +1,4 @@
-package net.sn0wix_.screen;
+package net.sn0wix_.notEnoughKeybinds.screen;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.MinecraftClient;

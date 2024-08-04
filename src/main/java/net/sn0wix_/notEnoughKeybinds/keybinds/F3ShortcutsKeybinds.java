@@ -1,9 +1,9 @@
-package net.sn0wix_.keybinds;
+package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.keybinds.custom.F3ShortcutKeybinding;
-import net.sn0wix_.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3ShortcutKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 public class F3ShortcutsKeybinds extends ModKeybindings {
     public static final String F3_SHORTCUTS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_shortcuts";

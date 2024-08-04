@@ -1,4 +1,4 @@
-package net.sn0wix_.mixin;
+package net.sn0wix_.notEnoughKeybinds.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
@@ -7,8 +7,7 @@ import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
-import net.sn0wix_.screen.ParentScreenBlConsumer;
-import net.sn0wix_.util.Utils;
+import net.sn0wix_.notEnoughKeybinds.screen.ParentScreenBlConsumer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,4 +1,4 @@
-package net.sn0wix_.screen.keybindsScreen;
+package net.sn0wix_.notEnoughKeybinds.screen.keybindsScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,18 +12,19 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
-import net.sn0wix_.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
-public class ModKeybindsScreen extends GameOptionsScreen {
+public class NotEKSettingsScreen extends GameOptionsScreen {
     @Nullable
     public KeyBinding selectedKeyBinding;
     public long lastKeyCodeUpdateTime;
     private ControlsListWidget controlsList;
 
-    public ModKeybindsScreen(Screen parent, GameOptions gameOptions) {
+
+    public NotEKSettingsScreen(Screen parent, GameOptions gameOptions) {
         super(parent, gameOptions, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
     }
 

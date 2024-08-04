@@ -1,4 +1,4 @@
-package net.sn0wix_.screen;
+package net.sn0wix_.notEnoughKeybinds.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -10,12 +10,10 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextIconButtonWidget;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.mixin.ControlsListWidgetAccessor;
-import net.sn0wix_.screen.keybindsScreen.ModKeybindsScreen;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
+import net.sn0wix_.notEnoughKeybinds.screen.keybindsScreen.NotEKSettingsScreen;
 
 import java.util.List;
 
@@ -29,7 +27,7 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
         maxKeyNameLength = ((ControlsListWidgetAccessor) widget).getMaxKeyNameLength();
 
         button = ButtonWidget.builder(Text.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
-                MinecraftClient.getInstance().setScreen(new ModKeybindsScreen(((ControlsListWidgetAccessor) widget).getParent(),
+                MinecraftClient.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent(),
                         MinecraftClient.getInstance().options))
         ).size(maxKeyNameLength + 150, 20).build();
     }
@@ -38,6 +36,8 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         button.setPosition(x + 90 - maxKeyNameLength, y);
         button.render(context, mouseX, mouseY, tickDelta);
+
+        context.drawTexture(NotEnoughKeybinds.ICON, x + 150 - maxKeyNameLength, y, 0, 0, 0, 18, 18, 18, 18);
     }
 
     @Override

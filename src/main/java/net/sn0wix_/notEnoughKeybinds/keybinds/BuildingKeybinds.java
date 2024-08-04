@@ -1,4 +1,4 @@
-package net.sn0wix_.keybinds;
+package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -8,9 +8,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 public class BuildingKeybinds extends ModKeybindings {
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";

@@ -1,9 +1,9 @@
-package net.sn0wix_.events;
+package net.sn0wix_.notEnoughKeybinds.events;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.keybinds.ModKeybindings;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
 
 public class ClientEndTickEvent implements ClientTickEvents.EndTick {
 

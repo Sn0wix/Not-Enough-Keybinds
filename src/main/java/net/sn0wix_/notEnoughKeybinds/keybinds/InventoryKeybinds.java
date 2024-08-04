@@ -1,14 +1,14 @@
-package net.sn0wix_.keybinds;
+package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.Hand;
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.keybinds.custom.ModKeyBinding;
-import net.sn0wix_.util.Utils;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
 public class InventoryKeybinds extends ModKeybindings {
     public static final String INVENTORY_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";

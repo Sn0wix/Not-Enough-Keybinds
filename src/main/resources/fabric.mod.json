@@ -17,7 +17,10 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"net.sn0wix_.NotEnoughKeybinds"
+			"net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds"
+		],
+		"modmenu": [
+			"net.sn0wix_.notEnoughKeybinds.compat.ModMenu"
 		]
 	},
 	"mixins": [

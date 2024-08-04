@@ -1,12 +1,12 @@
-package net.sn0wix_.mixin;
+package net.sn0wix_.notEnoughKeybinds.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.option.KeyBinding;
-import net.sn0wix_.screen.ModKeybindsButton;
-import net.sn0wix_.util.Utils;
+import net.sn0wix_.notEnoughKeybinds.screen.ModKeybindsButton;
+import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

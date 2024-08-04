@@ -1,11 +1,11 @@
-package net.sn0wix_.util;
+package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.sn0wix_.keybinds.ModKeybindings;
-import net.sn0wix_.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 import java.util.ArrayList;
 import java.util.List;

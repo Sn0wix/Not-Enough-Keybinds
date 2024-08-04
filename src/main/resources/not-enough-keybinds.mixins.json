@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.sn0wix_.mixin",
+  "package": "net.sn0wix_.notEnoughKeybinds.mixin",
   "compatibilityLevel": "JAVA_17",
   "injectors": {
     "defaultRequire": 1

@@ -1,4 +1,4 @@
-package net.sn0wix_.screen.keybindsScreen;
+package net.sn0wix_.notEnoughKeybinds.screen.keybindsScreen;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
@@ -18,7 +18,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.sn0wix_.keybinds.ModKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -26,10 +26,10 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Entry> {
-    final ModKeybindsScreen parent;
+    final NotEKSettingsScreen parent;
     int maxKeyNameLength;
 
-    public ControlsListWidget(ModKeybindsScreen parent, MinecraftClient client) {
+    public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
         super(client, parent.width + 45, parent.height - 52, 20, 20);
         this.parent = parent;
         KeyBinding[] keyBindings = ModKeybindings.getModKeybinds();

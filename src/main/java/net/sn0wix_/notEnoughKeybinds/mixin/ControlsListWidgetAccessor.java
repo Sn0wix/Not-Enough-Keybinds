@@ -1,4 +1,4 @@
-package net.sn0wix_.mixin;
+package net.sn0wix_.notEnoughKeybinds.mixin;
 
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;

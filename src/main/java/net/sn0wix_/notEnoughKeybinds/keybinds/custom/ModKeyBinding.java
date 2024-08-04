@@ -1,9 +1,9 @@
-package net.sn0wix_.keybinds.custom;
+package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.sn0wix_.keybinds.ModKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
 
 public class ModKeyBinding extends KeyBinding {
     private final OnClientTick onWasPressed;
@@ -40,7 +40,7 @@ public class ModKeyBinding extends KeyBinding {
 
 
     public void tick(MinecraftClient client) {
-        if (onWasPressed != null && wasPressed()) {
+        if (onWasPressed != null) {
             onWasPressed.onTick(client, this);
         }
     }

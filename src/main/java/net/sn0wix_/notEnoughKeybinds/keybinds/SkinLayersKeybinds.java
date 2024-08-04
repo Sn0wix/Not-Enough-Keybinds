@@ -1,11 +1,11 @@
-package net.sn0wix_.keybinds;
+package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.entity.PlayerModelPart;
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 public class SkinLayersKeybinds extends ModKeybindings {
     public static final String SKIN_LAYERS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";

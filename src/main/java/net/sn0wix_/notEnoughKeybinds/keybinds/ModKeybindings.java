@@ -1,12 +1,12 @@
-package net.sn0wix_.keybinds;
+package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.sn0wix_.NotEnoughKeybinds;
-import net.sn0wix_.keybinds.custom.F3ShortcutKeybinding;
-import net.sn0wix_.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3ShortcutKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 import java.util.*;
 

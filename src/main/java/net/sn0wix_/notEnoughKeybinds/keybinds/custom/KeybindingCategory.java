@@ -1,4 +1,4 @@
-package net.sn0wix_.keybinds.custom;
+package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
 import java.util.Arrays;
 

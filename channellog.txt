@@ -1,2 +1,4 @@
 Added:
-    Reset all keybinds - confirm screen
+    Settings screen
+    Skin layer keybinds
+    ModMenu support
