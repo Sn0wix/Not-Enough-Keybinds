@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ControlsListWidget.class)
-public abstract class ControlsListWidgetMixin extends ElementListWidget<ControlsListWidget.Entry> {
-    public ControlsListWidgetMixin(MinecraftClient minecraftClient, int i, int j, int k, int l) {
+public abstract class ModSettingsButtonMixin extends ElementListWidget<ControlsListWidget.Entry> {
+    public ModSettingsButtonMixin(MinecraftClient minecraftClient, int i, int j, int k, int l) {
         super(minecraftClient, i, j, k, l);
     }
 

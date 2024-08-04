@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Mixin(KeybindsScreen.class)
-public abstract class KeybindsScreenMixin {
+public abstract class ResetAllKeybindsMixin {
     @Shadow private ControlsListWidget controlsList;
 
     //confirmation dialog

@@ -1,8 +1,9 @@
 {
   "key.category.not-enough-keybinds.inventory": "Inventory Management",
   "key.category.not-enough-keybinds.f3_shortcuts": "F3 Shortcuts",
-  "key.category.not-enough-keybinds.skin_layers": "Skin Layers",
   "key.category.not-enough-keybinds.building": "Building",
+  "key.category.not-enough-keybinds.skin_layers": "Skin Layers",
+  "key.category.not-enough-keybinds.f3_debug_keys": "F3 Debug Keys",
 
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
 
@@ -40,6 +41,21 @@
   "key.not-enough-keybinds.toggle_skin_layer_left_pants_leg": "Toggle Left Pants Leg",
   "key.not-enough-keybinds.toggle_skin_layer_right_pants_leg": "Toggle Right Pants Leg",
   "key.not-enough-keybinds.toggle_second_skin_layer": "Toggle Second Skin Layer",
+
+  "key.not-enough-keybinds.reload_chunks": "Reload Chunks",
+  "key.not-enough-keybinds.show_hitboxes": "Show Hitboxes",
+  "key.not-enough-keybinds.copy_location": "Copy Location",
+  "key.not-enough-keybinds.clear_chat": "Clear Chat",
+  "key.not-enough-keybinds.chunk_boundaries": "Chunk Boundaries",
+  "key.not-enough-keybinds.advanced_tooltips": "Advanced Tooltips",
+  "key.not-enough-keybinds.inspect": "Copy NBT data",
+  "key.not-enough-keybinds.profiling": "Profiling",
+  "key.not-enough-keybinds.creative_spectator": "Previous Game Mode <=> Spectator",
+  "key.not-enough-keybinds.pause_focus": "Pause on lost focus",
+  "key.not-enough-keybinds.help": "Help message",
+  "key.not-enough-keybinds.dump_dynamic_textures": "Dump Dynamic Textures",
+  "key.not-enough-keybinds.reload_resourcepacks": "Reload Resourcepacks",
+  "key.not-enough-keybinds.gamemodes": "Open Game Mode Switcher",
 
   "link.not-enough-keybinds.curseforge": "§6§n§lCurseforge",
   "link.not-enough-keybinds.modrinth": "§2§n§lMondrinth"

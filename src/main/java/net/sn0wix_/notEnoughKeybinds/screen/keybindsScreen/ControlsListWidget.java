@@ -18,6 +18,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
 import org.jetbrains.annotations.Nullable;
 
@@ -195,7 +196,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             MutableText mutableText = Text.empty();
             if (!this.binding.isUnbound()) {
                 for (KeyBinding keyBinding : ControlsListWidget.this.client.options.allKeys) {
-                    if (keyBinding != this.binding && this.binding.equals(keyBinding)) {
+                    if (keyBinding != this.binding && this.binding.equals(keyBinding) && !(binding instanceof F3DebugKeys.F3DebugKeybinding)) {
                         if (this.duplicate) {
                             mutableText.append(", ");
                         }

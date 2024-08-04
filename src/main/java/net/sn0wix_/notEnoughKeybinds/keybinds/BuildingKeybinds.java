@@ -15,7 +15,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 public class BuildingKeybinds extends ModKeybindings {
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
 
-    public static final ModKeyBinding FAST_BUILDING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_building", BUILDING_CATEGORY, new ModKeyBinding.OnClientTick() {
+    public static final ModKeyBinding FAST_BUILDING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_building", BUILDING_CATEGORY, new ModKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
         }
@@ -48,7 +48,7 @@ public class BuildingKeybinds extends ModKeybindings {
         }
     }));
 
-    public static final ModKeyBinding FAST_BLOCK_BREAKING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new ModKeyBinding.OnClientTick() {
+    public static final ModKeyBinding FAST_BLOCK_BREAKING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new ModKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
         }

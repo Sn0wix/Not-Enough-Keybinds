@@ -6,9 +6,10 @@
     "defaultRequire": 1
   },
   "client": [
-    "ControlsListWidgetMixin",
-    "KeybindsScreenMixin",
-    "KeyboardMixin",
-    "ControlsListWidgetAccessor"
+    "ControlsListWidgetAccessor",
+    "ModSettingsButtonMixin",
+    "GameModeSelectionFixerMixin",
+    "ResetAllKeybindsMixin",
+    "KeyboardMixin"
   ]
 }

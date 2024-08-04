@@ -23,6 +23,7 @@ public class F3ShortcutKeybinding extends ModKeyBinding {
         this(translationKey, type, InputUtil.UNKNOWN_KEY.getCode(), category, codeToEmulate);
     }
 
+
     public int getCodeToEmulate() {
         return codeToEmulate;
     }

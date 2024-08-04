@@ -27,6 +27,7 @@ public abstract class ModKeybindings {
         registerKeyCategory(new F3ShortcutsKeybinds().getCategory());
         registerKeyCategory(new InventoryKeybinds().getCategory());
         registerKeyCategory(new SkinLayersKeybinds().getCategory());
+        //registerKeyCategory(new F3DebugKeys().getCategory());
     }
 
 
