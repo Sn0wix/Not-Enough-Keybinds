@@ -13,6 +13,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 public class BuildingKeybinds extends ModKeybindings {
+    private static int itemUseCooldown = 0;
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
 
     public static final ModKeyBinding FAST_BUILDING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_building", BUILDING_CATEGORY, new ModKeyBinding.KeybindingTicker() {
@@ -72,24 +73,27 @@ public class BuildingKeybinds extends ModKeybindings {
     }));
 
     public static final ModKeyBinding ALWAYS_PLACE_ITEM = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("always_place_item", BUILDING_CATEGORY, (client, keyBinding) -> {
-        for (Hand hand : Hand.values()) {
-            ItemStack itemStack = client.player.getStackInHand(hand);
+        if (itemUseCooldown == 0) {
+            for (Hand hand : Hand.values()) {
+                ItemStack itemStack = client.player.getStackInHand(hand);
 
-            if (!client.crosshairTarget.getType().equals(HitResult.Type.ENTITY)) {
-                BlockHitResult blockHitResult = (BlockHitResult) client.crosshairTarget;
-                int i = itemStack.getCount();
-                ActionResult actionResult2 = client.interactionManager.interactBlock(client.player, hand, blockHitResult);
-                if (actionResult2.isAccepted()) {
-                    if (actionResult2.shouldSwingHand()) {
-                        client.player.swingHand(hand);
-                        if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.interactionManager.hasCreativeInventory())) {
-                            client.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
+                if (!client.crosshairTarget.getType().equals(HitResult.Type.ENTITY)) {
+                    BlockHitResult blockHitResult = (BlockHitResult) client.crosshairTarget;
+                    int i = itemStack.getCount();
+                    ActionResult actionResult2 = client.interactionManager.interactBlock(client.player, hand, blockHitResult);
+                    if (actionResult2.isAccepted()) {
+                        itemUseCooldown = 4;
+                        if (actionResult2.shouldSwingHand()) {
+                            client.player.swingHand(hand);
+                            if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.interactionManager.hasCreativeInventory())) {
+                                client.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
+                            }
                         }
+                        return;
                     }
-                    return;
-                }
-                if (actionResult2 == ActionResult.FAIL) {
-                    return;
+                    if (actionResult2 == ActionResult.FAIL) {
+                        return;
+                    }
                 }
             }
         }

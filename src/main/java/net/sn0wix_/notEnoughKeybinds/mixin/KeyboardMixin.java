@@ -58,15 +58,25 @@ public abstract class KeyboardMixin {
     @ModifyArg(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;processF3(I)Z"))
     private int injectProcessF3(int key) {
         Iterator<ModKeyBinding> iterator = Arrays.stream(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).iterator();
+        ArrayList<Integer> pressedF3Keys = new ArrayList<>(1);
 
         while (iterator.hasNext()) {
             ModKeyBinding keyBinding = iterator.next();
 
             if (keyBinding.matchesKey(key, 0)) {
-                key = keyBinding.getDefaultKey().getCode();
-            }else if (key == keyBinding.getDefaultKey().getCode() && !keyBinding.matchesKey(key, 0)) {
-                key = 0;
+                pressedF3Keys.add(keyBinding.getDefaultKey().getCode());
             }
+        }
+
+        while (!pressedF3Keys.isEmpty()) {
+            key = pressedF3Keys.get(0);
+            pressedF3Keys.remove(0);
+
+            if (!pressedF3Keys.isEmpty()) {
+                this.processF3(key);
+            }
+
+            pressedF3Keys.trimToSize();
         }
 
         return key;

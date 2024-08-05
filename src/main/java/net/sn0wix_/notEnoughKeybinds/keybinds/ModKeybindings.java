@@ -25,7 +25,7 @@ public abstract class ModKeybindings {
         registerKeyCategory(new F3ShortcutsKeybinds().getCategory());
         registerKeyCategory(new InventoryKeybinds().getCategory());
         registerKeyCategory(new SkinLayersKeybinds().getCategory());
-        //registerKeyCategory(new F3DebugKeys().getCategory());
+        registerKeyCategory(new F3DebugKeys().getCategory());
     }
 
 
@@ -52,7 +52,6 @@ public abstract class ModKeybindings {
 
 
     //Helper methods
-
     public static ArrayList<KeybindingCategory> getCategories() {
         return KEYBINDING_CATEGORIES;
     }

@@ -24,8 +24,6 @@ public class InventoryKeybinds extends ModKeybindings {
                 slot = client.player.getInventory().getSlotWithStack(Items.SHIELD.getDefaultStack());
             }
 
-            NotEnoughKeybinds.LOGGER.info(String.valueOf(slot));
-
             if (slot > -1) {
                 ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
                 int button = hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot;
@@ -36,7 +34,6 @@ public class InventoryKeybinds extends ModKeybindings {
                     slot = slot + 36;
                 }
 
-                NotEnoughKeybinds.LOGGER.info(String.valueOf(slot));
                 client.interactionManager.clickSlot(handler.syncId, slot, button, SlotActionType.SWAP, client.player);
 
                 //Maybe more legit?

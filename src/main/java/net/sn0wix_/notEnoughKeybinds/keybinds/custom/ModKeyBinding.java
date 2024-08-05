@@ -38,7 +38,6 @@ public class ModKeyBinding extends KeyBinding {
     }
 
 
-
     public void tick(MinecraftClient client) {
         if (onWasPressed != null) {
             onWasPressed.onTick(client, this);
@@ -49,14 +48,14 @@ public class ModKeyBinding extends KeyBinding {
     public interface KeybindingTicker {
         /**
          * Executes if the keybind is pressed while a world is loaded
-         * */
+         */
         void onWasPressed(MinecraftClient client, KeyBinding keyBinding);
 
         /**
          * Executes every tick
-         * */
+         */
         default void onTick(MinecraftClient client, KeyBinding keyBinding) {
-            if (keyBinding.wasPressed() && isInGame(client)) {
+            while (keyBinding.wasPressed() && isInGame(client)) {
                 onWasPressed(client, keyBinding);
             }
         }

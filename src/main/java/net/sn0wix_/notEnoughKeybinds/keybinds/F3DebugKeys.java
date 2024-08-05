@@ -11,7 +11,8 @@ import org.lwjgl.glfw.GLFW;
 //TODO fix: gamemode screen fixer
 //TODO fix: help message
 //TODO fix: F3 + holding c not binding
-//TODO fix: add multiple keys support
+//TODO fix: add multiple keys support - test
+
 public class F3DebugKeys extends ModKeybindings {
     public static final String F3_DEBUG_KEYS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_debug_keys";
 
