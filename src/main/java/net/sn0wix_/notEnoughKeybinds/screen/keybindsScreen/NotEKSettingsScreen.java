@@ -13,6 +13,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -56,10 +57,14 @@ public class NotEKSettingsScreen extends GameOptionsScreen {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.selectedKeyBinding != null) {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-                this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.UNKNOWN_KEY);
+            if (selectedKeyBinding instanceof F3DebugKeys.F3DebugKeybinding) {
+                NotEnoughKeybinds.LOGGER.info("DEBUG KEY");
             } else {
-                this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.fromKeyCode(keyCode, scanCode));
+                if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+                    this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.UNKNOWN_KEY);
+                } else {
+                    this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.fromKeyCode(keyCode, scanCode));
+                }
             }
 
             this.selectedKeyBinding = null;

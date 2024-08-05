@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3ShortcutKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
@@ -12,7 +11,6 @@ import java.util.*;
 
 public abstract class ModKeybindings {
     private static final ArrayList<KeybindingCategory> KEYBINDING_CATEGORIES = new ArrayList<>();
-    private static final ArrayList<F3ShortcutKeybinding> F3_SHORTCUT_KEYS = new ArrayList<>(8);
 
 
     public static final String KEY_BINDING_PREFIX = "key." + NotEnoughKeybinds.MOD_ID + ".";
@@ -45,10 +43,6 @@ public abstract class ModKeybindings {
 
 
     public static KeyBinding registerModKeyBinding(ModKeyBinding keyBinding) {
-        if (keyBinding instanceof F3ShortcutKeybinding f3ShortcutKeybinding) {
-            F3_SHORTCUT_KEYS.add(f3ShortcutKeybinding);
-        }
-
         return KeyBindingHelper.registerKeyBinding(keyBinding);
     }
 
@@ -58,9 +52,6 @@ public abstract class ModKeybindings {
 
 
     //Helper methods
-    public static List<F3ShortcutKeybinding> getF3ShortcutKeys() {
-        return F3_SHORTCUT_KEYS.stream().toList();
-    }
 
     public static ArrayList<KeybindingCategory> getCategories() {
         return KEYBINDING_CATEGORIES;

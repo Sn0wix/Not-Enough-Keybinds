@@ -4,7 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Utils {
     public static List<Integer> checkF3Shortcuts(int key, int scanCode) {
         ArrayList<Integer> codes = new ArrayList<>();
 
-        ModKeybindings.getF3ShortcutKeys().forEach(f3ShortcutKeybinding -> {
+        F3ShortcutsKeybinds.getF3ShortcutKeys().forEach(f3ShortcutKeybinding -> {
             if (f3ShortcutKeybinding.matchesKey(key, scanCode)) {
                 codes.add(f3ShortcutKeybinding.getCodeToEmulate());
             }
@@ -49,7 +49,6 @@ public class Utils {
             if (actionResult3.shouldSwingHand()) {
                 client.player.swingHand(hand);
             }
-            client.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
         }
     }
 }
