@@ -1,8 +1,10 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
 
 public class ModKeyBinding extends KeyBinding {
@@ -20,13 +22,11 @@ public class ModKeyBinding extends KeyBinding {
     }
 
     public ModKeyBinding(String translationKey, int code, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        super(useCustomTranslation ? translationKey : ModKeybindings.KEY_BINDING_PREFIX + translationKey, code, category);
-        this.onWasPressed = onTick;
+        this(useCustomTranslation ? translationKey : ModKeybindings.KEY_BINDING_PREFIX + translationKey, code, category, onTick);
     }
 
     public ModKeyBinding(String translationKey, InputUtil.Type type, int code, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        super(useCustomTranslation ? translationKey : ModKeybindings.KEY_BINDING_PREFIX + translationKey, type, code, category);
-        this.onWasPressed = onTick;
+        this(useCustomTranslation ? translationKey : ModKeybindings.KEY_BINDING_PREFIX + translationKey, type, code, category, onTick);
     }
 
     public ModKeyBinding(String translationKey, String category, KeybindingTicker onTick) {
@@ -35,6 +35,14 @@ public class ModKeyBinding extends KeyBinding {
 
     public ModKeyBinding(String translationKey, InputUtil.Type type, String category, KeybindingTicker onTick) {
         this(translationKey, type, InputUtil.UNKNOWN_KEY.getCode(), category, onTick);
+    }
+
+    public Text getTooltip() {
+        return Text.empty();
+    }
+
+    public Screen getSettingsScreen() {
+        return null;
     }
 
 

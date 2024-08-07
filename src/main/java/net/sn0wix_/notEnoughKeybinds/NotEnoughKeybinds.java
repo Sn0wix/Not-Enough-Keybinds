@@ -4,8 +4,6 @@ import net.fabricmc.api.ClientModInitializer;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.util.Identifier;
-import net.sn0wix_.notEnoughKeybinds.config.FileUtil;
-import net.sn0wix_.notEnoughKeybinds.config.configs.TestConfig;
 import net.sn0wix_.notEnoughKeybinds.events.ClientEndTickEvent;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
 import org.slf4j.Logger;
@@ -17,8 +15,6 @@ public class NotEnoughKeybinds implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        FileUtil.getConfig(new TestConfig(), TestConfig.class);
-
         ModKeybindings.registerModKeybinds();
 
         ClientTickEvents.END_CLIENT_TICK.register(new ClientEndTickEvent());

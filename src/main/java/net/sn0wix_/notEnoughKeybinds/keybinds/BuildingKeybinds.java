@@ -3,6 +3,7 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -47,7 +48,12 @@ public class BuildingKeybinds extends ModKeybindings {
                 }
             }
         }
-    }));
+    }) {
+        @Override
+        public Text getTooltip() {
+            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.fast_building");
+        }
+    });
 
     public static final ModKeyBinding FAST_BLOCK_BREAKING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new ModKeyBinding.KeybindingTicker() {
         @Override
@@ -70,7 +76,12 @@ public class BuildingKeybinds extends ModKeybindings {
                 }
             }
         }
-    }));
+    }) {
+        @Override
+        public Text getTooltip() {
+            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.fast_block_breaking");
+        }
+    });
 
     public static final ModKeyBinding ALWAYS_PLACE_ITEM = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("always_place_item", BUILDING_CATEGORY, (client, keyBinding) -> {
         if (itemUseCooldown == 0) {
@@ -97,7 +108,12 @@ public class BuildingKeybinds extends ModKeybindings {
                 }
             }
         }
-    }));
+    }){
+        @Override
+        public Text getTooltip() {
+            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.always_place_item");
+        }
+    });
 
     @Override
     public KeybindingCategory getCategory() {

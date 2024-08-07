@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
@@ -42,7 +43,12 @@ public class InventoryKeybinds extends ModKeybindings {
                 //client.setScreen(null);
             }
         }
-    }));
+    }) {
+        @Override
+        public Text getTooltip() {
+            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.switch_totem_shield");
+        }
+    });
 
 
     public static final ModKeyBinding THROW_ENDER_PEARL = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("throw_ender_pearl", INVENTORY_CATEGORY, (client, keyBinding) -> {
@@ -68,7 +74,12 @@ public class InventoryKeybinds extends ModKeybindings {
             Utils.interactItem(Hand.MAIN_HAND, client);
             client.player.getInventory().selectedSlot = slotBefore;
         }
-    }));
+    }){
+        @Override
+        public Text getTooltip() {
+            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.throw_ender_pearl");
+        }
+    });
 
     @Override
     public KeybindingCategory getCategory() {

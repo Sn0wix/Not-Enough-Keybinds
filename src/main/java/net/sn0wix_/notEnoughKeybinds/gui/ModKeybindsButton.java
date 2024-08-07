@@ -1,4 +1,4 @@
-package net.sn0wix_.notEnoughKeybinds.screen;
+package net.sn0wix_.notEnoughKeybinds.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,7 +13,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
-import net.sn0wix_.notEnoughKeybinds.screen.keybindsScreen.NotEKSettingsScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.keybindsScreen.NotEKSettingsScreen;
 
 import java.util.List;
 

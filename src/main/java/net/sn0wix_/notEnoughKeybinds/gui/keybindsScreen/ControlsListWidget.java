@@ -1,4 +1,4 @@
-package net.sn0wix_.notEnoughKeybinds.screen.keybindsScreen;
+package net.sn0wix_.notEnoughKeybinds.gui.keybindsScreen;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
@@ -18,12 +18,17 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ModKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Entry> {
@@ -33,10 +38,10 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
         super(client, parent.width + 45, parent.height - 52, 20, 20);
         this.parent = parent;
-        KeyBinding[] keyBindings = ModKeybindings.getModKeybinds();
+        ModKeyBinding[] keyBindings = ModKeybindings.getModKeybinds();
         String string = null;
 
-        for (KeyBinding keyBinding : keyBindings) {
+        for (ModKeyBinding keyBinding : keyBindings) {
             String string2 = keyBinding.getCategory();
             if (!string2.equals(string)) {
                 string = string2;
@@ -133,13 +138,15 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
     @Environment(EnvType.CLIENT)
     public class KeyBindingEntry extends ControlsListWidget.Entry {
-        private final KeyBinding binding;
+        private final ModKeyBinding binding;
         private final Text bindingName;
         private final ButtonWidget editButton;
         private final ButtonWidget resetButton;
+        private final ButtonWidget settingsButton;
+
         private boolean duplicate = false;
 
-        KeyBindingEntry(KeyBinding binding, Text bindingName) {
+        KeyBindingEntry(ModKeyBinding binding, Text bindingName) {
             this.binding = binding;
             this.bindingName = bindingName;
             this.editButton = ButtonWidget.builder(bindingName, button -> {
@@ -157,12 +164,15 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                 ControlsListWidget.this.client.options.setKeyCode(binding, binding.getDefaultKey());
                 ControlsListWidget.this.update();
             }).dimensions(0, 0, 50, 20).narrationSupplier(textSupplier -> Text.translatable("narrator.controls.reset", bindingName)).build();
+            this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Text.empty(), button -> NotEnoughKeybinds.LOGGER.info("SETTINGS")
+                    , Supplier::get, new Identifier(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
+            this.settingsButton.setTooltip((Tooltip.of(Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.settings"))));
             this.update();
         }
 
         @Override
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            int var10003 = x + 90 - ControlsListWidget.this.maxKeyNameLength;
+            int var10003 = Math.max(x + 90 - ControlsListWidget.this.maxKeyNameLength, settingsButton.visible ? 30 : 5);
             context.drawText(ControlsListWidget.this.client.textRenderer, this.bindingName, var10003, y + entryHeight / 2 - 9 / 2, 16777215, false);
             this.resetButton.setX(x + 190);
             this.resetButton.setY(y);
@@ -170,22 +180,25 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.editButton.setX(x + 105);
             this.editButton.setY(y);
             if (this.duplicate) {
-                int i = 3;
                 int j = this.editButton.getX() - 6;
                 context.fill(j, y + 2, j + 3, y + entryHeight + 2, Formatting.RED.getColorValue() | 0xFF000000);
             }
 
             this.editButton.render(context, mouseX, mouseY, tickDelta);
+
+            this.settingsButton.setX(var10003 - 25);
+            this.settingsButton.setY(y);
+            this.settingsButton.render(context, mouseX, mouseY, tickDelta);
         }
 
         @Override
         public List<? extends Element> children() {
-            return ImmutableList.of(this.editButton, this.resetButton);
+            return ImmutableList.of(this.editButton, this.resetButton, this.settingsButton);
         }
 
         @Override
         public List<? extends Selectable> selectableChildren() {
-            return ImmutableList.of(this.editButton, this.resetButton);
+            return ImmutableList.of(this.editButton, this.resetButton, this.settingsButton);
         }
 
         @Override
@@ -212,7 +225,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                         .setMessage(Text.literal("[ ").append(this.editButton.getMessage().copy().formatted(Formatting.WHITE)).append(" ]").formatted(Formatting.RED));
                 this.editButton.setTooltip(Tooltip.of(Text.translatable("controls.keybinds.duplicateKeybinds", mutableText)));
             } else {
-                this.editButton.setTooltip(null);
+                this.editButton.setTooltip(binding.getTooltip().getString().isEmpty() ? null : Tooltip.of(binding.getTooltip()));
             }
 
             if (ControlsListWidget.this.parent.selectedKeyBinding == this.binding) {
@@ -224,6 +237,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                                         .formatted(Formatting.YELLOW)
                         );
             }
+            this.settingsButton.visible = binding.getSettingsScreen() != null;
         }
     }
 }

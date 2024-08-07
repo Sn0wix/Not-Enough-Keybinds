@@ -24,7 +24,15 @@ repositories {
     maven {
         url "https://maven.nucleoid.xyz/"
         name "Nucleoid"
-    }}
+    }
+
+    repositories {
+        maven {
+            name 'Xander Maven'
+            url 'https://maven.isxander.dev/releases'
+        }
+    }
+}
 
 dependencies {
     // To change the versions see the gradle.properties file
@@ -39,6 +47,9 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     modImplementation("eu.pb4:placeholder-api:2.4.0-pre.1+1.20.4")
+
+    //Yacl
+    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
 }
 
 processResources {

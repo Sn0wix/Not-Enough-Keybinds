@@ -17,9 +17,17 @@
   "text.not-enough-keybinds.cancel.2": "Nope, i don't want to",
   "text.not-enough-keybinds.cancel.3": "No",
 
+  "text.not-enough-keybinds.tooltip.settings": "Configure Keybind...",
+  "text.not-enough-keybinds.tooltip.fast_building": "Places a block every tick",
+  "text.not-enough-keybinds.tooltip.fast_block_breaking": "Breaks a block every tick",
+  "text.not-enough-keybinds.tooltip.always_place_item": "Places a block in the air",
+  "text.not-enough-keybinds.tooltip.switch_totem_shield": "Switches between Totem of Undying and Shield, if you are holding any",
+  "text.not-enough-keybinds.tooltip.throw_ender_pearl": "Throws an Ender Pearl, if you have one in your inventory",
+
+
   "key.not-enough-keybinds.always_place_item": "Always Place Item",
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",
-  "key.not-enough-keybinds.switch_totem_shield": "Switch Totem and Shield",
+  "key.not-enough-keybinds.switch_totem_shield": "Swap Totem and Shield",
   "key.not-enough-keybinds.fast_building": "Fast Building",
   "key.not-enough-keybinds.fast_block_breaking": "Fast Block Breaking",
 
