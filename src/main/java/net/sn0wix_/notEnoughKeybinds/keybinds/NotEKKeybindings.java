@@ -6,10 +6,11 @@ import net.minecraft.client.util.InputUtil;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
 
 import java.util.*;
 
-public abstract class ModKeybindings {
+public abstract class NotEKKeybindings {
     private static final ArrayList<KeybindingCategory> KEYBINDING_CATEGORIES = new ArrayList<>();
 
 
@@ -21,10 +22,10 @@ public abstract class ModKeybindings {
 
 
     public static void registerModKeybinds() {
-        registerKeyCategory(new BuildingKeybinds().getCategory());
-        registerKeyCategory(new F3ShortcutsKeybinds().getCategory());
-        registerKeyCategory(new InventoryKeybinds().getCategory());
-        registerKeyCategory(new SkinLayersKeybinds().getCategory());
+        registerKeyCategory(new BuildingKeys().getCategory());
+        registerKeyCategory(new F3ShortcutsKeys().getCategory());
+        registerKeyCategory(new InventoryKeys().getCategory());
+        registerKeyCategory(new SkinLayersKeys().getCategory());
         registerKeyCategory(new F3DebugKeys().getCategory());
     }
 
@@ -56,16 +57,16 @@ public abstract class ModKeybindings {
         return KEYBINDING_CATEGORIES;
     }
 
-    public static List<ModKeyBinding> getModKeybindsAsList() {
-        ArrayList<ModKeyBinding> keyBindings = new ArrayList<>();
+    public static List<NotEKKeybinding> getModKeybindsAsList() {
+        ArrayList<NotEKKeybinding> keyBindings = new ArrayList<>();
         KEYBINDING_CATEGORIES.forEach(category -> keyBindings.addAll(Arrays.asList(category.getKeyBindings())));
         return keyBindings.stream().toList();
     }
 
-    public static ModKeyBinding[] getModKeybinds() {
-        List<ModKeyBinding> bindings = getModKeybindsAsList();
+    public static NotEKKeybinding[] getModKeybinds() {
+        List<NotEKKeybinding> bindings = getModKeybindsAsList();
 
-        ModKeyBinding[] list = new ModKeyBinding[bindings.size()];
+        NotEKKeybinding[] list = new NotEKKeybinding[bindings.size()];
 
         for (int i = 0; i < bindings.size(); i++) {
             list[i] = bindings.get(i);

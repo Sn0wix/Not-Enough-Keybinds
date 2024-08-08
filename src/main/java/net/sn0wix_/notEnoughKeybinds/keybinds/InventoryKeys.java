@@ -12,7 +12,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
-public class InventoryKeybinds extends ModKeybindings {
+public class InventoryKeys extends NotEKKeybindings {
     public static final String INVENTORY_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
 
     public static final ModKeyBinding SWITCH_TOTEM_SHIELD = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {

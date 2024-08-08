@@ -6,8 +6,9 @@ import net.minecraft.client.render.entity.PlayerModelPart;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
 
-public class SkinLayersKeybinds extends ModKeybindings {
+public class SkinLayersKeys extends NotEKKeybindings {
     public static final String SKIN_LAYERS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";
 
     public static final ModKeyBinding TOGGLE_SKIN_LAYER_CAPE = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("toggle_skin_layer_cape", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.CAPE)));
@@ -30,7 +31,7 @@ public class SkinLayersKeybinds extends ModKeybindings {
     }
 
 
-    public static class SkinLayerKeybinding implements ModKeyBinding.KeybindingTicker {
+    public static class SkinLayerKeybinding implements NotEKKeybinding.KeybindingTicker {
         private final PlayerModelPart modelPart;
 
         public SkinLayerKeybinding(PlayerModelPart modelPart) {

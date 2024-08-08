@@ -13,7 +13,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 
-public class BuildingKeybinds extends ModKeybindings {
+public class BuildingKeys extends NotEKKeybindings {
     private static int itemUseCooldown = 0;
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
 

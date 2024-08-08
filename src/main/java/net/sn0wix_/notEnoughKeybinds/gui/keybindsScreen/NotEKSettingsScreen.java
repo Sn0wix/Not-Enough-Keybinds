@@ -7,20 +7,19 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class NotEKSettingsScreen extends GameOptionsScreen {
     @Nullable
-    public KeyBinding selectedKeyBinding;
+    public NotEKKeybinding selectedKeyBinding;
     public long lastKeyCodeUpdateTime;
     private ControlsListWidget controlsList;
 
@@ -45,7 +44,7 @@ public class NotEKSettingsScreen extends GameOptionsScreen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.selectedKeyBinding != null) {
-            this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.Type.MOUSE.createFromCode(button));
+            this.gameOptions.setKeyCode(selectedKeyBinding.getBinding(), InputUtil.Type.MOUSE.createFromCode(button));
             this.selectedKeyBinding = null;
             this.controlsList.update();
             return true;
@@ -57,14 +56,10 @@ public class NotEKSettingsScreen extends GameOptionsScreen {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.selectedKeyBinding != null) {
-            if (selectedKeyBinding instanceof F3DebugKeys.F3DebugKeybinding) {
-                NotEnoughKeybinds.LOGGER.info("DEBUG KEY");
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+                selectedKeyBinding.setAndSaveKeyBinding(InputUtil.UNKNOWN_KEY);
             } else {
-                if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-                    this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.UNKNOWN_KEY);
-                } else {
-                    this.gameOptions.setKeyCode(this.selectedKeyBinding, InputUtil.fromKeyCode(keyCode, scanCode));
-                }
+                selectedKeyBinding.setAndSaveKeyBinding(InputUtil.fromKeyCode(keyCode, scanCode));
             }
 
             this.selectedKeyBinding = null;

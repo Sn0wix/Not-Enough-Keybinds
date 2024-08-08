@@ -4,6 +4,6 @@ import net.minecraft.client.gui.screen.GameModeSelectionScreen;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(GameModeSelectionScreen.class)
-public class GameModeSelectionFixerMixin {
+public abstract class GameModeSelectionFixerMixin {
 
 }

@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 public class KeybindingCategory {
     private final String TRANSLATION_KEY;
-    private final ModKeyBinding[] keyBindings;
+    private final NotEKKeybinding[] keyBindings;
     private final int priority;
 
-    public KeybindingCategory(String translationKey, int priority, boolean sort, ModKeyBinding... keyBindings) {
+    public KeybindingCategory(String translationKey, int priority, boolean sort, NotEKKeybinding... keyBindings) {
         this.TRANSLATION_KEY = translationKey;
         this.keyBindings = keyBindings;
         this.priority = priority;
@@ -17,7 +17,7 @@ public class KeybindingCategory {
         }
     }
 
-    public KeybindingCategory(String translationKey, int priority, ModKeyBinding... keyBindings) {
+    public KeybindingCategory(String translationKey, int priority, NotEKKeybinding... keyBindings) {
         this(translationKey, priority, true, keyBindings);
     }
 
@@ -25,7 +25,7 @@ public class KeybindingCategory {
         return TRANSLATION_KEY;
     }
 
-    public ModKeyBinding[] getKeyBindings() {
+    public NotEKKeybinding[] getKeyBindings() {
         return keyBindings;
     }
 

@@ -8,7 +8,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class F3ShortcutsKeybinds extends ModKeybindings {
+public class F3ShortcutsKeys extends NotEKKeybindings {
     public static final String F3_SHORTCUTS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_shortcuts";
 
     public static final ModKeyBinding TOGGLE_HITBOXES = (ModKeyBinding) registerModKeyBinding(new F3ShortcutKeybinding("toggle_hitboxes", F3_SHORTCUTS_CATEGORY_STRING, 66));
