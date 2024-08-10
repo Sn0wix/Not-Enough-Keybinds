@@ -17,7 +17,7 @@ public class BuildingKeys extends NotEKKeybindings {
     private static int itemUseCooldown = 0;
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
 
-    public static final NotEKKeyBinding FAST_BUILDING = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("fast_building", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
+    public static final NotEKKeyBinding FAST_BUILDING = registerModKeyBinding(new NotEKKeyBinding("fast_building", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
         }
@@ -55,7 +55,7 @@ public class BuildingKeys extends NotEKKeybindings {
         }
     });
 
-    public static final NotEKKeyBinding FAST_BLOCK_BREAKING = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
+    public static final NotEKKeyBinding FAST_BLOCK_BREAKING = registerModKeyBinding(new NotEKKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
         }
@@ -83,7 +83,7 @@ public class BuildingKeys extends NotEKKeybindings {
         }
     });
 
-    public static final NotEKKeyBinding ALWAYS_PLACE_ITEM = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("always_place_item", BUILDING_CATEGORY, (client, keyBinding) -> {
+    public static final NotEKKeyBinding ALWAYS_PLACE_ITEM = registerModKeyBinding(new NotEKKeyBinding("always_place_item", BUILDING_CATEGORY, (client, keyBinding) -> {
         if (itemUseCooldown == 0) {
             for (Hand hand : Hand.values()) {
                 ItemStack itemStack = client.player.getStackInHand(hand);

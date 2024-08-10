@@ -11,15 +11,15 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 public class SkinLayersKeys extends NotEKKeybindings {
     public static final String SKIN_LAYERS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";
 
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_CAPE = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_cape", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.CAPE)));
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_HAT = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_hat", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.HAT)));
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_JACKET = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_jacket", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.JACKET)));
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_LEFT_SLEEVE = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_left_sleeve", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.LEFT_SLEEVE)));
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_RIGHT_SLEEVE = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_right_sleeve", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.RIGHT_SLEEVE)));
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_LEFT_PANTS_LEG = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_left_pants_leg", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.LEFT_PANTS_LEG)));
-    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_RIGHT_PANTS_LEG = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_right_pants_leg", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.RIGHT_PANTS_LEG)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_CAPE = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_cape", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.CAPE)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_HAT = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_hat", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.HAT)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_JACKET = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_jacket", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.JACKET)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_LEFT_SLEEVE = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_left_sleeve", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.LEFT_SLEEVE)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_RIGHT_SLEEVE = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_right_sleeve", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.RIGHT_SLEEVE)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_LEFT_PANTS_LEG = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_left_pants_leg", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.LEFT_PANTS_LEG)));
+    public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_RIGHT_PANTS_LEG = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_right_pants_leg", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.RIGHT_PANTS_LEG)));
 
-    public static final NotEKKeyBinding TOGGLE_SECOND_SKIN_LAYER = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("toggle_second_skin_layer", SKIN_LAYERS_CATEGORY, (client, keyBinding) -> {
+    public static final NotEKKeyBinding TOGGLE_SECOND_SKIN_LAYER = registerModKeyBinding(new NotEKKeyBinding("toggle_second_skin_layer", SKIN_LAYERS_CATEGORY, (client, keyBinding) -> {
         for (PlayerModelPart modelPart : PlayerModelPart.values()) {
             client.options.togglePlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
         }

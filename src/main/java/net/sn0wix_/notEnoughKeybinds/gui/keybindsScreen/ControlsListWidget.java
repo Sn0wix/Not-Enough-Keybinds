@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
@@ -208,8 +209,8 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.duplicate = false;
             MutableText mutableText = Text.empty();
             if (!this.binding.isUnbound()) {
-                for (INotEKKeybinding keyBinding : NotEKKeybindings.getModKeybindsAsList()) {
-                    if (keyBinding != this.binding && this.binding.equals(keyBinding) && !(binding instanceof F3DebugKeybinding)) {
+                for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
+                    if (!(binding instanceof F3DebugKeybinding) && keyBinding != this.binding.getBinding() && this.binding.getBinding().equals(keyBinding)) {
                         if (this.duplicate) {
                             mutableText.append(", ");
                         }

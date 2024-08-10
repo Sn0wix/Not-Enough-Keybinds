@@ -43,14 +43,13 @@ public abstract class NotEKKeybindings {
     }
 
 
-    public static KeyBinding registerModKeyBinding(NotEKKeyBinding keyBinding) {
-        return KeyBindingHelper.registerKeyBinding(keyBinding);
+    public static NotEKKeyBinding registerModKeyBinding(NotEKKeyBinding keyBinding) {
+        return (NotEKKeyBinding) KeyBindingHelper.registerKeyBinding(keyBinding);
     }
 
     public static KeyBinding registerKeyBinding(KeyBinding keyBinding) {
         return KeyBindingHelper.registerKeyBinding(keyBinding);
     }
-
 
     //Helper methods
     public static ArrayList<KeybindingCategory> getCategories() {

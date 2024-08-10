@@ -3,6 +3,7 @@ package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
 
 public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
@@ -49,5 +50,51 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
         if (onWasPressed != null) {
             onWasPressed.onTick(client, this);
         }
+    }
+
+    //Idk why this has to be there, but it doesn't work without it
+    @Override
+    public void setBoundKey(InputUtil.Key boundKey) {
+        super.setBoundKey(boundKey);
+    }
+
+    @Override
+    public boolean isUnbound() {
+        return super.isUnbound();
+    }
+
+    @Override
+    public InputUtil.Key getDefaultKey() {
+        return super.getDefaultKey();
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return super.getTranslationKey();
+    }
+
+    @Override
+    public String getCategory() {
+        return super.getCategory();
+    }
+
+    @Override
+    public Text getBoundKeyLocalizedText() {
+        return super.getBoundKeyLocalizedText();
+    }
+
+    @Override
+    public boolean isDefault() {
+        return super.isDefault();
+    }
+
+    @Override
+    public String getBoundKeyTranslationKey() {
+        return super.getBoundKeyTranslationKey();
+    }
+
+    @Override
+    public boolean matchesKey(int keyCode, int scanCode) {
+        return super.matchesKey(keyCode, scanCode);
     }
 }
