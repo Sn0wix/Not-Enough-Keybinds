@@ -12,14 +12,14 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class NotEKSettingsScreen extends GameOptionsScreen {
     @Nullable
-    public NotEKKeybinding selectedKeyBinding;
+    public INotEKKeybinding selectedKeyBinding;
     public long lastKeyCodeUpdateTime;
     private ControlsListWidget controlsList;
 
@@ -43,7 +43,7 @@ public class NotEKSettingsScreen extends GameOptionsScreen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.selectedKeyBinding != null) {
+        if (this.selectedKeyBinding != null && selectedKeyBinding.getBinding() != null) {
             this.gameOptions.setKeyCode(selectedKeyBinding.getBinding(), InputUtil.Type.MOUSE.createFromCode(button));
             this.selectedKeyBinding = null;
             this.controlsList.update();

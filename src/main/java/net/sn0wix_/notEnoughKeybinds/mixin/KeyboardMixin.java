@@ -2,10 +2,12 @@ package net.sn0wix_.notEnoughKeybinds.mixin;
 
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.keybindsScreen.NotEKSettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;
@@ -54,11 +56,11 @@ public abstract class KeyboardMixin {
     //f3 debug keys
     @ModifyArg(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;processF3(I)Z"))
     private int injectProcessF3(int key) {
-        Iterator<NotEKKeybinding> iterator = Arrays.stream(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).iterator();
+        Iterator<INotEKKeybinding> iterator = Arrays.stream(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).iterator();
         ArrayList<Integer> pressedF3Keys = new ArrayList<>(1);
 
         while (iterator.hasNext()) {
-            NotEKKeybinding keyBinding = iterator.next();
+            INotEKKeybinding keyBinding = iterator.next();
 
             if (keyBinding.matchesKey(key, 0)) {
                 pressedF3Keys.add(keyBinding.getDefaultKey().getCode());
@@ -80,5 +82,30 @@ public abstract class KeyboardMixin {
         }
 
         return bl ? key : 0;
+    }
+
+
+    @ModifyArg(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/InputUtil;isKeyPressed(JI)Z"), index = 1)
+    public int fixF3C(int code) {
+        if (code == GLFW.GLFW_KEY_C) {
+            code = F3DebugKeys.COPY_LOCATION.boundKey.getCode();
+        }
+
+        return code;
+    }
+
+    @ModifyArg(method = "processF3", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;)V"))
+    public Text fixHelpMessage(Text message) {
+        return Utils.correctF3DebugMessage(message);
+    }
+
+    /*@ModifyArg(method = "processF3", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;debugLog(Ljava/lang/String;[Ljava/lang/Object;)V", ordinal = 5), index = 1)
+    public Object[] fixF3LMessage(Object[] args) {
+        return Utils.addArgToEnd(args, F3DebugKeys.PROFILING.boundKey.getLocalizedText());
+    }*/
+
+    @ModifyArg(method = "pollDebugCrash", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;debugLog(Ljava/lang/String;[Ljava/lang/Object;)V"), index = 1)
+    public Object[] fixF3CMessage(Object[] args) {
+        return Utils.addArgToEnd(args, F3DebugKeys.COPY_LOCATION.boundKey.getLocalizedText());
     }
 }

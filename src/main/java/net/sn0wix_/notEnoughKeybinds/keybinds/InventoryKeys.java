@@ -9,13 +9,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
 public class InventoryKeys extends NotEKKeybindings {
     public static final String INVENTORY_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
 
-    public static final ModKeyBinding SWITCH_TOTEM_SHIELD = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
+    public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
         for (Hand hand : Hand.values()) {
             int slot = -1;
 
@@ -51,7 +51,7 @@ public class InventoryKeys extends NotEKKeybindings {
     });
 
 
-    public static final ModKeyBinding THROW_ENDER_PEARL = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("throw_ender_pearl", INVENTORY_CATEGORY, (client, keyBinding) -> {
+    public static final NotEKKeyBinding THROW_ENDER_PEARL = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("throw_ender_pearl", INVENTORY_CATEGORY, (client, keyBinding) -> {
         for (Hand hand : Hand.values()) {
             if (client.player.getStackInHand(hand).isOf(Items.ENDER_PEARL)) {
                 Utils.interactItem(hand, client);

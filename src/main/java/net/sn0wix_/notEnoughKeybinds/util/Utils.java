@@ -2,10 +2,12 @@ package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Utils {
         ArrayList<KeyBinding> newBindings = new ArrayList<>();
 
         for (KeyBinding keyBinding : keyBindings) {
-            if (keyBinding instanceof ModKeyBinding) {
+            if (keyBinding instanceof NotEKKeyBinding) {
                 continue;
             }
 
@@ -50,5 +52,28 @@ public class Utils {
                 client.player.swingHand(hand);
             }
         }
+    }
+
+    public static Text correctF3DebugMessage(Text message) {
+        String translatedMessage = message.getString();
+        String f3String = "F3 + ";
+        for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
+            String newKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyLocalizedText().getString().replace(f3String, "");
+            String oldKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getDefaultKey().getLocalizedText().getString();
+
+            if (translatedMessage.contains(f3String + oldKey)) {
+                translatedMessage = translatedMessage.replace(f3String + oldKey, f3String + newKey);
+            }
+        }
+
+        return Text.of(translatedMessage);
+    }
+
+    public static Object[] addArgToEnd(Object[] args, Object addedArg) {
+        Object[] newArgs = new Object[args.length + 1];
+        System.arraycopy(args, 0, newArgs, 0, args.length);
+
+        newArgs[args.length] = addedArg;
+        return newArgs;
     }
 }

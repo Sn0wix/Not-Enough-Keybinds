@@ -24,6 +24,8 @@
   "text.not-enough-keybinds.tooltip.switch_totem_shield": "Switches between Totem of Undying and Shield, if you are holding any",
   "text.not-enough-keybinds.tooltip.throw_ender_pearl": "Throws an Ender Pearl, if you have one in your inventory",
 
+  "debug.not-enough-keybinds.press_next": "[ %s ]",
+
 
   "key.not-enough-keybinds.always_place_item": "Always Place Item",
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",

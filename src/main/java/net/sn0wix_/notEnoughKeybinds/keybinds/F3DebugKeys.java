@@ -8,12 +8,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.HashMap;
 
 
-//TODO fix: keys binding to normal keys
-//TODO fix: gamemode screen fixer
-//TODO fix: help message
-//TODO fix: F3 + holding c not binding
-//TODO fix: old bindings triggering
-
+//TODO fix profiling message
 public class F3DebugKeys extends NotEKKeybindings {
     public static final String F3_DEBUG_KEYS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_debug_keys";
 

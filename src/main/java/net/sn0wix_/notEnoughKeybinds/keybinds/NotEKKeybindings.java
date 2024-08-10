@@ -5,8 +5,8 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 
 import java.util.*;
 
@@ -43,7 +43,7 @@ public abstract class NotEKKeybindings {
     }
 
 
-    public static KeyBinding registerModKeyBinding(ModKeyBinding keyBinding) {
+    public static KeyBinding registerModKeyBinding(NotEKKeyBinding keyBinding) {
         return KeyBindingHelper.registerKeyBinding(keyBinding);
     }
 
@@ -57,16 +57,16 @@ public abstract class NotEKKeybindings {
         return KEYBINDING_CATEGORIES;
     }
 
-    public static List<NotEKKeybinding> getModKeybindsAsList() {
-        ArrayList<NotEKKeybinding> keyBindings = new ArrayList<>();
+    public static List<INotEKKeybinding> getModKeybindsAsList() {
+        ArrayList<INotEKKeybinding> keyBindings = new ArrayList<>();
         KEYBINDING_CATEGORIES.forEach(category -> keyBindings.addAll(Arrays.asList(category.getKeyBindings())));
         return keyBindings.stream().toList();
     }
 
-    public static NotEKKeybinding[] getModKeybinds() {
-        List<NotEKKeybinding> bindings = getModKeybindsAsList();
+    public static INotEKKeybinding[] getModKeybinds() {
+        List<INotEKKeybinding> bindings = getModKeybindsAsList();
 
-        NotEKKeybinding[] list = new NotEKKeybinding[bindings.size()];
+        INotEKKeybinding[] list = new INotEKKeybinding[bindings.size()];
 
         for (int i = 0; i < bindings.size(); i++) {
             list[i] = bindings.get(i);

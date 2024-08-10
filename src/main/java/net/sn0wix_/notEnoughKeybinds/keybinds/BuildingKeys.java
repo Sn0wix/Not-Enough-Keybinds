@@ -11,13 +11,13 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ModKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
 public class BuildingKeys extends NotEKKeybindings {
     private static int itemUseCooldown = 0;
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
 
-    public static final ModKeyBinding FAST_BUILDING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_building", BUILDING_CATEGORY, new ModKeyBinding.KeybindingTicker() {
+    public static final NotEKKeyBinding FAST_BUILDING = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("fast_building", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
         }
@@ -55,7 +55,7 @@ public class BuildingKeys extends NotEKKeybindings {
         }
     });
 
-    public static final ModKeyBinding FAST_BLOCK_BREAKING = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new ModKeyBinding.KeybindingTicker() {
+    public static final NotEKKeyBinding FAST_BLOCK_BREAKING = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
         }
@@ -83,7 +83,7 @@ public class BuildingKeys extends NotEKKeybindings {
         }
     });
 
-    public static final ModKeyBinding ALWAYS_PLACE_ITEM = (ModKeyBinding) registerModKeyBinding(new ModKeyBinding("always_place_item", BUILDING_CATEGORY, (client, keyBinding) -> {
+    public static final NotEKKeyBinding ALWAYS_PLACE_ITEM = (NotEKKeyBinding) registerModKeyBinding(new NotEKKeyBinding("always_place_item", BUILDING_CATEGORY, (client, keyBinding) -> {
         if (itemUseCooldown == 0) {
             for (Hand hand : Hand.values()) {
                 ItemStack itemStack = client.player.getStackInHand(hand);
@@ -112,6 +112,14 @@ public class BuildingKeys extends NotEKKeybindings {
         @Override
         public Text getTooltip() {
             return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.always_place_item");
+        }
+
+        @Override
+        public void tick(MinecraftClient client) {
+            if (itemUseCooldown > 0) {
+                itemUseCooldown--;
+            }
+            super.tick(client);
         }
     });
 

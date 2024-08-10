@@ -23,7 +23,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -38,10 +38,10 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
         super(client, parent.width + 45, parent.height - 52, 20, 20);
         this.parent = parent;
-        NotEKKeybinding[] keyBindings = NotEKKeybindings.getModKeybinds();
+        INotEKKeybinding[] keyBindings = NotEKKeybindings.getModKeybinds();
         String string = null;
 
-        for (NotEKKeybinding keyBinding : keyBindings) {
+        for (INotEKKeybinding keyBinding : keyBindings) {
             String string2 = keyBinding.getCategory();
             if (!string2.equals(string)) {
                 string = string2;
@@ -138,7 +138,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
     @Environment(EnvType.CLIENT)
     public class KeyBindingEntry extends ControlsListWidget.Entry {
-        private final NotEKKeybinding binding;
+        private final INotEKKeybinding binding;
         private final Text bindingName;
         private final ButtonWidget editButton;
         private final ButtonWidget resetButton;
@@ -146,7 +146,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         private boolean duplicate = false;
 
-        KeyBindingEntry(NotEKKeybinding binding, Text bindingName) {
+        KeyBindingEntry(INotEKKeybinding binding, Text bindingName) {
             this.binding = binding;
             this.bindingName = bindingName;
             this.editButton = ButtonWidget.builder(bindingName, button -> {
@@ -208,7 +208,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.duplicate = false;
             MutableText mutableText = Text.empty();
             if (!this.binding.isUnbound()) {
-                for (NotEKKeybinding keyBinding : NotEKKeybindings.getModKeybindsAsList()) {
+                for (INotEKKeybinding keyBinding : NotEKKeybindings.getModKeybindsAsList()) {
                     if (keyBinding != this.binding && this.binding.equals(keyBinding) && !(binding instanceof F3DebugKeybinding)) {
                         if (this.duplicate) {
                             mutableText.append(", ");

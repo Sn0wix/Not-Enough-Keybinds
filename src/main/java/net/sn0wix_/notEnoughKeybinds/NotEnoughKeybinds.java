@@ -22,7 +22,5 @@ public class NotEnoughKeybinds implements ClientModInitializer {
         NotEKKeybindings.registerModKeybinds();
 
         ClientTickEvents.END_CLIENT_TICK.register(new ClientEndTickEvent());
-
-        NotEnoughKeybinds.LOGGER.info(DEBUG_KEYS_CONFIG.toString());
     }
 }

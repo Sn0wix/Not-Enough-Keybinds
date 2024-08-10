@@ -6,7 +6,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 
-public interface NotEKKeybinding {
+public interface INotEKKeybinding {
     void setBoundKey(InputUtil.Key key);
 
     KeyBinding getBinding();

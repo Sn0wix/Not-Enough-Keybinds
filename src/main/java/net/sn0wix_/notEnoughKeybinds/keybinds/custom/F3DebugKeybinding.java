@@ -11,7 +11,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
 import org.jetbrains.annotations.NotNull;
 
-public class F3DebugKeybinding implements NotEKKeybinding, Comparable<F3DebugKeybinding> {
+public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKeybinding> {
     public final String translationKey;
     public final String category;
     public InputUtil.Key boundKey;
