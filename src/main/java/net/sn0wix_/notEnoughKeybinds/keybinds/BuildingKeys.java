@@ -10,20 +10,20 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
-public class BuildingKeys extends NotEKKeybindings {
+public class BuildingKeys extends NotEKKeyBindings {
     private static int itemUseCooldown = 0;
     public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
 
     public static final NotEKKeyBinding FAST_BUILDING = registerModKeyBinding(new NotEKKeyBinding("fast_building", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
-        public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
+        public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
         }
 
         @Override
-        public void onTick(MinecraftClient client, KeyBinding keyBinding) {
+        public void onTick(MinecraftClient client, NotEKKeyBinding keyBinding) {
             for (Hand hand : Hand.values()) {
                 if (isInGame(client) && (keyBinding.isPressed() || keyBinding.wasPressed())) {
                     ItemStack itemStack = client.player.getStackInHand(hand);
@@ -57,11 +57,11 @@ public class BuildingKeys extends NotEKKeybindings {
 
     public static final NotEKKeyBinding FAST_BLOCK_BREAKING = registerModKeyBinding(new NotEKKeyBinding("fast_block_breaking", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
-        public void onWasPressed(MinecraftClient client, KeyBinding keyBinding) {
+        public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
         }
 
         @Override
-        public void onTick(MinecraftClient client, KeyBinding keyBinding) {
+        public void onTick(MinecraftClient client, NotEKKeyBinding keyBinding) {
             for (Hand hand : Hand.values()) {
                 if (isInGame(client) && (keyBinding.isPressed() || keyBinding.wasPressed())) {
                     if (client.crosshairTarget.getType().equals(HitResult.Type.BLOCK)) {
@@ -124,7 +124,7 @@ public class BuildingKeys extends NotEKKeybindings {
     });
 
     @Override
-    public KeybindingCategory getCategory() {
-        return new KeybindingCategory(BUILDING_CATEGORY, 1, ALWAYS_PLACE_ITEM, FAST_BUILDING, FAST_BLOCK_BREAKING);
+    public KeybindCategory getCategory() {
+        return new KeybindCategory(BUILDING_CATEGORY, 1, ALWAYS_PLACE_ITEM, FAST_BUILDING, FAST_BLOCK_BREAKING);
     }
 }

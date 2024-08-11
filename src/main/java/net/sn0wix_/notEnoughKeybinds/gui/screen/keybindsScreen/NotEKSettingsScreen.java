@@ -1,10 +1,9 @@
-package net.sn0wix_.notEnoughKeybinds.gui.keybindsScreen;
+package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.util.InputUtil;
@@ -12,12 +11,13 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
-public class NotEKSettingsScreen extends GameOptionsScreen {
+public class NotEKSettingsScreen extends SettingsScreen {
     @Nullable
     public INotEKKeybinding selectedKeyBinding;
     public long lastKeyCodeUpdateTime;
@@ -69,16 +69,5 @@ public class NotEKSettingsScreen extends GameOptionsScreen {
         } else {
             return super.keyPressed(keyCode, scanCode, modifiers);
         }
-    }
-
-    @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 8, 16777215);
-    }
-
-    @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackgroundTexture(context);
     }
 }

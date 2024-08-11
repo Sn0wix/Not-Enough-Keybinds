@@ -3,10 +3,9 @@ package net.sn0wix_.notEnoughKeybinds.mixin;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
-import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.gui.keybindsScreen.NotEKSettingsScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.NotEKSettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.lwjgl.glfw.GLFW;
@@ -36,10 +35,10 @@ public abstract class KeyboardMixin {
     //missing F1 keybind
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/DebugHud;shouldShowRenderingChart()Z", shift = At.Shift.BEFORE))
     private void injectOnKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        if (key == GLFW.GLFW_KEY_F1 && !NotEKKeybindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
+        if (key == GLFW.GLFW_KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
             this.client.options.hudHidden = !this.client.options.hudHidden;
         }
-        if (key != GLFW.GLFW_KEY_F1 && NotEKKeybindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
+        if (key != GLFW.GLFW_KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
             this.client.options.hudHidden = !this.client.options.hudHidden;
         }
     }

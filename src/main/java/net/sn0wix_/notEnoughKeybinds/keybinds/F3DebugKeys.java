@@ -2,14 +2,14 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 
 
 //TODO fix profiling message
-public class F3DebugKeys extends NotEKKeybindings {
+public class F3DebugKeys extends NotEKKeyBindings {
     public static final String F3_DEBUG_KEYS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_debug_keys";
 
     public static final F3DebugKeybinding RELOAD_CHUNKS = new F3DebugKeybinding("reload_chunks", GLFW.GLFW_KEY_A);
@@ -28,11 +28,11 @@ public class F3DebugKeys extends NotEKKeybindings {
     public static final F3DebugKeybinding GAMEMODES = new F3DebugKeybinding("gamemodes", GLFW.GLFW_KEY_F4);
 
 
-    public static final KeybindingCategory F3_DEBUG_KEYS_CATEGORY = new KeybindingCategory(F3_DEBUG_KEYS_CATEGORY_STRING, 3, RELOAD_CHUNKS, SHOW_HITBOXES, COPY_LOCATION, CLEAR_CHAT, CHUNK_BOUNDARIES, ADVANCED_TOOLTIPS,
+    public static final KeybindCategory F3_DEBUG_KEYS_CATEGORY = new KeybindCategory(F3_DEBUG_KEYS_CATEGORY_STRING, 69, RELOAD_CHUNKS, SHOW_HITBOXES, COPY_LOCATION, CLEAR_CHAT, CHUNK_BOUNDARIES, ADVANCED_TOOLTIPS,
             INSPECT, PROFILING, CREATIVE_SPECTATOR, PAUSE_FOCUS, HELP, DUMP_DYNAMIC_TEXTURES, RELOAD_RESOURCEPACKS, GAMEMODES);
 
     @Override
-    public KeybindingCategory getCategory() {
+    public KeybindCategory getCategory() {
         return F3_DEBUG_KEYS_CATEGORY;
     }
 

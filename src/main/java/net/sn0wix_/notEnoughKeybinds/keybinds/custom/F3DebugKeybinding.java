@@ -8,7 +8,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import org.jetbrains.annotations.NotNull;
 
 public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKeybinding> {
@@ -18,7 +18,7 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
     public final InputUtil.Key defaultKey;
 
     public F3DebugKeybinding(String translationKey, int code) {
-        this.translationKey = NotEKKeybindings.KEY_BINDING_PREFIX + translationKey;
+        this.translationKey = NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey;
         this.boundKey = InputUtil.fromKeyCode(code, 0);
         this.defaultKey = this.boundKey;
         this.category = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY_STRING;

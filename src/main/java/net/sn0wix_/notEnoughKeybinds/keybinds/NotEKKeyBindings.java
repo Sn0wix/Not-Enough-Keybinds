@@ -4,14 +4,15 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
-public abstract class NotEKKeybindings {
-    private static final ArrayList<KeybindingCategory> KEYBINDING_CATEGORIES = new ArrayList<>();
+public abstract class NotEKKeyBindings {
+    private static final ArrayList<KeybindCategory> KEYBINDING_CATEGORIES = new ArrayList<>();
 
 
     public static final String KEY_BINDING_PREFIX = "key." + NotEnoughKeybinds.MOD_ID + ".";
@@ -27,18 +28,28 @@ public abstract class NotEKKeybindings {
         registerKeyCategory(new InventoryKeys().getCategory());
         registerKeyCategory(new SkinLayersKeys().getCategory());
         registerKeyCategory(new F3DebugKeys().getCategory());
+        registerKeyCategory(new ChatKeys().getCategory());
     }
 
+    public static KeybindCategory getCategoryByTranslation(String translationKey) {
+        AtomicReference<KeybindCategory> returnValue = new AtomicReference<>(null);
+        KEYBINDING_CATEGORIES.forEach(keybindCategory -> {
+            if (keybindCategory.getTranslationKey().equals(translationKey))
+                returnValue.set(keybindCategory);
+        });
+
+        return returnValue.get();
+    }
 
     //registering stuff
-    public abstract KeybindingCategory getCategory();
+    public abstract KeybindCategory getCategory();
 
-    public static void registerKeyCategory(KeybindingCategory category) {
+    public static void registerKeyCategory(KeybindCategory category) {
         KEYBINDING_CATEGORIES.add(category);
-        KEYBINDING_CATEGORIES.sort(Comparator.comparingInt(KeybindingCategory::getPriority));
+        KEYBINDING_CATEGORIES.sort(Comparator.comparingInt(KeybindCategory::getPriority));
     }
 
-    public static void unregisterKeyCategory(KeybindingCategory category) {
+    public static void unregisterKeyCategory(KeybindCategory category) {
         KEYBINDING_CATEGORIES.remove(category);
     }
 
@@ -52,8 +63,8 @@ public abstract class NotEKKeybindings {
     }
 
     //Helper methods
-    public static ArrayList<KeybindingCategory> getCategories() {
-        return KEYBINDING_CATEGORIES;
+    public static List<KeybindCategory> getCategories() {
+        return KEYBINDING_CATEGORIES.stream().toList();
     }
 
     public static List<INotEKKeybinding> getModKeybindsAsList() {

@@ -1,13 +1,17 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
+import net.minecraft.client.gui.screen.Screen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.ControlsListWidget;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Arrays;
 
-public class KeybindingCategory {
+public class KeybindCategory {
     private final String TRANSLATION_KEY;
     private final INotEKKeybinding[] keyBindings;
     private final int priority;
 
-    public KeybindingCategory(String translationKey, int priority, boolean sort, INotEKKeybinding... keyBindings) {
+    public KeybindCategory(String translationKey, int priority, boolean sort, INotEKKeybinding... keyBindings) {
         this.TRANSLATION_KEY = translationKey;
         this.keyBindings = keyBindings;
         this.priority = priority;
@@ -17,7 +21,7 @@ public class KeybindingCategory {
         }
     }
 
-    public KeybindingCategory(String translationKey, int priority, INotEKKeybinding... keyBindings) {
+    public KeybindCategory(String translationKey, int priority, INotEKKeybinding... keyBindings) {
         this(translationKey, priority, true, keyBindings);
     }
 
@@ -31,5 +35,14 @@ public class KeybindingCategory {
 
     public int getPriority() {
         return priority;
+    }
+
+    public String getAddNewButtonTranslation() {
+        return "";
+    }
+
+    @Nullable
+    public Screen getAddNewButtonScreen(Screen parent) {
+        return null;
     }
 }

@@ -27,7 +27,7 @@ public interface INotEKKeybinding {
         return Text.empty();
     }
 
-    default Screen getSettingsScreen() {
+    default Screen getSettingsScreen(Screen parent) {
         return null;
     }
 
@@ -39,18 +39,22 @@ public interface INotEKKeybinding {
 
     void setAndSaveKeyBinding(InputUtil.Key key);
 
+    default Text getSettingsDisplayName() {
+        return Text.translatable(getTranslationKey());
+    }
+
 
     @FunctionalInterface
     interface KeybindingTicker {
         /**
          * Executes if the keybind is pressed while a world is loaded
          */
-        void onWasPressed(MinecraftClient client, KeyBinding keyBinding);
+        void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding);
 
         /**
          * Executes every tick
          */
-        default void onTick(MinecraftClient client, KeyBinding keyBinding) {
+        default void onTick(MinecraftClient client, NotEKKeyBinding keyBinding) {
             while (keyBinding.wasPressed() && isInGame(client)) {
                 onWasPressed(client, keyBinding);
             }

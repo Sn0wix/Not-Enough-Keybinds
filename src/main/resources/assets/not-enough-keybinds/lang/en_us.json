@@ -4,8 +4,18 @@
   "key.category.not-enough-keybinds.building": "Building",
   "key.category.not-enough-keybinds.skin_layers": "Skin Layers",
   "key.category.not-enough-keybinds.f3_debug_keys": "F3 Debug Keys",
+  "key.category.not-enough-keybinds.chat_keys": "Chat/Command Keys",
+
 
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
+  "settings.not-enough-keybinds.chat_keys": "Add/Edit Chat Key",
+
+
+  "text.not-enough-keybinds.add_new_keybind": "Add new Keybind",
+  "text.not-enough-keybinds.keybind_name": "Keybind Name",
+  "text.not-enough-keybinds.message": "Message",
+  "text.not-enough-keybinds.command": "Command",
+  "text.not-enough-keybinds.type": "Type: ",
 
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",
@@ -25,7 +35,6 @@
   "text.not-enough-keybinds.tooltip.throw_ender_pearl": "Throws an Ender Pearl, if you have one in your inventory",
 
   "debug.not-enough-keybinds.press_next": "[ %s ]",
-
 
   "key.not-enough-keybinds.always_place_item": "Always Place Item",
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",

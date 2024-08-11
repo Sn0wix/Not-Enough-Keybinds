@@ -4,28 +4,28 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
-import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 
 public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
     private final KeybindingTicker onWasPressed;
 
 
     public NotEKKeyBinding(String translationKey, int code, String category, KeybindingTicker onTick) {
-        super(NotEKKeybindings.KEY_BINDING_PREFIX + translationKey, code, category);
+        super(NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, code, category);
         this.onWasPressed = onTick;
     }
 
     public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, String category, KeybindingTicker onTick) {
-        super(NotEKKeybindings.KEY_BINDING_PREFIX + translationKey, type, code, category);
+        super(NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, type, code, category);
         this.onWasPressed = onTick;
     }
 
     public NotEKKeyBinding(String translationKey, int code, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        this(useCustomTranslation ? translationKey : NotEKKeybindings.KEY_BINDING_PREFIX + translationKey, code, category, onTick);
+        this(useCustomTranslation ? translationKey : NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, code, category, onTick);
     }
 
     public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        this(useCustomTranslation ? translationKey : NotEKKeybindings.KEY_BINDING_PREFIX + translationKey, type, code, category, onTick);
+        this(useCustomTranslation ? translationKey : NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, type, code, category, onTick);
     }
 
     public NotEKKeyBinding(String translationKey, String category, KeybindingTicker onTick) {

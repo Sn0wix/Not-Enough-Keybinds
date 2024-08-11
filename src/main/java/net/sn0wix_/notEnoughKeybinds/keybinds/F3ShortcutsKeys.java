@@ -2,29 +2,29 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3ShortcutKeybinding;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindingCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class F3ShortcutsKeys extends NotEKKeybindings {
+public class F3ShortcutsKeys extends NotEKKeyBindings {
     public static final String F3_SHORTCUTS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_shortcuts";
 
-    public static final NotEKKeyBinding TOGGLE_HITBOXES = registerModKeyBinding(new F3ShortcutKeybinding("toggle_hitboxes", F3_SHORTCUTS_CATEGORY_STRING, 66));
-    public static final NotEKKeyBinding TOGGLE_CHUNK_GRID = registerModKeyBinding(new F3ShortcutKeybinding("toggle_chunk_grid", F3_SHORTCUTS_CATEGORY_STRING, 71));
-    public static final NotEKKeyBinding TOGGLE_ADVANCED_TOOLTIPS = registerModKeyBinding(new F3ShortcutKeybinding("toggle_advanced_tooltips", F3_SHORTCUTS_CATEGORY_STRING, 72));
-    public static final NotEKKeyBinding CLEAR_CHAT_HISTORY = registerModKeyBinding(new F3ShortcutKeybinding("clear_chat_history", F3_SHORTCUTS_CATEGORY_STRING, 68));
-    public static final NotEKKeyBinding TOGGLE_SPECTATOR_MODE = registerModKeyBinding(new F3ShortcutKeybinding("toggle_spectator_mode", F3_SHORTCUTS_CATEGORY_STRING, 78));
-    public static final NotEKKeyBinding TOGGLE_AUTO_PAUSE = registerModKeyBinding(new F3ShortcutKeybinding("toggle_auto_pause", F3_SHORTCUTS_CATEGORY_STRING, 80));
-    public static final NotEKKeyBinding RELOAD_ALL_CHUNKS = registerModKeyBinding(new F3ShortcutKeybinding("reload_all_chunks", F3_SHORTCUTS_CATEGORY_STRING, 65));
-    public static final NotEKKeyBinding RELOAD_RESOURCE_PACKS = registerModKeyBinding(new F3ShortcutKeybinding("reload_resource_packs", F3_SHORTCUTS_CATEGORY_STRING, 84));
+    public static final NotEKKeyBinding TOGGLE_HITBOXES = registerModKeyBinding(new F3ShortcutKeybinding("toggle_hitboxes", 66));
+    public static final NotEKKeyBinding TOGGLE_CHUNK_GRID = registerModKeyBinding(new F3ShortcutKeybinding("toggle_chunk_grid", 71));
+    public static final NotEKKeyBinding TOGGLE_ADVANCED_TOOLTIPS = registerModKeyBinding(new F3ShortcutKeybinding("toggle_advanced_tooltips", 72));
+    public static final NotEKKeyBinding CLEAR_CHAT_HISTORY = registerModKeyBinding(new F3ShortcutKeybinding("clear_chat_history", 68));
+    public static final NotEKKeyBinding TOGGLE_SPECTATOR_MODE = registerModKeyBinding(new F3ShortcutKeybinding("toggle_spectator_mode", 78));
+    public static final NotEKKeyBinding TOGGLE_AUTO_PAUSE = registerModKeyBinding(new F3ShortcutKeybinding("toggle_auto_pause", 80));
+    public static final NotEKKeyBinding RELOAD_ALL_CHUNKS = registerModKeyBinding(new F3ShortcutKeybinding("reload_all_chunks", 65));
+    public static final NotEKKeyBinding RELOAD_RESOURCE_PACKS = registerModKeyBinding(new F3ShortcutKeybinding("reload_resource_packs", 84));
 
-    public static final KeybindingCategory F3_SHORTCUTS_CATEGORY = new KeybindingCategory(F3_SHORTCUTS_CATEGORY_STRING, 69, TOGGLE_HITBOXES, TOGGLE_CHUNK_GRID, TOGGLE_ADVANCED_TOOLTIPS, CLEAR_CHAT_HISTORY, TOGGLE_SPECTATOR_MODE, TOGGLE_AUTO_PAUSE, RELOAD_ALL_CHUNKS, RELOAD_RESOURCE_PACKS);
+    public static final KeybindCategory F3_SHORTCUTS_CATEGORY = new KeybindCategory(F3_SHORTCUTS_CATEGORY_STRING, 96, TOGGLE_HITBOXES, TOGGLE_CHUNK_GRID, TOGGLE_ADVANCED_TOOLTIPS, CLEAR_CHAT_HISTORY, TOGGLE_SPECTATOR_MODE, TOGGLE_AUTO_PAUSE, RELOAD_ALL_CHUNKS, RELOAD_RESOURCE_PACKS);
 
 
     @Override
-    public KeybindingCategory getCategory() {
+    public KeybindCategory getCategory() {
         return F3_SHORTCUTS_CATEGORY;
     }
 

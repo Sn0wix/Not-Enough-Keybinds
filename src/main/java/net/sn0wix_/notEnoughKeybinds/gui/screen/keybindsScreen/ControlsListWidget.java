@@ -1,4 +1,4 @@
-package net.sn0wix_.notEnoughKeybinds.gui.keybindsScreen;
+package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.navigation.GuiNavigation;
 import net.minecraft.client.gui.navigation.GuiNavigationPath;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -21,42 +22,42 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
-import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeybindings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Entry> {
-    final NotEKSettingsScreen parent;
-    int maxKeyNameLength;
+    public final NotEKSettingsScreen parent;
+    private int maxKeyNameLength;
 
     public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
         super(client, parent.width + 45, parent.height - 52, 20, 20);
         this.parent = parent;
-        INotEKKeybinding[] keyBindings = NotEKKeybindings.getModKeybinds();
-        String string = null;
 
-        for (INotEKKeybinding keyBinding : keyBindings) {
-            String string2 = keyBinding.getCategory();
-            if (!string2.equals(string)) {
-                string = string2;
-                this.addEntry(new ControlsListWidget.CategoryEntry(Text.translatable(string2)));
+        NotEKKeyBindings.getCategories().forEach(category -> {
+            this.addEntry(new ControlsListWidget.CategoryEntry(Text.translatable(category.getTranslationKey())));
+
+            for (INotEKKeybinding keybinding : category.getKeyBindings()) {
+                Text text = keybinding.getSettingsDisplayName();
+
+                int textWidth = client.textRenderer.getWidth(text);
+                if (textWidth > this.maxKeyNameLength) {
+                    this.maxKeyNameLength = textWidth;
+                }
+
+                this.addEntry(new ControlsListWidget.KeyBindingEntry(keybinding, text));
             }
 
-            Text text = Text.translatable(keyBinding.getTranslationKey());
-            int i = client.textRenderer.getWidth(text);
-            if (i > this.maxKeyNameLength) {
-                this.maxKeyNameLength = i;
+            if (category.getAddNewButtonScreen(parent) != null) {
+                this.addEntry(new AddNewKeyButtonEntry(category.getAddNewButtonScreen(parent), category.getAddNewButtonTranslation()));
             }
-
-            this.addEntry(new ControlsListWidget.KeyBindingEntry(keyBinding, text));
-        }
+        });
     }
 
     public void update() {
@@ -75,9 +76,36 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
     @Override
     public int getRowWidth() {
-        return super.getRowWidth() + 32;
+        return super.getRowWidth() + 600;
     }
 
+    @Override
+    public int getRowLeft() {
+        return this.getX() + this.width / 2 - this.getRowWidth() / 2;
+    }
+
+    @Override
+    public int getRowRight() {
+        return this.getRowLeft() + this.getRowWidth();
+    }
+
+    @Override
+    protected void renderList(DrawContext context, int mouseX, int mouseY, float delta) {
+        int i = this.getRowLeft() + 300;
+        int j = this.getRowWidth() + 300;
+        int k = this.itemHeight - 4;
+        int l = this.getEntryCount();
+
+        for (int m = 0; m < l; m++) {
+            int n = this.getRowTop(m);
+            int o = this.getRowBottom(m);
+            if (o >= this.getY() && n <= this.getBottom()) {
+                this.renderEntry(context, mouseX, mouseY, delta, m, i, n, j, k);
+            }
+        }
+    }
+
+    //Entries
     @Environment(EnvType.CLIENT)
     public class CategoryEntry extends ControlsListWidget.Entry {
         final Text text;
@@ -133,8 +161,48 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     }
 
     @Environment(EnvType.CLIENT)
-    public abstract static class Entry extends ElementListWidget.Entry<ControlsListWidget.Entry> {
-        abstract void update();
+    public class AddNewKeyButtonEntry extends Entry {
+        public final ButtonWidget button;
+        public final String translationKey;
+
+        public AddNewKeyButtonEntry(Screen screen, String translationKey) {
+            button = ButtonWidget.builder(Text.translatable(translationKey), button1 ->
+                    MinecraftClient.getInstance().setScreen(screen)
+            ).size(200, 20).build();
+
+            this.translationKey = translationKey;
+        }
+
+        @Override
+        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            button.setDimensionsAndPosition(50 + maxKeyNameLength, 20, x + 130 - maxKeyNameLength, y + 2);
+            button.render(context, mouseX, mouseY, tickDelta);
+        }
+
+
+        @Override
+        public List<? extends Element> children() {
+            return List.of(button);
+        }
+
+        @Override
+        public List<? extends Selectable> selectableChildren() {
+            return List.of(new Selectable() {
+                @Override
+                public SelectionType getType() {
+                    return SelectionType.HOVERED;
+                }
+
+                @Override
+                public void appendNarrations(NarrationMessageBuilder builder) {
+                    builder.put(NarrationPart.TITLE, Text.translatable(translationKey));
+                }
+            });
+        }
+
+        @Override
+        void update() {
+        }
     }
 
     @Environment(EnvType.CLIENT)
@@ -147,7 +215,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         private boolean duplicate = false;
 
-        KeyBindingEntry(INotEKKeybinding binding, Text bindingName) {
+        public KeyBindingEntry(INotEKKeybinding binding, Text bindingName) {
             this.binding = binding;
             this.bindingName = bindingName;
             this.editButton = ButtonWidget.builder(bindingName, button -> {
@@ -165,9 +233,10 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                 binding.setAndSaveKeyBinding(binding.getDefaultKey());
                 ControlsListWidget.this.update();
             }).dimensions(0, 0, 50, 20).narrationSupplier(textSupplier -> Text.translatable("narrator.controls.reset", bindingName)).build();
-            this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Text.empty(), button -> NotEnoughKeybinds.LOGGER.info("SETTINGS")
+            this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Text.empty(), button -> client.setScreen(binding.getSettingsScreen(parent))
                     , Supplier::get, new Identifier(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
-            this.settingsButton.setTooltip((Tooltip.of(Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.settings"))));
+
+            this.settingsButton.setTooltip(Tooltip.of(Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.settings")));
             this.update();
         }
 
@@ -194,12 +263,13 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         @Override
         public List<? extends Element> children() {
-            return ImmutableList.of(this.editButton, this.resetButton, this.settingsButton);
+            return List.of(this.editButton, this.resetButton, this.settingsButton);
         }
+
 
         @Override
         public List<? extends Selectable> selectableChildren() {
-            return ImmutableList.of(this.editButton, this.resetButton, this.settingsButton);
+            return List.of(this.editButton, this.resetButton, this.settingsButton);
         }
 
         @Override
@@ -238,7 +308,13 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                                         .formatted(Formatting.YELLOW)
                         );
             }
-            this.settingsButton.visible = binding.getSettingsScreen() != null;
+            this.settingsButton.visible = binding.getSettingsScreen(parent) != null;
         }
+    }
+
+
+    @Environment(EnvType.CLIENT)
+    public abstract static class Entry extends ElementListWidget.Entry<ControlsListWidget.Entry> {
+        abstract void update();
     }
 }
