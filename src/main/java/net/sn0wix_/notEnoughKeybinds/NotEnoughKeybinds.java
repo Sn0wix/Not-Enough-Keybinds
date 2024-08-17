@@ -26,7 +26,6 @@ public class NotEnoughKeybinds implements ClientModInitializer {
         NotEKKeyBindings.registerModKeybinds();
 
         ClientTickEvents.END_CLIENT_TICK.register(new ClientEndTickEvent());
-
-        //TODO fix glfw keys scan code error
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ChatKeys.CHAT_KEYS_CATEGORY.initializeKeys());
     }
 }

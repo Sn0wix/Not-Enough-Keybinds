@@ -84,7 +84,7 @@ public class ChatKeysConfig {
         }
 
         public InputUtil.Key getKey() {
-            return InputUtil.fromKeyCode(keyCode, 0);
+            return keyCode == -1 ? InputUtil.UNKNOWN_KEY : InputUtil.fromKeyCode(keyCode, GLFW.glfwGetKeyScancode(keyCode));
         }
 
         public String getMessage() {

@@ -16,9 +16,6 @@ public class ChatKeys extends NotEKKeyBindings {
     public static final String CHAT_KEYS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".chat_keys";
     public static final ChatKeysCategory CHAT_KEYS_CATEGORY = new ChatKeysCategory(CHAT_KEYS_CATEGORY_STRING, 10);
 
-    public static void updateScanCodes() {
-    }
-
 
     @Override
     public KeybindCategory getCategory() {
@@ -26,7 +23,7 @@ public class ChatKeys extends NotEKKeyBindings {
     }
 
     public static class ChatKeysCategory extends KeybindCategory {
-        private final ArrayList<ChatKeyBinding> chatKeys = NotEnoughKeybinds.CHAT_KEYS_CONFIG.loadKeys();
+        private final ArrayList<ChatKeyBinding> chatKeys = new ArrayList<>(NotEnoughKeybinds.CHAT_KEYS_CONFIG.chatKeysMap.size());
 
         public ChatKeysCategory(String translationKey, int priority, INotEKKeybinding... keyBindings) {
             super(translationKey, priority, keyBindings);
@@ -45,7 +42,7 @@ public class ChatKeys extends NotEKKeyBindings {
         @Override
         public @Nullable Screen getAddNewButtonScreen(Screen parent) {
             return new ChatKeyScreen(parent, MinecraftClient.getInstance().options, new ChatKeyBinding(
-                    KEY_BINDING_PREFIX + "chat." + getNewKeyIndex(),
+                    "chat." + getNewKeyIndex(),
                     "Chat Key " + getNewKeyIndex(), new Random().nextInt(16) == 0 ? "Hello World!" : ""));
         }
 
@@ -77,9 +74,8 @@ public class ChatKeys extends NotEKKeyBindings {
             NotEKKeyBindings.updateCategory(this);
         }
 
-        public void updateScanCodes() {
-            chatKeys.forEach(ChatKeyBinding::updateScanCode);
-            NotEnoughKeybinds.LOGGER.info("SCANCODEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+        public void initializeKeys() {
+            chatKeys.addAll(NotEnoughKeybinds.CHAT_KEYS_CONFIG.loadKeys());
         }
     }
 }

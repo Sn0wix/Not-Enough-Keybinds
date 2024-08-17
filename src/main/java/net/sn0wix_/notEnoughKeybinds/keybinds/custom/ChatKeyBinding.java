@@ -10,12 +10,10 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.glfw.GLFW;
 
 public class ChatKeyBinding extends NotEKKeyBinding {
     private String chatMessage;
     private String displayName;
-    private int boundKey = -1;
 
     public ChatKeyBinding(String translationKey, String displayName, String chatMessage) {
         super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY_STRING, new ChatKeysTicker());
@@ -47,14 +45,9 @@ public class ChatKeyBinding extends NotEKKeyBinding {
         return Text.literal(displayName);
     }
 
-    public void updateScanCode() {
-        setBoundKey(InputUtil.fromKeyCode(boundKey, GLFW.glfwGetKeyScancode(boundKey)));
-    }
-
     @Override
     public void setBoundKey(InputUtil.Key boundKey) {
         super.setBoundKey(boundKey);
-        this.boundKey = boundKey.getCode();
     }
 
     @Override
