@@ -53,6 +53,11 @@ public abstract class NotEKKeyBindings {
         KEYBINDING_CATEGORIES.remove(category);
     }
 
+    public static void updateCategory(KeybindCategory category) {
+        unregisterKeyCategory(category);
+        registerKeyCategory(category);
+    }
+
 
     public static NotEKKeyBinding registerModKeyBinding(NotEKKeyBinding keyBinding) {
         return (NotEKKeyBinding) KeyBindingHelper.registerKeyBinding(keyBinding);

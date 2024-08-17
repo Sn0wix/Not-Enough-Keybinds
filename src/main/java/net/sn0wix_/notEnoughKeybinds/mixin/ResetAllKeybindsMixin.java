@@ -7,7 +7,13 @@ import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
+import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
+import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,15 +29,23 @@ public abstract class ResetAllKeybindsMixin {
     //confirmation dialog
     @Inject(method = "method_38532", at = @At("HEAD"), cancellable = true)
     private void injectUpdate(ButtonWidget button, CallbackInfo ci) {
-        MinecraftClient.getInstance().setScreen(new ConfirmScreen(new ParentScreenBlConsumer(((KeybindsScreen) (Object) this), client -> {
+        MinecraftClient.getInstance().setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeybindsScreen) (Object) this), client -> {
             for (KeyBinding keyBinding : client.options.allKeys) {
                 keyBinding.setBoundKey(keyBinding.getDefaultKey());
             }
 
+            for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
+                INotEKKeybinding keybinding = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i];
+                keybinding.setBoundKey(keybinding.getDefaultKey());
+            }
+
+            /*for (int i = 0; i < ChatKeys..getKeyBindings().length; i++) {
+                INotEKKeybinding keybinding = ChatKeys..getKeyBindings()[i];
+                keybinding.setBoundKey(keybinding.getDefaultKey());
+            }*/
+
             this.controlsList.update();
-        }) , Text.empty(), Text.translatable("text.not-enough-keybinds.resetAllKeys"),
-                Text.translatable("text.not-enough-keybinds.confirm." + new Random().nextInt(4)),
-                Text.translatable("text.not-enough-keybinds.cancel." + new Random().nextInt(4))));
+        }, true), Text.translatable("text.not-enough-keybinds.resetAllKeys")));
         ci.cancel();
     }
 }

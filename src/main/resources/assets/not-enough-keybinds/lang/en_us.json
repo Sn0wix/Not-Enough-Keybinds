@@ -12,10 +12,17 @@
 
 
   "text.not-enough-keybinds.add_new_keybind": "Add new Keybind",
+  "text.not-enough-keybinds.delete_keybind": "Are you sure, you want to delete %s?",
+  "text.not-enough-keybinds.text": "Text",
   "text.not-enough-keybinds.keybind_name": "Keybind Name",
-  "text.not-enough-keybinds.message": "Message",
-  "text.not-enough-keybinds.command": "Command",
-  "text.not-enough-keybinds.type": "Type: ",
+  "text.not-enough-keybinds.set_to_message": "Set to: Message",
+  "text.not-enough-keybinds.set_to_command": "Set to: Command",
+  "text.not-enough-keybinds.delete": "Delete",
+
+
+  "text.not-enough-keybinds.tooltip.executes_command": "Executes command %s",
+  "text.not-enough-keybinds.tooltip.sends_message": "Sends Chat message \"%s\"",
+
 
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",

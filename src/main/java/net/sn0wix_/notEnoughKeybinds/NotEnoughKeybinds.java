@@ -2,11 +2,13 @@ package net.sn0wix_.notEnoughKeybinds;
 
 import net.fabricmc.api.ClientModInitializer;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.config.ChatKeysConfig;
 import net.sn0wix_.notEnoughKeybinds.config.DebugKeysConfig;
 import net.sn0wix_.notEnoughKeybinds.events.ClientEndTickEvent;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,5 +26,7 @@ public class NotEnoughKeybinds implements ClientModInitializer {
         NotEKKeyBindings.registerModKeybinds();
 
         ClientTickEvents.END_CLIENT_TICK.register(new ClientEndTickEvent());
+
+        //TODO fix glfw keys scan code error
     }
 }

@@ -5,11 +5,15 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatKeysConfig {
     public static ConfigClassHandler<ChatKeysConfig> HANDLER = ConfigClassHandler.createBuilder(ChatKeysConfig.class)
@@ -21,16 +25,42 @@ public class ChatKeysConfig {
                     .build())
             .build();
 
+
     @SerialEntry()
-    public ArrayList<ChatKeyBinding> chatKeys = new ArrayList<>();
+    public HashMap<String, ChatKeyValues> chatKeysMap = new HashMap<>();
 
-    public ChatKeyBinding[] getKeysArray() {
-        return chatKeys.toArray(new ChatKeyBinding[0]);
+
+    public void addKey(ChatKeyBinding binding) {
+        chatKeysMap.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
+        saveConfig();
     }
 
-    public int getNewKeyIndex() {
-        return chatKeys.size();
+    public void removeKey(ChatKeyBinding binding) {
+        chatKeysMap.remove(binding.getTranslationKey());
+        saveConfig();
     }
+
+    public void addKeyIf(ChatKeyBinding binding) {
+        chatKeysMap.remove(binding.getTranslationKey());
+        chatKeysMap.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
+        saveConfig();
+    }
+
+    public void updateKey(String translationKey, InputUtil.Key key) {
+        chatKeysMap.forEach((s, chatKeyValues) -> {
+            if (s.equals(translationKey)) {
+                chatKeyValues.setKey(key.getCode());
+            }
+        });
+        saveConfig();
+    }
+
+    public ArrayList<ChatKeyBinding> loadKeys() {
+        ArrayList<ChatKeyBinding> bindings = new ArrayList<>();
+        chatKeysMap.forEach((translation, chatKeyValues) -> bindings.add(new ChatKeyBinding(translation, chatKeyValues.getName(), chatKeyValues.getName(), chatKeyValues.getKey())));
+        return bindings;
+    }
+
 
     public static ChatKeysConfig getConfig() {
         HANDLER.load();
@@ -39,5 +69,42 @@ public class ChatKeysConfig {
 
     public static void saveConfig() {
         HANDLER.save();
+    }
+
+
+    public static class ChatKeyValues {
+        private String message;
+        private String name;
+        private int keyCode;
+
+        public ChatKeyValues(String message, String name, InputUtil.Key key) {
+            this.message = message;
+            this.name = name;
+            this.keyCode = key.getCode();
+        }
+
+        public InputUtil.Key getKey() {
+            return InputUtil.fromKeyCode(keyCode, 0);
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setKey(int key) {
+            this.keyCode = key;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

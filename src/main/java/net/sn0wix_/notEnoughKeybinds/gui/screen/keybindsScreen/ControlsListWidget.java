@@ -161,7 +161,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     }
 
     @Environment(EnvType.CLIENT)
-    public class AddNewKeyButtonEntry extends Entry {
+    public static class AddNewKeyButtonEntry extends Entry {
         public final ButtonWidget button;
         public final String translationKey;
 
@@ -175,7 +175,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         @Override
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            button.setDimensionsAndPosition(50 + maxKeyNameLength, 20, x + 130 - maxKeyNameLength, y + 2);
+            button.setDimensionsAndPosition(175, 20, x + 5, y + 2);
             button.render(context, mouseX, mouseY, tickDelta);
         }
 

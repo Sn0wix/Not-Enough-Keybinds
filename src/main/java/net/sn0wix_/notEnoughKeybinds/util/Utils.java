@@ -1,18 +1,29 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ConfirmScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Utils {
+    public static Screen getModConfirmScreen(ParentScreenBlConsumer consumer, Text text) {
+        return new ConfirmScreen(consumer, Text.empty(), text,
+                Text.translatable("text.not-enough-keybinds.confirm." + new Random().nextInt(4)),
+                Text.translatable("text.not-enough-keybinds.cancel." + new Random().nextInt(4)));
+    }
+
+
     public static KeyBinding[] filterModKeybindings(KeyBinding[] keyBindings) {
         ArrayList<KeyBinding> newBindings = new ArrayList<>();
 

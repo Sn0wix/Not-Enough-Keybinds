@@ -1,7 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;

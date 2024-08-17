@@ -35,10 +35,10 @@ public abstract class KeyboardMixin {
     //missing F1 keybind
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/DebugHud;shouldShowRenderingChart()Z", shift = At.Shift.BEFORE))
     private void injectOnKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
-        if (key == GLFW.GLFW_KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
+        if (key == GLFW.GLFW_KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(key, GLFW.glfwGetKeyScancode(key))) {
             this.client.options.hudHidden = !this.client.options.hudHidden;
         }
-        if (key != GLFW.GLFW_KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(key, 0)) {
+        if (key != GLFW.GLFW_KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(key, GLFW.glfwGetKeyScancode(key))) {
             this.client.options.hudHidden = !this.client.options.hudHidden;
         }
     }
@@ -61,7 +61,7 @@ public abstract class KeyboardMixin {
         while (iterator.hasNext()) {
             INotEKKeybinding keyBinding = iterator.next();
 
-            if (keyBinding.matchesKey(key, 0)) {
+            if (keyBinding.matchesKey(key, GLFW.glfwGetKeyScancode(key))) {
                 pressedF3Keys.add(keyBinding.getDefaultKey().getCode());
             }
         }

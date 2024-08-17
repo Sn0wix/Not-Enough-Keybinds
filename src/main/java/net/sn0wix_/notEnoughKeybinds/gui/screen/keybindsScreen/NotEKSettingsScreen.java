@@ -29,7 +29,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    protected void init() {
+    public void init() {
         this.controlsList = this.addDrawableChild(new ControlsListWidget(this, this.client));
         this.addDrawableChild(
                 ButtonWidget.builder(ScreenTexts.DONE, button -> {
