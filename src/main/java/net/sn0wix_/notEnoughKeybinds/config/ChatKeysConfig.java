@@ -9,7 +9,6 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -27,27 +26,27 @@ public class ChatKeysConfig {
 
 
     @SerialEntry()
-    public HashMap<String, ChatKeyValues> chatKeysMap = new HashMap<>();
+    public HashMap<String, ChatKeyValues> chatKeys = new HashMap<>();
 
 
     public void addKey(ChatKeyBinding binding) {
-        chatKeysMap.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
+        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
         saveConfig();
     }
 
     public void removeKey(ChatKeyBinding binding) {
-        chatKeysMap.remove(binding.getTranslationKey());
+        chatKeys.remove(binding.getTranslationKey());
         saveConfig();
     }
 
     public void addKeyIf(ChatKeyBinding binding) {
-        chatKeysMap.remove(binding.getTranslationKey());
-        chatKeysMap.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
+        chatKeys.remove(binding.getTranslationKey());
+        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
         saveConfig();
     }
 
     public void updateKey(String translationKey, InputUtil.Key key) {
-        chatKeysMap.forEach((s, chatKeyValues) -> {
+        chatKeys.forEach((s, chatKeyValues) -> {
             if (s.equals(translationKey)) {
                 chatKeyValues.setKey(key.getCode());
             }
@@ -57,7 +56,7 @@ public class ChatKeysConfig {
 
     public ArrayList<ChatKeyBinding> loadKeys() {
         ArrayList<ChatKeyBinding> bindings = new ArrayList<>();
-        chatKeysMap.forEach((translation, chatKeyValues) -> bindings.add(new ChatKeyBinding(translation, chatKeyValues.getName(), chatKeyValues.getName(), chatKeyValues.getKey())));
+        chatKeys.forEach((translation, chatKeyValues) -> bindings.add(new ChatKeyBinding(translation, chatKeyValues.getName(), chatKeyValues.getName(), chatKeyValues.getKey())));
         return bindings;
     }
 

@@ -23,7 +23,7 @@ public class ChatKeys extends NotEKKeyBindings {
     }
 
     public static class ChatKeysCategory extends KeybindCategory {
-        private final ArrayList<ChatKeyBinding> chatKeys = new ArrayList<>(NotEnoughKeybinds.CHAT_KEYS_CONFIG.chatKeysMap.size());
+        private final ArrayList<ChatKeyBinding> chatKeys = new ArrayList<>(NotEnoughKeybinds.CHAT_KEYS_CONFIG.chatKeys.size());
 
         public ChatKeysCategory(String translationKey, int priority, INotEKKeybinding... keyBindings) {
             super(translationKey, priority, keyBindings);

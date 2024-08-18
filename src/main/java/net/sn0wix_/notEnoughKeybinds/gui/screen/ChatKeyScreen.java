@@ -30,14 +30,19 @@ public class ChatKeyScreen extends SettingsScreen {
     public ButtonWidget doneButton;
     public ButtonWidget trashButton;
 
+    public String name;
+    public String message;
+
 
     public ChatKeyScreen(Screen parent, GameOptions gameOptions, ChatKeyBinding binding) {
         super(parent, gameOptions, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID + ".chat_keys"));
         this.binding = binding;
+        this.name = binding.getSettingsDisplayName().getString();
+        this.message = binding.getChatMessage();
     }
 
     @Override
-    public void init() {
+    protected void init() {
         assert client != null;
 
         TextRenderer textRenderer = client.textRenderer;
@@ -65,8 +70,8 @@ public class ChatKeyScreen extends SettingsScreen {
         addDrawableChild(doneButton);
 
         nameWidget = new TextFieldWidget(textRenderer, x, y, 150, 20, KEYBIND_NAME_TEXT);
-        nameWidget.setChangedListener(s -> updateDoneButton());
-        nameWidget.setText(binding.getSettingsDisplayName().getString());
+        nameWidget.setChangedListener(s -> updateChildren());
+        nameWidget.setText(name);
         addDrawableChild(nameWidget);
 
 
@@ -101,18 +106,19 @@ public class ChatKeyScreen extends SettingsScreen {
                 commandMessageWidget.setMessage(COMMAND_TEXT);
             }
 
-            updateDoneButton();
+            updateChildren();
         });
-        messageWidget.setText(binding.getChatMessage());
+        messageWidget.setText(message);
 
-        setInitialFocus(messageWidget);
         addDrawableChild(messageWidget);
+        setInitialFocus(messageWidget);
     }
 
-    public void updateDoneButton() {
+    public void updateChildren() {
         try {
+            message = messageWidget.getText();
+            name = nameWidget.getText();
             doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
-        } catch (NullPointerException ignored) {
-        }
+        } catch (NullPointerException ignored) {}
     }
 }

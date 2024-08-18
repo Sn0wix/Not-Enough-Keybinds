@@ -22,6 +22,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
     public INotEKKeybinding selectedKeyBinding;
     public long lastKeyCodeUpdateTime;
     private ControlsListWidget controlsList;
+    public double scrollAmount = 0;
 
 
     public NotEKSettingsScreen(Screen parent, GameOptions gameOptions) {
@@ -39,6 +40,13 @@ public class NotEKSettingsScreen extends SettingsScreen {
                         .dimensions(this.width / 2 - 155, this.height - 29, 310, 20)
                         .build()
         );
+        controlsList.setScrollAmount(scrollAmount);
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
+        scrollAmount = controlsList.getScrollAmount();
     }
 
     @Override
