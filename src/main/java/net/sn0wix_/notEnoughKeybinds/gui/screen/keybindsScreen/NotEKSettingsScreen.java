@@ -2,6 +2,7 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -30,7 +31,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    public void init() {
+    public void init(int x, int x2, int y, TextRenderer textRenderer) {
         this.controlsList = this.addDrawableChild(new ControlsListWidget(this, this.client));
         this.addDrawableChild(
                 ButtonWidget.builder(ScreenTexts.DONE, button -> {

@@ -20,11 +20,15 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Language;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
+import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -41,7 +45,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
         this.parent = parent;
 
         NotEKKeyBindings.getCategories().forEach(category -> {
-            this.addEntry(new ControlsListWidget.CategoryEntry(Text.translatable(category.getTranslationKey())));
+            this.addEntry(new ControlsListWidget.CategoryEntry(Text.translatable(category.getTranslationKey()), category));
 
             for (INotEKKeybinding keybinding : category.getKeyBindings()) {
                 Text text = keybinding.getSettingsDisplayName();
@@ -110,10 +114,19 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     public class CategoryEntry extends ControlsListWidget.Entry {
         final Text text;
         private final int textWidth;
+        private final ButtonWidget resetCategoryButton;
 
-        public CategoryEntry(Text text) {
+        public CategoryEntry(Text text, KeybindCategory category) {
             this.text = text;
             this.textWidth = ControlsListWidget.this.client.textRenderer.getWidth(this.text);
+
+            resetCategoryButton = ButtonWidget.builder(Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".reset_category"), button ->
+                    client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(parent, client1 -> {
+                        for (int i = 0; i < category.getKeyBindings().length; i++) {
+                            category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
+                        }
+                    }, true), Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".reset_category.confirm", Language.getInstance().get(category.getTranslationKey())))))
+                    .size(85, 16).build();
         }
 
         @Override
@@ -127,6 +140,13 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                     16777215,
                     false
             );
+
+            int var10003 = x + 90 - ControlsListWidget.this.maxKeyNameLength;
+
+            resetCategoryButton.setWidth(client.textRenderer.getWidth(Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".reset_category")) + 6);
+            resetCategoryButton.setX(var10003);
+            resetCategoryButton.setY(y + 2);
+            resetCategoryButton.render(context, mouseX, mouseY, tickDelta);
         }
 
         @Nullable
@@ -137,7 +157,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         @Override
         public List<? extends Element> children() {
-            return Collections.emptyList();
+            return List.of(resetCategoryButton);
         }
 
         @Override

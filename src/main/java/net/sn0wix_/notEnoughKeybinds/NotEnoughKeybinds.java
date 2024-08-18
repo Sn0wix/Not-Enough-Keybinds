@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.config.ChatKeysConfig;
+import net.sn0wix_.notEnoughKeybinds.config.CommonConfig;
 import net.sn0wix_.notEnoughKeybinds.config.DebugKeysConfig;
 import net.sn0wix_.notEnoughKeybinds.events.ClientEndTickEvent;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
@@ -20,6 +21,7 @@ public class NotEnoughKeybinds implements ClientModInitializer {
 
     public static final DebugKeysConfig DEBUG_KEYS_CONFIG = DebugKeysConfig.getConfig();
     public static final ChatKeysConfig CHAT_KEYS_CONFIG = ChatKeysConfig.getConfig();
+    public static final CommonConfig COMMON_CONFIG = CommonConfig.getConfig();
 
     @Override
     public void onInitializeClient() {

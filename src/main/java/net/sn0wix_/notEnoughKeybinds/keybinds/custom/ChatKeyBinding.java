@@ -46,11 +46,6 @@ public class ChatKeyBinding extends NotEKKeyBinding {
     }
 
     @Override
-    public void setBoundKey(InputUtil.Key boundKey) {
-        super.setBoundKey(boundKey);
-    }
-
-    @Override
     public void setAndSaveKeyBinding(InputUtil.Key key) {
         super.setAndSaveKeyBinding(key);
         NotEnoughKeybinds.CHAT_KEYS_CONFIG.updateKey(getTranslationKey(), key);

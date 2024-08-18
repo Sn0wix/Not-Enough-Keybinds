@@ -1,5 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
@@ -8,6 +10,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
@@ -47,6 +50,11 @@ public class InventoryKeys extends NotEKKeyBindings {
         @Override
         public Text getTooltip() {
             return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.switch_totem_shield");
+        }
+
+        @Override
+        public Screen getSettingsScreen(Screen parent) {
+            return new SwapTotemShieldSettings(parent, MinecraftClient.getInstance().options);
         }
     });
 
