@@ -9,25 +9,24 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
 public class ChatKeyScreen extends SettingsScreen {
-    public static final Text KEYBIND_NAME_TEXT = Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".keybind_name").formatted(Formatting.GRAY);
-    public static final Text MESSAGE_TEXT_FORMATTED = Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".text").formatted(Formatting.GRAY);
-    public static final Text MESSAGE_TEXT = Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".set_to_message");
-    public static final Text COMMAND_TEXT = Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".set_to_command");
+    public static final Text KEYBIND_NAME_TEXT = Text.translatable(TextUtils.getTextTranslation("keybind_name")).formatted(Formatting.GRAY);
+    public static final Text MESSAGE_TEXT_FORMATTED = Text.translatable(TextUtils.getTextTranslation("text")).formatted(Formatting.GRAY);
+    public static final Text MESSAGE_TEXT = Text.translatable(TextUtils.getTextTranslation("set_to_message"));
+    public static final Text COMMAND_TEXT = Text.translatable(TextUtils.getTextTranslation("set_to_command"));
 
 
     public final ChatKeyBinding binding;
     public TextFieldWidget nameWidget;
     public TextFieldWidget messageWidget;
     public ButtonWidget commandMessageWidget;
-    public ButtonWidget doneButton;
     public ButtonWidget trashButton;
 
     public String name;
@@ -35,7 +34,7 @@ public class ChatKeyScreen extends SettingsScreen {
 
 
     public ChatKeyScreen(Screen parent, GameOptions gameOptions, ChatKeyBinding binding) {
-        super(parent, gameOptions, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID + ".chat_keys"));
+        super(parent, gameOptions, Text.translatable(TextUtils.getSettingsTranslation("chat_keys")));
         this.binding = binding;
         this.name = binding.getSettingsDisplayName().getString();
         this.message = binding.getChatMessage();
@@ -43,25 +42,22 @@ public class ChatKeyScreen extends SettingsScreen {
 
     @Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
-
-        trashButton = ButtonWidget.builder(Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".delete"), button ->
+        trashButton = ButtonWidget.builder(Text.translatable(TextUtils.getTextTranslation("delete")), button ->
                 client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
                             ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
                             client.setScreen(parent);
                         }, false),
-                        Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".delete_keybind.confirm", nameWidget.getText())))
+                        Text.translatable(TextUtils.getTextTranslation("delete_keybind.confirm"), nameWidget.getText())))
         ).dimensions(x + 240, this.height - 29, 70, 20).build();
         addDrawableChild(trashButton);
 
-        doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
-                    binding.setChatMessage(messageWidget.getText());
-                    binding.setSettingDisplayName(nameWidget.getText());
-                    ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
-                    client.setScreen(parent);
-                })
-                .dimensions(x, this.height - 29, 230, 20)
-                .build();
-        addDrawableChild(doneButton);
+        addDoneButton(button -> {
+            binding.setChatMessage(messageWidget.getText());
+            binding.setSettingDisplayName(nameWidget.getText());
+            ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
+            assert client != null;
+            client.setScreen(parent);
+        }, 0, 0, 230, 20);
 
         nameWidget = new TextFieldWidget(textRenderer, x, y, 150, 20, KEYBIND_NAME_TEXT);
         nameWidget.setChangedListener(s -> updateChildren());
@@ -113,6 +109,7 @@ public class ChatKeyScreen extends SettingsScreen {
             message = messageWidget.getText();
             name = nameWidget.getText();
             doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
-        } catch (NullPointerException ignored) {}
+        } catch (NullPointerException ignored) {
+        }
     }
 }

@@ -13,6 +13,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
 public class InventoryKeys extends NotEKKeyBindings {
@@ -49,7 +50,7 @@ public class InventoryKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.switch_totem_shield");
+            return Text.translatable(TextUtils.getTextTranslation("switch_totem_shield", true));
         }
 
         @Override
@@ -85,7 +86,7 @@ public class InventoryKeys extends NotEKKeyBindings {
     }){
         @Override
         public Text getTooltip() {
-            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.throw_ender_pearl");
+            return Text.translatable(TextUtils.getTextTranslation("throw_ender_pearl", true));
         }
     });
 

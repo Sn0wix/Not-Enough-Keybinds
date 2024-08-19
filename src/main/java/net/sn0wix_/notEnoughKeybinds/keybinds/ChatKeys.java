@@ -7,6 +7,7 @@ import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
+import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ChatKeys extends NotEKKeyBindings {
 
         @Override
         public String getAddNewButtonTranslation() {
-            return "text." + NotEnoughKeybinds.MOD_ID + ".add_new_keybind";
+            return TextUtils.getTextTranslation("add_new_keybind");
         }
 
         @Override

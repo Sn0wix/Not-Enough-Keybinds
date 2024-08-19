@@ -2,6 +2,7 @@ package net.sn0wix_.notEnoughKeybinds.config;
 
 import com.google.gson.GsonBuilder;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
@@ -16,6 +17,15 @@ public class CommonConfig {
                     .setJson5(false)
                     .build())
             .build();
+
+     @SerialEntry
+     public String swapFirst = "off";
+
+     @SerialEntry
+     public boolean swapSecond = false;
+
+     @SerialEntry
+     public boolean chooseBestShield = true;
 
 
     public static CommonConfig getConfig() {

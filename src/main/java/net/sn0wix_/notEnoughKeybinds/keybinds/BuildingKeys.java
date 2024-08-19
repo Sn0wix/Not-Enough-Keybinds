@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class BuildingKeys extends NotEKKeyBindings {
     private static int itemUseCooldown = 0;
@@ -50,7 +51,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.fast_building");
+            return Text.translatable(TextUtils.getTextTranslation("fast_building", true));
         }
     });
 
@@ -78,7 +79,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.fast_block_breaking");
+            return Text.translatable(TextUtils.getTextTranslation("fast_block_breaking", true));
         }
     });
 
@@ -110,7 +111,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     }){
         @Override
         public Text getTooltip() {
-            return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip.always_place_item");
+            return Text.translatable(TextUtils.getTextTranslation("always_place_item", true));
         }
 
         @Override

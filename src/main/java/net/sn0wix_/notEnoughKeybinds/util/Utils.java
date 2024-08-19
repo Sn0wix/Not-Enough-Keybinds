@@ -15,6 +15,7 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Language;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;
@@ -23,6 +24,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import java.util.*;
 
 public class Utils {
+
     public static int chooseBestBreakableItem(Inventory inventory, Item item, int mendingScore) {
         HashMap<Integer, Integer> map = new HashMap<>();
 

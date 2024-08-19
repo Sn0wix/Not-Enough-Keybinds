@@ -33,15 +33,8 @@ public class NotEKSettingsScreen extends SettingsScreen {
     @Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
         this.controlsList = this.addDrawableChild(new ControlsListWidget(this, this.client));
-        this.addDrawableChild(
-                ButtonWidget.builder(ScreenTexts.DONE, button -> {
-                            assert this.client != null;
-                            this.client.setScreen(this.parent);
-                        })
-                        .dimensions(this.width / 2 - 155, this.height - 29, 310, 20)
-                        .build()
-        );
         controlsList.setScrollAmount(scrollAmount);
+        addDoneButton();
     }
 
     @Override

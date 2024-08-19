@@ -9,6 +9,7 @@ import net.minecraft.util.StringHelper;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
+import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class ChatKeyBinding extends NotEKKeyBinding {
@@ -58,7 +59,7 @@ public class ChatKeyBinding extends NotEKKeyBinding {
 
     @Override
     public Text getTooltip() {
-        return Text.translatable("text." + NotEnoughKeybinds.MOD_ID + ".tooltip." + (chatMessage.startsWith("/") ? "executes_command" : "sends_message"), chatMessage);
+        return Text.translatable(TextUtils.getTextTranslation(chatMessage.startsWith("/") ? "executes_command" : "sends_message", true), chatMessage);
     }
 
     public static class ChatKeysTicker implements KeybindingTicker {
