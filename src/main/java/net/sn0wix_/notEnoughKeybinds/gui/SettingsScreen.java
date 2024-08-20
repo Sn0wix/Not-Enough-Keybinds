@@ -36,15 +36,13 @@ public abstract class SettingsScreen extends GameOptionsScreen {
     public abstract void init(int x, int x2, int y, TextRenderer textRenderer);
 
 
+
     public void addDoneButton() {
         addDoneButton(0, 0, 310, 20);
     }
 
     public void addDoneButton(int xModifier, int yModifier, int width, int height) {
-        addDoneButton(button -> {
-            assert this.client != null;
-            this.client.setScreen(this.parent);
-        }, xModifier, yModifier, width, height);
+        addDoneButton(button -> close(), xModifier, yModifier, width, height);
     }
 
     public void addDoneButton(ButtonWidget.PressAction action, int xModifier, int yModifier, int width, int height) {

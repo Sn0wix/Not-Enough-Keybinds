@@ -5,8 +5,10 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class CommonConfig {
     public static ConfigClassHandler<CommonConfig> HANDLER = ConfigClassHandler.createBuilder(CommonConfig.class)
@@ -18,15 +20,55 @@ public class CommonConfig {
                     .build())
             .build();
 
-     @SerialEntry
-     public String swapFirst = "off";
+    @SerialEntry
+    public String swapFirst = "off";
 
-     @SerialEntry
-     public boolean swapSecond = false;
+    @SerialEntry
+    public boolean swapSecond = false;
 
-     @SerialEntry
-     public boolean chooseBestShield = true;
+    @SerialEntry
+    public boolean chooseBestShield = true;
 
+    @SerialEntry
+    public int swapMendingPoints = 100;
+
+    public String cycleSwapFirst(String oldValue) {
+        if (oldValue.equals("off"))
+            return "totem";
+        if (oldValue.equals("totem"))
+            return "shield";
+        return "off";
+    }
+
+    public String getOppositeSwap() {
+        return getOppositeSwap(swapFirst);
+    }
+
+    public String getOppositeSwap(String oldValue) {
+        if (oldValue.equals("totem"))
+            return "shield";
+        if (oldValue.equals("off"))
+            return "off";
+        return "totem";
+    }
+
+    public String getSwapTranslationKey() {
+        return getSwapTranslationKey(swapFirst);
+    }
+
+    public String getSwapTranslationKey(String value) {
+        String swapValue = TextUtils.getTextTranslation(value);
+
+        if (!swapFirst.equals("off")) {
+            if (swapFirst.equals("shield")) {
+                swapValue = Items.SHIELD.getTranslationKey();
+            } else if (swapFirst.equals("totem")) {
+                swapValue = Items.TOTEM_OF_UNDYING.getTranslationKey();
+            }
+        }
+
+        return swapValue;
+    }
 
     public static CommonConfig getConfig() {
         HANDLER.load();
