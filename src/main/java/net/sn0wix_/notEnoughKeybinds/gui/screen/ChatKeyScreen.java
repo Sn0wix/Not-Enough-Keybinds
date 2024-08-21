@@ -43,11 +43,14 @@ public class ChatKeyScreen extends SettingsScreen {
     @Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
         trashButton = ButtonWidget.builder(Text.translatable(TextUtils.getTextTranslation("delete")), button ->
-                client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
-                            ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
-                            client.setScreen(parent);
-                        }, false),
-                        Text.translatable(TextUtils.getTextTranslation("delete_keybind.confirm"), nameWidget.getText())))
+                {
+                    assert client != null;
+                    client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+                                ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
+                                client.setScreen(parent);
+                            }, false),
+                            Text.translatable(TextUtils.getTextTranslation("delete_keybind.confirm"), nameWidget.getText())));
+                }
         ).dimensions(x + 240, this.height - 29, 70, 20).build();
         addDrawableChild(trashButton);
 

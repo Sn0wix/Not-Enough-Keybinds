@@ -2,49 +2,61 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
+import net.sn0wix_.notEnoughKeybinds.util.InventoryUtils;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
-import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
 public class InventoryKeys extends NotEKKeyBindings {
     public static final String INVENTORY_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
+    public static int lastSwitchedTotemShieldSlot = -1;
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
-        for (Hand hand : Hand.values()) {
-            int slot = -1;
+        assert client.player != null;
+        Hand hand = client.player.getStackInHand(Hand.OFF_HAND).isEmpty() ? Hand.MAIN_HAND : Hand.OFF_HAND;
 
-            if (client.player.getStackInHand(hand).isOf(Items.SHIELD)) {
-                slot = client.player.getInventory().getSlotWithStack(Items.TOTEM_OF_UNDYING.getDefaultStack());
-            } else if (client.player.getStackInHand(hand).isOf(Items.TOTEM_OF_UNDYING)) {
-                slot = client.player.getInventory().getSlotWithStack(Items.SHIELD.getDefaultStack());
-            }
+        if (lastSwitchedTotemShieldSlot > -1)
+            lastSwitchedTotemShieldSlot = client.player.getInventory().getStack(lastSwitchedTotemShieldSlot).isOf(client.player.getStackInHand(hand).getItem()) ?
+                    -1 : client.player.getInventory().getStack(lastSwitchedTotemShieldSlot).isEmpty() ? -1 : lastSwitchedTotemShieldSlot;
 
-            if (slot > -1) {
-                ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
-                int button = hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot;
+        int slot = -1;
 
-                //For some stupid reason, the hotbar slots are different
-                if (PlayerInventory.isValidHotbarIndex(slot)) {
-                    //https://wiki.vg/File:Inventory-slots.png
-                    slot = slot + 36;
+        if (client.player.getStackInHand(hand).isOf(Items.SHIELD)) {
+            slot = InventoryUtils.getTotemSwapSlot(client, lastSwitchedTotemShieldSlot);
+        } else if (client.player.getStackInHand(hand).isOf(Items.TOTEM_OF_UNDYING)) {
+            slot = InventoryUtils.getShieldSwapSlot(client);
+        }
+
+        if (slot > -1 && slot != 40) {
+            lastSwitchedTotemShieldSlot = slot;
+            InventoryUtils.switchInvHandSlot(client, hand, slot);
+            return;
+        }
+
+        if (!NotEnoughKeybinds.COMMON_CONFIG.swapFirst.equals("off")) {
+            String string = NotEnoughKeybinds.COMMON_CONFIG.swapFirst;
+
+            for (int i = 0; i < 2; i++) {
+                if (string.equals("totem")) {
+                    slot = InventoryUtils.getTotemSwapSlot(client, lastSwitchedTotemShieldSlot);
+                } else {
+                    slot = InventoryUtils.getShieldSwapSlot(client);
                 }
 
-                client.interactionManager.clickSlot(handler.syncId, slot, button, SlotActionType.SWAP, client.player);
+                NotEnoughKeybinds.LOGGER.info(String.valueOf(slot));
 
-                //Maybe more legit?
-                //client.setScreen(new InventoryScreen(client.player));
-                //client.player.currentScreenHandler.setCursorStack(client.player.getInventory().getStack(slot).copy());
-                //client.setScreen(null);
+                if (slot > -1 && slot != 40) {
+                    InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, slot);
+                    break;
+                } else if (NotEnoughKeybinds.COMMON_CONFIG.swapSecond) {
+                    string = NotEnoughKeybinds.COMMON_CONFIG.getOppositeSwap();
+                }
             }
         }
     }) {
@@ -63,7 +75,7 @@ public class InventoryKeys extends NotEKKeyBindings {
     public static final NotEKKeyBinding THROW_ENDER_PEARL = registerModKeyBinding(new NotEKKeyBinding("throw_ender_pearl", INVENTORY_CATEGORY, (client, keyBinding) -> {
         for (Hand hand : Hand.values()) {
             if (client.player.getStackInHand(hand).isOf(Items.ENDER_PEARL)) {
-                Utils.interactItem(hand, client);
+                InventoryUtils.interactItem(hand, client);
                 return;
             }
         }
@@ -71,19 +83,17 @@ public class InventoryKeys extends NotEKKeyBindings {
         int pearlSlot = client.player.getInventory().getSlotWithStack(Items.ENDER_PEARL.getDefaultStack());
 
         if (pearlSlot > -1 && !PlayerInventory.isValidHotbarIndex(pearlSlot)) {
-            int syncId = new InventoryScreen(client.player).getScreenHandler().syncId;
-
-            client.interactionManager.clickSlot(syncId, pearlSlot, client.player.getInventory().selectedSlot, SlotActionType.SWAP, client.player);
-            Utils.interactItem(Hand.MAIN_HAND, client);
-            client.interactionManager.clickSlot(syncId, pearlSlot, client.player.getInventory().selectedSlot, SlotActionType.SWAP, client.player);
+            InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, pearlSlot);
+            InventoryUtils.interactItem(Hand.MAIN_HAND, client);
+            InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, pearlSlot);
 
         } else if (pearlSlot > -1 && PlayerInventory.isValidHotbarIndex(pearlSlot)) {
             int slotBefore = client.player.getInventory().selectedSlot;
             client.player.getInventory().selectedSlot = pearlSlot;
-            Utils.interactItem(Hand.MAIN_HAND, client);
+            InventoryUtils.interactItem(Hand.MAIN_HAND, client);
             client.player.getInventory().selectedSlot = slotBefore;
         }
-    }){
+    }) {
         @Override
         public Text getTooltip() {
             return Text.translatable(TextUtils.getTextTranslation("throw_ender_pearl", true));

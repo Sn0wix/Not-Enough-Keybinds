@@ -40,6 +40,16 @@ public class CommonConfig {
         return "off";
     }
 
+    public void cycleSwapFirst() {
+        if (swapFirst.equals("off")) {
+            swapFirst = "totem";
+        } else if (swapFirst.equals("totem")) {
+            swapFirst = "shield";
+        } else {
+            swapFirst = "off";
+        }
+    }
+
     public String getOppositeSwap() {
         return getOppositeSwap(swapFirst);
     }
@@ -59,10 +69,10 @@ public class CommonConfig {
     public String getSwapTranslationKey(String value) {
         String swapValue = TextUtils.getTextTranslation(value);
 
-        if (!swapFirst.equals("off")) {
-            if (swapFirst.equals("shield")) {
+        if (!value.equals("off")) {
+            if (value.equals("shield")) {
                 swapValue = Items.SHIELD.getTranslationKey();
-            } else if (swapFirst.equals("totem")) {
+            } else if (value.equals("totem")) {
                 swapValue = Items.TOTEM_OF_UNDYING.getTranslationKey();
             }
         }
