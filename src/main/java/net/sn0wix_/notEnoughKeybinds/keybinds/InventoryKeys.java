@@ -2,6 +2,7 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
@@ -16,6 +17,23 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 public class InventoryKeys extends NotEKKeyBindings {
     public static final String INVENTORY_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
     public static int lastSwitchedTotemShieldSlot = -1;
+
+
+    public static final NotEKKeyBinding EQUIP_ELYTRA = registerModKeyBinding(new NotEKKeyBinding("equip_elytra", INVENTORY_CATEGORY, (client, keyBinding) -> {
+        assert client.player != null;
+        int itemSlot = -1;
+
+        if (client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isOf(Items.ELYTRA)) {
+            itemSlot = InventoryUtils.getBestChestplateSlot(client.player.getInventory());
+        } else if (!client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isEmpty()) {
+            itemSlot = InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.ELYTRA, 216);
+        }
+
+        if (itemSlot > -1) {
+            InventoryUtils.switchInvSlot(client, itemSlot, 41);
+            NotEnoughKeybinds.LOGGER.info("switched");
+        }
+    }));
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
         assert client.player != null;
@@ -48,8 +66,6 @@ public class InventoryKeys extends NotEKKeyBindings {
                 } else {
                     slot = InventoryUtils.getShieldSwapSlot(client);
                 }
-
-                NotEnoughKeybinds.LOGGER.info(String.valueOf(slot));
 
                 if (slot > -1 && slot != 40) {
                     InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, slot);
@@ -102,6 +118,6 @@ public class InventoryKeys extends NotEKKeyBindings {
 
     @Override
     public KeybindCategory getCategory() {
-        return new KeybindCategory(INVENTORY_CATEGORY, 0, THROW_ENDER_PEARL, SWITCH_TOTEM_SHIELD);
+        return new KeybindCategory(INVENTORY_CATEGORY, 0, THROW_ENDER_PEARL, SWITCH_TOTEM_SHIELD, EQUIP_ELYTRA);
     }
 }

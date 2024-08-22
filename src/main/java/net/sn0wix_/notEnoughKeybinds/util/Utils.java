@@ -1,21 +1,9 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;

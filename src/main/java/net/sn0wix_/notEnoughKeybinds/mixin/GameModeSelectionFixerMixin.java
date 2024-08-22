@@ -29,7 +29,6 @@ public abstract class GameModeSelectionFixerMixin {
     private static Object[] injectF4Text(Object[] args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof Text text) {
-                NotEnoughKeybinds.LOGGER.info(text.getString());
                 if (text.getString().contains("debug.gamemodes.press_f4")) {
                     args[i] = Text.translatable("debug." + NotEnoughKeybinds.MOD_ID + ".press_next", F3DebugKeys.GAMEMODES.boundKey.getLocalizedText()).formatted(Formatting.AQUA);
                 }

@@ -52,6 +52,12 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
         }
     }
 
+    public void onWasPressed(MinecraftClient client) {
+        if (onWasPressed != null) {
+            onWasPressed.onWasPressed(client, this);
+        }
+    }
+
     //Idk why this has to be there, but it doesn't work without it
     @Override
     public void setBoundKey(InputUtil.Key boundKey) {

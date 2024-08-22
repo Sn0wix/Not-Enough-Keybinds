@@ -11,7 +11,7 @@ public class ClientEndTickEvent implements ClientTickEvents.EndTick {
     public void onEndTick(MinecraftClient client) {
         try {
             NotEKKeyBindings.getModKeybindsAsList().forEach(modKeyBinding -> modKeyBinding.tick(client));
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             NotEnoughKeybinds.LOGGER.error("Something went wrong with executing keybinding behavior.");
             e.printStackTrace();
         }
