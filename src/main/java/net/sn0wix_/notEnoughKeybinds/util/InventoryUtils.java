@@ -17,21 +17,27 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class InventoryUtils {
+    public static int getFireworkSlot(PlayerInventory inventory, boolean longestDuration, boolean canExplode) {
+        int slot = -1;
+
+        for (int i = 0; i < inventory.size(); i++) {
+            ItemStack stack = inventory.getStack(i);
+
+            if (stack.getItem() instanceof FireworkRocketItem) {
+                slot = i;
+            }
+        }
+
+        return slot;
+    }
 
     public static void switchInvHandSlot(MinecraftClient client, Hand hand, int clickedSlot) {
-        //TODO integrate into switchInvSlot
         assert client.player != null;
         ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
         int button = hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot;
 
-        //For some stupid reason, the hotbar slots are different
-        if (PlayerInventory.isValidHotbarIndex(clickedSlot)) {
-            //https://wiki.vg/File:Inventory-slots.png
-            clickedSlot += 36;
-        }
-
         assert client.interactionManager != null;
-        client.interactionManager.clickSlot(handler.syncId, clickedSlot, button, SlotActionType.SWAP, client.player);
+        client.interactionManager.clickSlot(handler.syncId, convertSlotIds(clickedSlot), button, SlotActionType.SWAP, client.player);
 
         //Maybe more legit?
         //client.setScreen(new InventoryScreen(client.player));
@@ -39,17 +45,19 @@ public class InventoryUtils {
         //client.setScreen(null);
     }
 
-    public static void switchInvSlot(MinecraftClient client, int clickedSlot, int slot) {
+    public static void equipChestplate(MinecraftClient client, int slot1) {
+        //6 for chestplate and 0 for left mouse button click
+        switchInvSlot(client, convertSlotIds(slot1), 6, 0);
+    }
+
+    public static void switchInvSlot(MinecraftClient client, int slot1, int slot2, int button) {
         assert client.player != null;
         ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
 
         assert client.interactionManager != null;
-
-
-        client.setScreen(new InventoryScreen(client.player));
-        client.player.currentScreenHandler.setCursorStack(client.player.getInventory().getStack(clickedSlot).copy());
-        client.interactionManager.clickSlot(handler.syncId, clickedSlot, slot, SlotActionType.SWAP, client.player);
-        client.setScreen(null);
+        client.interactionManager.clickSlot(handler.syncId, slot1, button, SlotActionType.PICKUP, client.player);
+        client.interactionManager.clickSlot(handler.syncId, slot2, button, SlotActionType.PICKUP, client.player);
+        client.interactionManager.clickSlot(handler.syncId, slot1, button, SlotActionType.PICKUP, client.player);
     }
 
     public static int getBestBreakableItemSlot(Inventory inventory, Item item, int mendingScore) {
@@ -155,5 +163,15 @@ public class InventoryUtils {
             }
         }
         return rating;
+    }
+
+    public static int convertSlotIds(int slot) {
+        //For some stupid reason, the hotbar slots are different
+        //https://wiki.vg/File:Inventory-slots.png
+        if (PlayerInventory.isValidHotbarIndex(slot)) {
+            slot += 36;
+        }
+
+        return slot;
     }
 }

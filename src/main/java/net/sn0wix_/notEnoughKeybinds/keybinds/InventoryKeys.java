@@ -4,7 +4,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ElytraItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -22,16 +26,24 @@ public class InventoryKeys extends NotEKKeyBindings {
     public static final NotEKKeyBinding EQUIP_ELYTRA = registerModKeyBinding(new NotEKKeyBinding("equip_elytra", INVENTORY_CATEGORY, (client, keyBinding) -> {
         assert client.player != null;
         int itemSlot = -1;
+        boolean elytra = false;
 
         if (client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isOf(Items.ELYTRA)) {
             itemSlot = InventoryUtils.getBestChestplateSlot(client.player.getInventory());
         } else if (!client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isEmpty()) {
             itemSlot = InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.ELYTRA, 216);
+            elytra = true;
         }
 
         if (itemSlot > -1) {
-            InventoryUtils.switchInvSlot(client, itemSlot, 41);
-            NotEnoughKeybinds.LOGGER.info("switched");
+            InventoryUtils.equipChestplate(client, itemSlot);
+            if (elytra) {
+                itemSlot = InventoryUtils.getFireworkSlot(client.player.getInventory(), true, false);
+
+                if (itemSlot > -1) {
+                    InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, itemSlot);
+                }
+            }
         }
     }));
 
