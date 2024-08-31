@@ -10,7 +10,6 @@
     "GameModeSelectionFixerMixin",
     "KeyboardMixin",
     "ModSettingsButtonMixin",
-    "PlayerEntityMixin",
     "ResetAllKeybindsMixin"
   ]
 }

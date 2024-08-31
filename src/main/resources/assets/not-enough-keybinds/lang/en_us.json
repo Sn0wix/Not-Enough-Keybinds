@@ -10,6 +10,8 @@
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
   "settings.not-enough-keybinds.chat_keys": "Add/Edit Chat Key",
   "settings.not-enough-keybinds.swap_totem_shield": "Swap Totem and Shield Settings",
+  "settings.not-enough-keybinds.equip_elytra": "Equip Elytra Settings",
+
 
 
   "text.not-enough-keybinds.add_new_keybind": "Add new Keybind",
@@ -34,6 +36,11 @@
   "text.not-enough-keybinds.on": "On",
   "text.not-enough-keybinds.best": "the best",
   "text.not-enough-keybinds.first_found": "first found",
+
+  "text.not-enough-keybinds.elytra_and_chestplate": "Elytra and Chestplate:",
+  "text.not-enough-keybinds.fireworks": "Fireworks:",
+  "text.not-enough-keybinds.tooltip.swap_first.elytra": "If you have nothing in your chestplate slot, this item gets put there.",
+
 
 
   "text.not-enough-keybinds.tooltip.executes_command": "Executes command %s",

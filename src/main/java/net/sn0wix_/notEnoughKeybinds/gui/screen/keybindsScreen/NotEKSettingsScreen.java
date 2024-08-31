@@ -5,10 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -26,8 +23,8 @@ public class NotEKSettingsScreen extends SettingsScreen {
     public double scrollAmount = 0;
 
 
-    public NotEKSettingsScreen(Screen parent, GameOptions gameOptions) {
-        super(parent, gameOptions, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
+    public NotEKSettingsScreen(Screen parent) {
+        super(parent, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
     }
 
     @Override

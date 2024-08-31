@@ -1,17 +1,13 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.EquipElytraSettings;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
@@ -38,14 +34,19 @@ public class InventoryKeys extends NotEKKeyBindings {
         if (itemSlot > -1) {
             InventoryUtils.equipChestplate(client, itemSlot);
             if (elytra) {
-                itemSlot = InventoryUtils.getFireworkSlot(client.player.getInventory(), true, false);
+                itemSlot = InventoryUtils.getFireworkSlot(client.player.getInventory(), false, true);
 
                 if (itemSlot > -1) {
                     InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, itemSlot);
                 }
             }
         }
-    }));
+    }){
+        @Override
+        public Screen getSettingsScreen(Screen parent) {
+            return new EquipElytraSettings(parent);
+        }
+    });
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
         assert client.player != null;
@@ -69,8 +70,8 @@ public class InventoryKeys extends NotEKKeyBindings {
             return;
         }
 
-        if (!NotEnoughKeybinds.COMMON_CONFIG.swapFirst.equals("off")) {
-            String string = NotEnoughKeybinds.COMMON_CONFIG.swapFirst;
+        if (!NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapFirst.equals("off")) {
+            String string = NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapFirst;
 
             for (int i = 0; i < 2; i++) {
                 if (string.equals("totem")) {
@@ -82,20 +83,20 @@ public class InventoryKeys extends NotEKKeyBindings {
                 if (slot > -1 && slot != 40) {
                     InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, slot);
                     break;
-                } else if (NotEnoughKeybinds.COMMON_CONFIG.swapSecond) {
-                    string = NotEnoughKeybinds.COMMON_CONFIG.getOppositeSwap();
+                } else if (NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapSecond) {
+                    string = NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.getOppositeSwap();
                 }
             }
         }
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable(TextUtils.getTextTranslation("switch_totem_shield", true));
+            return TextUtils.getText("switch_totem_shield", true);
         }
 
         @Override
         public Screen getSettingsScreen(Screen parent) {
-            return new SwapTotemShieldSettings(parent, MinecraftClient.getInstance().options);
+            return new SwapTotemShieldSettings(parent);
         }
     });
 
@@ -124,7 +125,7 @@ public class InventoryKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable(TextUtils.getTextTranslation("throw_ender_pearl", true));
+            return TextUtils.getText("throw_ender_pearl", true);
         }
     });
 

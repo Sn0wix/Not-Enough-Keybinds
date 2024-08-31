@@ -5,16 +5,14 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
-public class CommonConfig {
-    public static ConfigClassHandler<CommonConfig> HANDLER = ConfigClassHandler.createBuilder(CommonConfig.class)
-            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "common"))
+public class EquipElytraConfig {
+    public static ConfigClassHandler<EquipElytraConfig> HANDLER = ConfigClassHandler.createBuilder(EquipElytraConfig.class)
+            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "equip_elytra"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
-                    .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("common.json"))
+                    .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("equip_elytra.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
                     .setJson5(false)
                     .build())
@@ -22,29 +20,45 @@ public class CommonConfig {
 
     @SerialEntry
     public String swapFirst = "off";
-
     @SerialEntry
     public boolean swapSecond = false;
+    @SerialEntry
+    public boolean chooseBestChestplate = true;
+    @SerialEntry
+    public boolean chooseBestElytra = true;
+    @SerialEntry
+    public boolean acceptCurseOfBinding = false;
+    @SerialEntry
+    public boolean acceptCurseOfVanishing = false;
+    @SerialEntry
+    public boolean autoFly = false;
+
 
     @SerialEntry
-    public boolean chooseBestShield = true;
-
+    public boolean canExplode = false;
     @SerialEntry
-    public int swapMendingPoints = 100;
+    public boolean longestDuration = false;
+    @SerialEntry
+    public byte fireworkSwapSlot = 0;
+    @SerialEntry
+    public boolean useFireworks = false;
+    @SerialEntry
+    public boolean swapBackOldItem = true;
+
 
     public String cycleSwapFirst(String oldValue) {
         if (oldValue.equals("off"))
-            return "totem";
-        if (oldValue.equals("totem"))
-            return "shield";
+            return "chestplate";
+        if (oldValue.equals("chestplate"))
+            return "elytra";
         return "off";
     }
 
     public void cycleSwapFirst() {
         if (swapFirst.equals("off")) {
-            swapFirst = "totem";
-        } else if (swapFirst.equals("totem")) {
-            swapFirst = "shield";
+            swapFirst = "chestplate";
+        } else if (swapFirst.equals("chestplate")) {
+            swapFirst = "elytra";
         } else {
             swapFirst = "off";
         }
@@ -55,32 +69,14 @@ public class CommonConfig {
     }
 
     public String getOppositeSwap(String oldValue) {
-        if (oldValue.equals("totem"))
-            return "shield";
+        if (oldValue.equals("chestplate"))
+            return "elytra";
         if (oldValue.equals("off"))
             return "off";
-        return "totem";
+        return "elytra";
     }
 
-    public String getSwapTranslationKey() {
-        return getSwapTranslationKey(swapFirst);
-    }
-
-    public String getSwapTranslationKey(String value) {
-        String swapValue = TextUtils.getTextTranslation(value);
-
-        if (!value.equals("off")) {
-            if (value.equals("shield")) {
-                swapValue = Items.SHIELD.getTranslationKey();
-            } else if (value.equals("totem")) {
-                swapValue = Items.TOTEM_OF_UNDYING.getTranslationKey();
-            }
-        }
-
-        return swapValue;
-    }
-
-    public static CommonConfig getConfig() {
+    public static EquipElytraConfig getConfig() {
         HANDLER.load();
         return HANDLER.instance();
     }

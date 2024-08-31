@@ -1,6 +1,5 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
@@ -37,12 +36,12 @@ public class ChatKeys extends NotEKKeyBindings {
 
         @Override
         public String getAddNewButtonTranslation() {
-            return TextUtils.getTextTranslation("add_new_keybind");
+            return TextUtils.getTranslationKey("add_new_keybind");
         }
 
         @Override
         public @Nullable Screen getAddNewButtonScreen(Screen parent) {
-            return new ChatKeyScreen(parent, MinecraftClient.getInstance().options, new ChatKeyBinding(
+            return new ChatKeyScreen(parent, new ChatKeyBinding(
                     "chat." + getNewKeyIndex(),
                     "Chat Key " + getNewKeyIndex(), new Random().nextInt(16) == 0 ? "Hello World!" : ""));
         }

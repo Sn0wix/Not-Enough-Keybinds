@@ -32,7 +32,6 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -121,12 +120,12 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.text = text;
             this.textWidth = ControlsListWidget.this.client.textRenderer.getWidth(this.text);
 
-            resetCategoryButton = ButtonWidget.builder(Text.translatable(TextUtils.getTextTranslation("reset_category")), button ->
+            resetCategoryButton = ButtonWidget.builder(TextUtils.getText("reset_category"), button ->
                     client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(parent, client1 -> {
                         for (int i = 0; i < category.getKeyBindings().length; i++) {
                             category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
                         }
-                    }, true), Text.translatable(TextUtils.getTextTranslation("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
+                    }, true), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
                     .size(85, 16).build();
         }
 
@@ -144,7 +143,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
             int var10003 = x + 90 - ControlsListWidget.this.maxKeyNameLength;
 
-            resetCategoryButton.setWidth(client.textRenderer.getWidth(Text.translatable(TextUtils.getTextTranslation("reset_category"))) + 6);
+            resetCategoryButton.setWidth(client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6);
             resetCategoryButton.setX(var10003 - 2);
             resetCategoryButton.setY(y + 2);
             resetCategoryButton.render(context, mouseX, mouseY, tickDelta);
@@ -257,7 +256,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Text.empty(), button -> client.setScreen(binding.getSettingsScreen(parent))
                     , Supplier::get, new Identifier(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
 
-            this.settingsButton.setTooltip(Tooltip.of(Text.translatable(TextUtils.getTextTranslation("settings", true))));
+            this.settingsButton.setTooltip(Tooltip.of(TextUtils.getText("settings", true)));
             this.update();
         }
 

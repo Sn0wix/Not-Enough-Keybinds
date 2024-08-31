@@ -7,6 +7,8 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
@@ -18,17 +20,27 @@ import java.util.HashMap;
 
 public class InventoryUtils {
     public static int getFireworkSlot(PlayerInventory inventory, boolean longestDuration, boolean canExplode) {
-        int slot = -1;
+        int bestSlot = -1;
+        byte bestFlight = longestDuration ? -1 : Byte.MAX_VALUE;
 
-        for (int i = 0; i < inventory.size(); i++) {
-            ItemStack stack = inventory.getStack(i);
+
+        for (int slot = 0; slot < inventory.size(); slot++) {
+            ItemStack stack = inventory.getStack(slot);
 
             if (stack.getItem() instanceof FireworkRocketItem) {
-                slot = i;
+                NbtCompound nbtCompound = stack.getSubNbt("Fireworks");
+                if (!canExplode && !nbtCompound.getList("Explosions", NbtElement.COMPOUND_TYPE).isEmpty()) continue;
+
+
+                byte newFlight = nbtCompound.getByte("Flight");
+                if (longestDuration ? newFlight > bestFlight : bestFlight != -1 && newFlight < bestFlight) {
+                    bestFlight = newFlight;
+                    bestSlot = slot;
+                }
             }
         }
 
-        return slot;
+        return bestSlot;
     }
 
     public static void switchInvHandSlot(MinecraftClient client, Hand hand, int clickedSlot) {
@@ -94,8 +106,8 @@ public class InventoryUtils {
     }
 
     public static int getShieldSwapSlot(MinecraftClient client) {
-        return NotEnoughKeybinds.COMMON_CONFIG.chooseBestShield ?
-                InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.SHIELD, NotEnoughKeybinds.COMMON_CONFIG.swapMendingPoints)
+        return NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.chooseBestShield ?
+                InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.SHIELD, NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapMendingPoints)
                 : client.player.getInventory().getSlotWithStack(Items.SHIELD.getDefaultStack());
     }
 

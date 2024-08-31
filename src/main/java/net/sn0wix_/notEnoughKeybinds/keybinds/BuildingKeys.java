@@ -51,7 +51,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable(TextUtils.getTextTranslation("fast_building", true));
+            return TextUtils.getText("fast_building", true);
         }
     });
 
@@ -79,7 +79,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Text getTooltip() {
-            return Text.translatable(TextUtils.getTextTranslation("fast_block_breaking", true));
+            return TextUtils.getText("fast_block_breaking", true);
         }
     });
 
@@ -111,7 +111,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     }){
         @Override
         public Text getTooltip() {
-            return Text.translatable(TextUtils.getTextTranslation("always_place_item", true));
+            return TextUtils.getText("always_place_item", true);
         }
 
         @Override

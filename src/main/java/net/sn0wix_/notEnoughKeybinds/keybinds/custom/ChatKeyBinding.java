@@ -54,12 +54,12 @@ public class ChatKeyBinding extends NotEKKeyBinding {
 
     @Override
     public Screen getSettingsScreen(Screen parent) {
-        return new ChatKeyScreen(parent, MinecraftClient.getInstance().options, this);
+        return new ChatKeyScreen(parent, this);
     }
 
     @Override
     public Text getTooltip() {
-        return Text.translatable(TextUtils.getTextTranslation(chatMessage.startsWith("/") ? "executes_command" : "sends_message", true), chatMessage);
+        return Text.translatable(TextUtils.getTranslationKey(chatMessage.startsWith("/") ? "executes_command" : "sends_message", true), chatMessage);
     }
 
     public static class ChatKeysTicker implements KeybindingTicker {

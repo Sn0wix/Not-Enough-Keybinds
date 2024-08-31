@@ -27,8 +27,7 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
         maxKeyNameLength = ((ControlsListWidgetAccessor) widget).getMaxKeyNameLength();
 
         button = ButtonWidget.builder(Text.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
-                MinecraftClient.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent(),
-                        MinecraftClient.getInstance().options))
+                MinecraftClient.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
         ).size(maxKeyNameLength + 150, 20).build();
     }
 

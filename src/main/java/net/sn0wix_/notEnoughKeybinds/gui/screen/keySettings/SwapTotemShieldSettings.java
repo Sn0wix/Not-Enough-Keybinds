@@ -4,28 +4,22 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.text.Text;
 import net.minecraft.util.Language;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.config.CommonConfig;
+import net.sn0wix_.notEnoughKeybinds.config.SwapTotemShieldConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.IntFieldWidget;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class SwapTotemShieldSettings extends SettingsScreen {
-    //what to swap first if holding none
-    //mending slider
-    //swap second
-    //choose best shield/first found one
-
     public ButtonWidget swapFirstButton;
     public ButtonWidget shieldAlgorithmButton;
     public ButtonWidget swapSecondButton;
     public IntFieldWidget mendingPointsWidget;
 
-    public SwapTotemShieldSettings(Screen parent, GameOptions gameOptions) {
-        super(parent, gameOptions, Text.translatable(TextUtils.getSettingsTranslation("swap_totem_shield")));
+    public SwapTotemShieldSettings(Screen parent) {
+        super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("swap_totem_shield")));
     }
 
     @Override
@@ -33,31 +27,31 @@ public class SwapTotemShieldSettings extends SettingsScreen {
         addDoneButton();
 
         swapFirstButton = ButtonWidget.builder(Text.empty(), button -> {
-            NotEnoughKeybinds.COMMON_CONFIG.cycleSwapFirst();
+            NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.cycleSwapFirst();
             updateButtons();
-        }).dimensions(x, y, 150, 20).tooltip(Tooltip.of(Text.translatable(TextUtils.getTextTranslation("swap_first", true)))).build();
+        }).dimensions(x, y, 150, 20).tooltip(Tooltip.of(TextUtils.getText("swap_first", true))).build();
         addDrawableChild(swapFirstButton);
 
         shieldAlgorithmButton = ButtonWidget.builder(Text.empty(), button -> {
-                    NotEnoughKeybinds.COMMON_CONFIG.chooseBestShield = !NotEnoughKeybinds.COMMON_CONFIG.chooseBestShield;
+                    NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.chooseBestShield = !NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.chooseBestShield;
                     updateButtons();
                 })
-                .dimensions(x2, y, 150, 20).tooltip(Tooltip.of(Text.translatable(TextUtils.getTextTranslation("pick_shield", true)))).build();
+                .dimensions(x2, y, 150, 20).tooltip(Tooltip.of(TextUtils.getText("pick_shield", true))).build();
         addDrawableChild(shieldAlgorithmButton);
 
         y += 30;
 
         swapSecondButton = ButtonWidget.builder(Text.empty(), button -> {
-            NotEnoughKeybinds.COMMON_CONFIG.swapSecond = !NotEnoughKeybinds.COMMON_CONFIG.swapSecond;
+            NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapSecond = !NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapSecond;
             updateButtons();
         }).dimensions(x, y, 150, 20).build();
         addDrawableChild(swapSecondButton);
 
         mendingPointsWidget = new IntFieldWidget(textRenderer, x2, y, 150, 20, Text.literal("mending_value"));
-        mendingPointsWidget.setText(String.valueOf(NotEnoughKeybinds.COMMON_CONFIG.swapMendingPoints));
+        mendingPointsWidget.setText(String.valueOf(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapMendingPoints));
         mendingPointsWidget.setChangedListener(s -> {
             try {
-                NotEnoughKeybinds.COMMON_CONFIG.swapMendingPoints = Integer.parseInt(mendingPointsWidget.getText());
+                NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapMendingPoints = Integer.parseInt(mendingPointsWidget.getText());
             } catch (NumberFormatException ignored) {
             }
 
@@ -71,29 +65,28 @@ public class SwapTotemShieldSettings extends SettingsScreen {
     }
 
     public void updateButtons() {
-        swapFirstButton.setMessage(TextUtils.getCombinedTranslation(Text.translatable(TextUtils.getTextTranslation("swap_first")),
-                Text.translatable(NotEnoughKeybinds.COMMON_CONFIG.getSwapTranslationKey())));
+        swapFirstButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("swap_first"),
+                Text.translatable(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.getSwapTranslationKey())));
 
 
-        swapSecondButton.active = !NotEnoughKeybinds.COMMON_CONFIG.swapFirst.equals("off");
+        swapSecondButton.active = !NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapFirst.equals("off");
 
-        swapSecondButton.setMessage(TextUtils.getCombinedTranslation(Text.translatable(TextUtils.getTextTranslation("swap_second")),
-                Text.translatable(NotEnoughKeybinds.COMMON_CONFIG.swapSecond ? TextUtils.getTextTranslation("on") : TextUtils.getTextTranslation("off"))));
-        swapSecondButton.setTooltip(Tooltip.of(swapSecondButton.active ? Text.translatable(TextUtils.getTextTranslation("swap_second", true),
-                Language.getInstance().get(NotEnoughKeybinds.COMMON_CONFIG.getSwapTranslationKey()),
-                Language.getInstance().get(NotEnoughKeybinds.COMMON_CONFIG.getSwapTranslationKey(NotEnoughKeybinds.COMMON_CONFIG.getOppositeSwap()))) : Text.empty()));
+        swapSecondButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("swap_second"),
+                Text.translatable(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapSecond ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
+        swapSecondButton.setTooltip(Tooltip.of(swapSecondButton.active ? Text.translatable(TextUtils.getTranslationKey("swap_second", true),
+                Language.getInstance().get(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.getSwapTranslationKey()),
+                Language.getInstance().get(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.getSwapTranslationKey(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.getOppositeSwap()))) : Text.empty()));
 
-        shieldAlgorithmButton.setMessage(Text.translatable(TextUtils.getTextTranslation("pick_shield"),
-                Language.getInstance().get(TextUtils.getTextTranslation(NotEnoughKeybinds.COMMON_CONFIG.chooseBestShield ? "best" : "first_found"))));
-        shieldAlgorithmButton.setTooltip(Tooltip.of(Text.translatable(TextUtils.getTextTranslation("pick_shield", true))));
+        shieldAlgorithmButton.setMessage(Text.translatable(TextUtils.getTranslationKey("pick_shield"),
+                Language.getInstance().get(TextUtils.getTranslationKey(NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.chooseBestShield ? "best" : "first_found"))));
+        shieldAlgorithmButton.setTooltip(Tooltip.of(TextUtils.getText("pick_shield", true)));
 
-        mendingPointsWidget.visible = NotEnoughKeybinds.COMMON_CONFIG.chooseBestShield;
-        mendingPointsWidget.setTooltip(Tooltip.of(Text.translatable(TextUtils.getTextTranslation("mending_points", true), NotEnoughKeybinds.COMMON_CONFIG.swapMendingPoints)));
+        mendingPointsWidget.visible = NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.chooseBestShield;
+        mendingPointsWidget.setTooltip(Tooltip.of(Text.translatable(TextUtils.getTranslationKey("mending_points", true), NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapMendingPoints)));
     }
 
     @Override
-    public void close() {
-        CommonConfig.saveConfig();
-        super.close();
+    public void saveOptions() {
+        SwapTotemShieldConfig.saveConfig();
     }
 }
