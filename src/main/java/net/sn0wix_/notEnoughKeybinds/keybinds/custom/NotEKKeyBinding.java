@@ -10,31 +10,32 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
     private final KeybindingTicker onWasPressed;
 
 
-    public NotEKKeyBinding(String translationKey, int code, String category, KeybindingTicker onTick) {
-        super(NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, code, category);
-        this.onWasPressed = onTick;
-    }
-
-    public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, String category, KeybindingTicker onTick) {
-        super(NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, type, code, category);
-        this.onWasPressed = onTick;
-    }
-
     public NotEKKeyBinding(String translationKey, int code, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        this(useCustomTranslation ? translationKey : NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, code, category, onTick);
+        super(useCustomTranslation ? NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey : translationKey, code, category);
+        this.onWasPressed = onTick;
     }
 
     public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        this(useCustomTranslation ? translationKey : NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey, type, code, category, onTick);
+        super(useCustomTranslation ? NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey : translationKey, type, code, category);
+        this.onWasPressed = onTick;
+    }
+
+    public NotEKKeyBinding(String translationKey, int code, String category, KeybindingTicker onTick) {
+        this(translationKey, code, category, onTick, true);
+    }
+
+    public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, String category, KeybindingTicker onTick) {
+        this(translationKey, type, code, category, onTick, true);
     }
 
     public NotEKKeyBinding(String translationKey, String category, KeybindingTicker onTick) {
-        this(translationKey, InputUtil.UNKNOWN_KEY.getCode(), category, onTick);
+        this(translationKey, InputUtil.UNKNOWN_KEY.getCode(), category, onTick, true);
     }
 
-    public NotEKKeyBinding(String translationKey, InputUtil.Type type, String category, KeybindingTicker onTick) {
-        this(translationKey, type, InputUtil.UNKNOWN_KEY.getCode(), category, onTick);
+    public NotEKKeyBinding(String translationKey, String category, KeybindingTicker onTick, boolean useCustomTranslation) {
+        this(translationKey, InputUtil.UNKNOWN_KEY.getCode(), category, onTick, useCustomTranslation);
     }
+
 
     @Override
     public KeyBinding getBinding() {

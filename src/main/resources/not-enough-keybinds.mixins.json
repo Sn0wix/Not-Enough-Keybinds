@@ -8,6 +8,7 @@
   "client": [
     "ControlsListWidgetAccessor",
     "GameModeSelectionFixerMixin",
+    "KeyboardInputMixin",
     "KeyboardMixin",
     "ModSettingsButtonMixin",
     "ResetAllKeybindsMixin"

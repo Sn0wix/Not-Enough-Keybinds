@@ -256,7 +256,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Text.empty(), button -> client.setScreen(binding.getSettingsScreen(parent))
                     , Supplier::get, new Identifier(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
 
-            this.settingsButton.setTooltip(Tooltip.of(TextUtils.getText("settings", true)));
+            this.settingsButton.setTooltip(TextUtils.getTooltip("settings"));
             this.update();
         }
 

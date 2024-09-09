@@ -41,7 +41,7 @@ public class ChatKeysConfig {
 
     public void addKeyIf(ChatKeyBinding binding) {
         chatKeys.remove(binding.getTranslationKey());
-        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
+        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), InputUtil.fromTranslationKey(binding.getBoundKeyTranslationKey())));
         saveConfig();
     }
 
@@ -56,7 +56,7 @@ public class ChatKeysConfig {
 
     public ArrayList<ChatKeyBinding> loadKeys() {
         ArrayList<ChatKeyBinding> bindings = new ArrayList<>();
-        chatKeys.forEach((translation, chatKeyValues) -> bindings.add(new ChatKeyBinding(translation, chatKeyValues.getName(), chatKeyValues.getName(), chatKeyValues.getKey())));
+        chatKeys.forEach((translation, chatKeyValues) -> bindings.add(new ChatKeyBinding(translation, chatKeyValues.getName(), chatKeyValues.getMessage(), chatKeyValues.getKey())));
         return bindings;
     }
 

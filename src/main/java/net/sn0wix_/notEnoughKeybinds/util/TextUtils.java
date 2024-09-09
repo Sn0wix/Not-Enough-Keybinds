@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 
@@ -16,8 +17,20 @@ public class TextUtils {
         return Text.translatable(getTranslationKey(path));
     }
 
+    public static Text getText(String path, Object... args) {
+        return Text.translatable(getTranslationKey(path), args);
+    }
+
     public static Text getText(String path, boolean tooltip) {
         return Text.translatable(getTranslationKey(path, tooltip));
+    }
+
+    public static Tooltip getTooltip(String path) {
+        return Tooltip.of(getText(path, true));
+    }
+
+    public static Tooltip getTooltip(String path, Object... args) {
+        return Tooltip.of(Text.translatable(getTranslationKey(path, true), args));
     }
 
     public static String getTranslationKey(String path, boolean tooltip) {

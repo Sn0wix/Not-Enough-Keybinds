@@ -25,6 +25,16 @@ public class NotEnoughKeybinds implements ClientModInitializer {
     public static final SwapTotemShieldConfig TOTEM_SHIELD_CONFIG = SwapTotemShieldConfig.getConfig();
     public static final EquipElytraConfig EQUIP_ELYTRA_CONFIG = EquipElytraConfig.getConfig();
 
+    /*bugs:
+    elytra equip - offhand
+    chat keys translation saving two times
+     */
+
+    /*Ideas:
+    rocket to offhand
+    hotbar + quick use rocket
+     */
+
 
     @Override
     public void onInitializeClient() {

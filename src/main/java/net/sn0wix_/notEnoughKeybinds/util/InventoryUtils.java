@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
@@ -44,12 +45,14 @@ public class InventoryUtils {
     }
 
     public static void switchInvHandSlot(MinecraftClient client, Hand hand, int clickedSlot) {
+        switchInvHotbarSlot(client, hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot, clickedSlot);
+    }
+
+    public static void switchInvHotbarSlot(MinecraftClient client, int hotbarSlot, int clickedSlot) {
         assert client.player != null;
         ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
-        int button = hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot;
-
         assert client.interactionManager != null;
-        client.interactionManager.clickSlot(handler.syncId, convertSlotIds(clickedSlot), button, SlotActionType.SWAP, client.player);
+        client.interactionManager.clickSlot(handler.syncId, convertSlotIds(clickedSlot), hotbarSlot, SlotActionType.SWAP, client.player);
 
         //Maybe more legit?
         //client.setScreen(new InventoryScreen(client.player));
@@ -96,6 +99,20 @@ public class InventoryUtils {
         return -1;
     }
 
+    public static void quickUseItem(MinecraftClient client, int slot) {
+        if (!PlayerInventory.isValidHotbarIndex(slot)) {
+            InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, slot);
+            InventoryUtils.interactItem(Hand.MAIN_HAND, client);
+            InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, slot);
+
+        } else {
+            int slotBefore = client.player.getInventory().selectedSlot;
+            client.player.getInventory().selectedSlot = slot;
+            InventoryUtils.interactItem(Hand.MAIN_HAND, client);
+            client.player.getInventory().selectedSlot = slotBefore;
+        }
+    }
+
     public static void interactItem(Hand hand, MinecraftClient client) throws NullPointerException {
         ActionResult actionResult3 = client.interactionManager.interactItem(client.player, hand);
         if (actionResult3.isAccepted()) {
@@ -103,6 +120,32 @@ public class InventoryUtils {
                 client.player.swingHand(hand);
             }
         }
+    }
+
+    public static int getSlotWithChestplate(MinecraftClient client) {
+        int slot = -1;
+
+        if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate) {
+            slot = getBestChestplateSlot(client.player.getInventory(), NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding);
+        } else {
+            for (int i = 0; i < client.player.getInventory().size(); i++) {
+                if (client.player.getInventory().getStack(i).getItem() instanceof ArmorItem armorItem) {
+                    if (armorItem.getType().equals(ArmorItem.Type.CHESTPLATE)) {
+                        slot = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return slot;
+    }
+
+    public static int getSlotWithElytra(MinecraftClient client) {
+        return NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra ?
+                InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.ELYTRA, 216)
+                : client.player.getInventory().getSlotWithStack(Items.ELYTRA.getDefaultStack());
+
     }
 
     public static int getShieldSwapSlot(MinecraftClient client) {
@@ -116,7 +159,7 @@ public class InventoryUtils {
     }
 
     //snagged from https://github.com/YumeGod/TheresaModules/blob/6f8fd374924ba8c7c4c2dd45153231b204e5eb73/player/AutoArmor.java
-    public static int getBestChestplateSlot(Inventory inventory) {
+    public static int getBestChestplateSlot(Inventory inventory, boolean acceptVanishing, boolean acceptBinding) {
         int bestArmorSlot = -1;
         float bestArmorStrength = -1;
         int bestArmorDamage = Integer.MAX_VALUE;
@@ -125,17 +168,22 @@ public class InventoryUtils {
             if (!inventory.getStack(i).isEmpty()) {
                 final ItemStack stack = inventory.getStack(i);
 
-                if (stack.getItem() instanceof ArmorItem) {
-                    float armorStrength = getFinalArmorStrength(stack);
+                if ((EnchantmentHelper.hasBindingCurse(stack) && !acceptBinding) || (EnchantmentHelper.hasVanishingCurse(stack) && !acceptVanishing))
+                    continue;
 
-                    if (armorStrength > bestArmorStrength) {
-                        bestArmorStrength = armorStrength;
-                        bestArmorSlot = i;
-                        bestArmorDamage = stack.getDamage();
+                if (stack.getItem() instanceof ArmorItem armorItem) {
+                    if (armorItem.getType().equals(ArmorItem.Type.CHESTPLATE)) {
+                        float armorStrength = getFinalArmorStrength(stack);
 
-                    } else if (armorStrength == bestArmorStrength && stack.getDamage() < bestArmorDamage) {
-                        bestArmorDamage = stack.getDamage();
-                        bestArmorSlot = i;
+                        if (armorStrength > bestArmorStrength) {
+                            bestArmorStrength = armorStrength;
+                            bestArmorSlot = i;
+                            bestArmorDamage = stack.getDamage();
+
+                        } else if (armorStrength == bestArmorStrength && stack.getDamage() < bestArmorDamage) {
+                            bestArmorDamage = stack.getDamage();
+                            bestArmorSlot = i;
+                        }
                     }
                 }
             }
@@ -182,6 +230,8 @@ public class InventoryUtils {
         //https://wiki.vg/File:Inventory-slots.png
         if (PlayerInventory.isValidHotbarIndex(slot)) {
             slot += 36;
+        } else if (slot >= 36 && slot < 45) {
+            slot -= 36;
         }
 
         return slot;

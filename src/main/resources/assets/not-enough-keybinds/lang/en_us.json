@@ -6,11 +6,10 @@
   "key.category.not-enough-keybinds.f3_debug_keys": "F3 Debug Keys",
   "key.category.not-enough-keybinds.chat_keys": "Chat/Command Keys",
 
-
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
   "settings.not-enough-keybinds.chat_keys": "Add/Edit Chat Key",
   "settings.not-enough-keybinds.swap_totem_shield": "Swap Totem and Shield Settings",
-  "settings.not-enough-keybinds.equip_elytra": "Equip Elytra Settings",
+  "settings.not-enough-keybinds.equip_elytra": "Swap Elytra Settings",
 
 
 
@@ -24,28 +23,31 @@
   "text.not-enough-keybinds.reset_category": "Reset Category",
   "text.not-enough-keybinds.reset_category.confirm": "Are you sure, you want to reset %s Category?",
 
-  "text.not-enough-keybinds.swap_first": "Swap First: ",
-  "text.not-enough-keybinds.tooltip.swap_first": "The item that gets put into your offhand, if you don't have anything in it",
-  "text.not-enough-keybinds.swap_second": "Swap Second: ",
-  "text.not-enough-keybinds.tooltip.swap_second": "Swap %2$s if you don't have %1$s",
-  "text.not-enough-keybinds.pick_shield": "Pick %s shield",
-  "text.not-enough-keybinds.tooltip.pick_shield": "Algorithm that is used to pick the shield",
-  "text.not-enough-keybinds.mending_points": "Mending Points",
-  "text.not-enough-keybinds.tooltip.mending_points": "Points, that are used in the calculation algorithm of the best item, if it has mending. \nHow it works: the item gets one point for every durability point left. These points are then multiplied by it's ubreaking level + 1. So, if the item has 130 durability points left with unbreaking I and mending, the final score is 260 + %s points.",
+  "text.not-enough-keybinds.chestplate": "Chestplate",
+  "text.not-enough-keybinds.quick_use": "Quick use",
+  "text.not-enough-keybinds.true": "true",
+  "text.not-enough-keybinds.false": "false",
   "text.not-enough-keybinds.off": "Off",
   "text.not-enough-keybinds.on": "On",
+  "text.not-enough-keybinds.hotbar": "Hotbar",
+  "text.not-enough-keybinds.current_slot": "Selected slot",
+  "text.not-enough-keybinds.longest": "the longest",
+  "text.not-enough-keybinds.shortest": "the shortest",
   "text.not-enough-keybinds.best": "the best",
   "text.not-enough-keybinds.first_found": "first found",
-
-  "text.not-enough-keybinds.elytra_and_chestplate": "Elytra and Chestplate:",
-  "text.not-enough-keybinds.fireworks": "Fireworks:",
-  "text.not-enough-keybinds.tooltip.swap_first.elytra": "If you have nothing in your chestplate slot, this item gets put there.",
-
-
-
-  "text.not-enough-keybinds.tooltip.executes_command": "Executes command %s",
-  "text.not-enough-keybinds.tooltip.sends_message": "Sends Chat message \"%s\"",
-
+  "text.not-enough-keybinds.accept": "%1$s: %2$s",
+  "text.not-enough-keybinds.swap_first": "Swap First: ",
+  "text.not-enough-keybinds.swap_second": "Swap Second: ",
+  "text.not-enough-keybinds.enter_flight_mode": "Enter Flight mode: ",
+  "text.not-enough-keybinds.mending_points": "Mending Points",
+  "text.not-enough-keybinds.pick": "Pick %1$s %2$s",
+  "text.not-enough-keybinds.firework.duration": "Duration: %s",
+  "text.not-enough-keybinds.firework.can_explode": "Can explode: %s",
+  "text.not-enough-keybinds.firework.slot": "Equip slot: %s",
+  "text.not-enough-keybinds.firework.equip": "Equip firework: %s",
+  "text.not-enough-keybinds.firework.use": "Use: %s",
+  "text.not-enough-keybinds.firework.select": "Select: %s",
+  "text.not-enough-keybinds.swap_old": "Swap old item: %s",
 
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",
@@ -57,22 +59,45 @@
   "text.not-enough-keybinds.cancel.2": "Nope, i don't want to",
   "text.not-enough-keybinds.cancel.3": "No",
 
+
+
+  "text.not-enough-keybinds.tooltip.swap_first.offhand": "The item that gets put into your offhand, if it's empty.",
+  "text.not-enough-keybinds.tooltip.swap_second": "Swap %2$s instead of %1$s if you don't have one.",
+  "text.not-enough-keybinds.tooltip.choose": "Algorithm that is used to pick the %s.",
+  "text.not-enough-keybinds.tooltip.mending_points": "Points, that are used in the calculation algorithm of the best item, if it has mending. \nHow it works: the item gets one point for every durability point left. These points are then multiplied by it's unbreaking level + 1. So, if the item has 130 durability points left with unbreaking I and mending, the final score is 260 + %s points.",
+
+  "text.not-enough-keybinds.elytra_and_chestplate": "Elytra and Chestplate:",
+  "text.not-enough-keybinds.fireworks": "Fireworks:",
+  "text.not-enough-keybinds.tooltip.swap_first.elytra": "If your chest slot is empty, this item gets put there.",
+  "text.not-enough-keybinds.tooltip.toggle_flight": "Puts you into flight mode, when you equip an elytra using this keybinding.",
+  "text.not-enough-keybinds.tooltip.accept_enchantment": "If true, the calculated item can have %s.",
+  "text.not-enough-keybinds.tooltip.firework.slot": "The hotbar slot the fireworks get put in, upon swapping an elytra.",
+  "text.not-enough-keybinds.tooltip.firework.equip": "Off = don't equip a firework rocket\nHotbar = equip to a hotbar slot\nSelected slot = equip a firework rocket to the selected hotbar slot\nQuick use = use a firework rocket, but quickly swap back the old item",
+  "text.not-enough-keybinds.tooltip.swap_old": "When the Chestplate is swapped back, fireworks are replaced with the item, that was in the hotbar slot before.",
+  "text.not-enough-keybinds.tooltip.firework.duration": "Preferred firework duration.",
+  "text.not-enough-keybinds.tooltip.firework.use": "Use the rocket upon equipping it.",
+  "text.not-enough-keybinds.tooltip.firework.select": "Automatically select the hotbar slot, where the equipped rocket is.",
+
+  "text.not-enough-keybinds.tooltip.executes_command": "Executes command %s",
+  "text.not-enough-keybinds.tooltip.sends_message": "Sends Chat message \"%s\"",
+
   "text.not-enough-keybinds.tooltip.settings": "Configure Keybind...",
   "text.not-enough-keybinds.tooltip.fast_building": "Places a block every tick",
   "text.not-enough-keybinds.tooltip.fast_block_breaking": "Breaks a block every tick",
   "text.not-enough-keybinds.tooltip.always_place_item": "Places a block in the air",
   "text.not-enough-keybinds.tooltip.switch_totem_shield": "Switches between Totem of Undying and Shield",
+  "text.not-enough-keybinds.tooltip.switch_elytra_chestplate": "Switches between Elytra and Chestplate",
   "text.not-enough-keybinds.tooltip.throw_ender_pearl": "Throws an Ender Pearl, if you have one in your inventory",
+
 
 
   "debug.not-enough-keybinds.press_next": "[ %s ]",
 
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",
   "key.not-enough-keybinds.switch_totem_shield": "Swap Totem and Shield",
-  "key.not-enough-keybinds.equip_elytra": "Equip Elytra",
+  "key.not-enough-keybinds.equip_elytra": "Swap Elytra",
 
-
-  "key.not-enough-keybinds.always_place_item": "Always Place Item",
+  "key.not-enough-keybinds.always_place_item": "Air Place",
   "key.not-enough-keybinds.fast_building": "Fast Building",
   "key.not-enough-keybinds.fast_block_breaking": "Fast Block Breaking",
 

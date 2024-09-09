@@ -22,11 +22,12 @@ public class ChatKeyBinding extends NotEKKeyBinding {
         this.displayName = displayName;
     }
 
-    public ChatKeyBinding(String translationKey, String displayName, String chatMessage, InputUtil.Key key) {
-        super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY_STRING, new ChatKeysTicker());
+    public ChatKeyBinding(String translationKey, String displayName, String chatMessage, InputUtil.Key boundKey) {
+        //this keybinding was loaded from the config file with the prefix, so we don't add the prefix for the second time
+        super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY_STRING, new ChatKeysTicker(), false);
         this.chatMessage = chatMessage;
         this.displayName = displayName;
-        setBoundKey(key);
+        setBoundKey(boundKey);
     }
 
     public String getChatMessage() {

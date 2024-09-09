@@ -1,11 +1,14 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.option.KeyBinding;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,7 +67,7 @@ public class ChatKeys extends NotEKKeyBindings {
         }
 
         public void addKeyIf(ChatKeyBinding keyBinding) {
-            chatKeys.remove(keyBinding);
+            chatKeys.removeIf((binding) -> binding.getTranslationKey().equals(keyBinding.getTranslationKey()));
             chatKeys.add(keyBinding);
             NotEnoughKeybinds.CHAT_KEYS_CONFIG.addKeyIf(keyBinding);
             update();
@@ -72,10 +75,12 @@ public class ChatKeys extends NotEKKeyBindings {
 
         public void update() {
             NotEKKeyBindings.updateCategory(this);
+            KeyBinding.updateKeysByCode();
         }
 
         public void initializeKeys() {
             chatKeys.addAll(NotEnoughKeybinds.CHAT_KEYS_CONFIG.loadKeys());
+            KeyBinding.updateKeysByCode();
         }
     }
 }
