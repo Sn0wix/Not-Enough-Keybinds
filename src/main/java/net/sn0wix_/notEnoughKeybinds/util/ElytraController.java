@@ -1,5 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
+import net.minecraft.client.MinecraftClient;
+
 public class ElytraController {
     private static Runnable postFlight;
     private static int ticksToStartFlying = Integer.MIN_VALUE;
@@ -14,6 +16,14 @@ public class ElytraController {
     public static void tick() {
         if (ticksToStartFlying > -1) {
             ticksToStartFlying--;
+
+            try {
+                if (MinecraftClient.getInstance().player.isFallFlying()) {
+                    postFlight.run();
+                    ticksToStartFlying = Integer.MIN_VALUE;
+                }
+            } catch (NullPointerException ignored) {
+            }
 
             if (ticksToStartFlying == 0) {
                 shouldJump = true;

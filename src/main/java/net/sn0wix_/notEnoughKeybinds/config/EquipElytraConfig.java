@@ -55,7 +55,7 @@ public class EquipElytraConfig {
 
     public void cycleUseMode() {
         equipMode++;
-        if (equipMode > 3)
+        if (equipMode > 4)
             equipMode = 0;
     }
 
@@ -66,6 +66,8 @@ public class EquipElytraConfig {
             return "hotbar";
         if (equipMode == 2)
             return "current_slot";
+        if (equipMode == 3)
+            return "offhand";
 
         return "quick_use";
     }

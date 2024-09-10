@@ -31,6 +31,7 @@
   "text.not-enough-keybinds.on": "On",
   "text.not-enough-keybinds.hotbar": "Hotbar",
   "text.not-enough-keybinds.current_slot": "Selected slot",
+  "text.not-enough-keybinds.offhand": "Offhand",
   "text.not-enough-keybinds.longest": "the longest",
   "text.not-enough-keybinds.shortest": "the shortest",
   "text.not-enough-keybinds.best": "the best",
@@ -47,7 +48,7 @@
   "text.not-enough-keybinds.firework.equip": "Equip firework: %s",
   "text.not-enough-keybinds.firework.use": "Use: %s",
   "text.not-enough-keybinds.firework.select": "Select: %s",
-  "text.not-enough-keybinds.swap_old": "Swap old item: %s",
+  "text.not-enough-keybinds.swap_old": "Swap back old item: %s",
 
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",
@@ -72,7 +73,7 @@
   "text.not-enough-keybinds.tooltip.toggle_flight": "Puts you into flight mode, when you equip an elytra using this keybinding.",
   "text.not-enough-keybinds.tooltip.accept_enchantment": "If true, the calculated item can have %s.",
   "text.not-enough-keybinds.tooltip.firework.slot": "The hotbar slot the fireworks get put in, upon swapping an elytra.",
-  "text.not-enough-keybinds.tooltip.firework.equip": "Off = don't equip a firework rocket\nHotbar = equip to a hotbar slot\nSelected slot = equip a firework rocket to the selected hotbar slot\nQuick use = use a firework rocket, but quickly swap back the old item",
+  "text.not-enough-keybinds.tooltip.firework.equip": "Off = don't equip a firework rocket\n\nHotbar = equip to a hotbar slot\n\nSelected slot = equip a firework rocket to the selected hotbar slot\n\nOffhand = equip to offhand\n\nQuick use = use a firework rocket, but quickly swap back the old item",
   "text.not-enough-keybinds.tooltip.swap_old": "When the Chestplate is swapped back, fireworks are replaced with the item, that was in the hotbar slot before.",
   "text.not-enough-keybinds.tooltip.firework.duration": "Preferred firework duration.",
   "text.not-enough-keybinds.tooltip.firework.use": "Use the rocket upon equipping it.",
@@ -80,6 +81,7 @@
 
   "text.not-enough-keybinds.tooltip.executes_command": "Executes command %s",
   "text.not-enough-keybinds.tooltip.sends_message": "Sends Chat message \"%s\"",
+  "text.not-enough-keybinds.tooltip.coming_soon": "Coming soon!",
 
   "text.not-enough-keybinds.tooltip.settings": "Configure Keybind...",
   "text.not-enough-keybinds.tooltip.fast_building": "Places a block every tick",

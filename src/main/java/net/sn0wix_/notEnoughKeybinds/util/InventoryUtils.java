@@ -60,9 +60,9 @@ public class InventoryUtils {
         //client.setScreen(null);
     }
 
-    public static void equipChestplate(MinecraftClient client, int slot1) {
+    public static void equipChestplate(MinecraftClient client, int slot) {
         //6 for chestplate and 0 for left mouse button click
-        switchInvSlot(client, convertSlotIds(slot1), 6, 0);
+        switchInvSlot(client, convertSlotIds(slot), 6, 0);
     }
 
     public static void switchInvSlot(MinecraftClient client, int slot1, int slot2, int button) {
@@ -112,6 +112,7 @@ public class InventoryUtils {
             client.player.getInventory().selectedSlot = slotBefore;
         }
     }
+
 
     public static void interactItem(Hand hand, MinecraftClient client) throws NullPointerException {
         ActionResult actionResult3 = client.interactionManager.interactItem(client.player, hand);
@@ -230,8 +231,8 @@ public class InventoryUtils {
         //https://wiki.vg/File:Inventory-slots.png
         if (PlayerInventory.isValidHotbarIndex(slot)) {
             slot += 36;
-        } else if (slot >= 36 && slot < 45) {
-            slot -= 36;
+        } else if (slot == 40) {
+            slot = 45;
         }
 
         return slot;

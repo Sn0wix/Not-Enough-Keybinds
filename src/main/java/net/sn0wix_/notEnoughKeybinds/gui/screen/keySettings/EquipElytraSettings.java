@@ -15,7 +15,7 @@ import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
-public class SwapElytraSettings extends SettingsScreen {
+public class EquipElytraSettings extends SettingsScreen {
     public ButtonWidget swapFirstButton;
     public ButtonWidget swapSecondButton;
     public ButtonWidget chooseElytraButton;
@@ -33,7 +33,7 @@ public class SwapElytraSettings extends SettingsScreen {
     public ButtonWidget selectRocket;
 
 
-    public SwapElytraSettings(Screen parent) {
+    public EquipElytraSettings(Screen parent) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
     }
 
@@ -127,7 +127,8 @@ public class SwapElytraSettings extends SettingsScreen {
         swapBackOldItemButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem;
             updateButtons();
-        }).dimensions(x2, y, 150, 20).tooltip(TextUtils.getTooltip("swap_old")).build();
+        }).dimensions(x2, y, 150, 20).tooltip(TextUtils.getTooltip(/*"swap_old"*/"coming_soon")).build();
+        swapBackOldItemButton.active = false;
         addDrawableChild(swapBackOldItemButton);
 
         y += space;
@@ -201,7 +202,7 @@ public class SwapElytraSettings extends SettingsScreen {
                 Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
 
         equipSlotButton.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 1;
-        useRocket.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 1 || NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 2;
+        useRocket.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode >= 1 && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode <= 3;
         selectRocket.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 1;
     }
 

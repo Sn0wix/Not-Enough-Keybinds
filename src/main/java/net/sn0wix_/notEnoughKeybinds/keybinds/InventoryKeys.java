@@ -6,7 +6,7 @@ import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapElytraSettings;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.EquipElytraSettings;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
@@ -41,6 +41,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                     itemSlot.set(InventoryUtils.getSlotWithChestplate(client));
                 } else {
                     itemSlot.set(InventoryUtils.getSlotWithElytra(client));
+                    elytra = true;
                 }
 
                 if (itemSlot.get() == 38)//found chest slot
@@ -78,7 +79,13 @@ public class InventoryKeys extends NotEKKeyBindings {
                                     if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
                                         InventoryUtils.interactItem(Hand.MAIN_HAND, client);
                                 }
-                                case 3 ->
+                                case 3 -> {
+                                    //offhand
+                                    InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, itemSlot.get());
+                                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
+                                        InventoryUtils.interactItem(Hand.OFF_HAND, client);
+                                }
+                                case 4 ->
                                     //quick use
                                         InventoryUtils.quickUseItem(client, itemSlot.get());
                             }
@@ -87,7 +94,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                 };
 
                 if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode) {
-                    ElytraController.startFlying(3, eqipRocket);
+                    ElytraController.startFlying(client.player.isCreative() ? 8 : 3, eqipRocket);
                 } else {
                     eqipRocket.run();
                 }
@@ -96,7 +103,7 @@ public class InventoryKeys extends NotEKKeyBindings {
     }) {
         @Override
         public Screen getSettingsScreen(Screen parent) {
-            return new SwapElytraSettings(parent);
+            return new EquipElytraSettings(parent);
         }
 
         @Override
