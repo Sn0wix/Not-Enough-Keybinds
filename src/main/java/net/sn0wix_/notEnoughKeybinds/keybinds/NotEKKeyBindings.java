@@ -29,6 +29,7 @@ public abstract class NotEKKeyBindings {
         registerKeyCategory(new SkinLayersKeys().getCategory());
         registerKeyCategory(new F3DebugKeys().getCategory());
         registerKeyCategory(new ChatKeys().getCategory());
+        registerKeyCategory(new SoundKeys().getCategory());
     }
 
     public static KeybindCategory getCategoryByTranslation(String translationKey) {

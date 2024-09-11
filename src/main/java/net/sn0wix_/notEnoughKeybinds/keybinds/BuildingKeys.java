@@ -125,6 +125,6 @@ public class BuildingKeys extends NotEKKeyBindings {
 
     @Override
     public KeybindCategory getCategory() {
-        return new KeybindCategory(BUILDING_CATEGORY, 1, ALWAYS_PLACE_ITEM, FAST_BUILDING, FAST_BLOCK_BREAKING);
+        return new KeybindCategory(BUILDING_CATEGORY, 2, ALWAYS_PLACE_ITEM, FAST_BUILDING, FAST_BLOCK_BREAKING);
     }
 }

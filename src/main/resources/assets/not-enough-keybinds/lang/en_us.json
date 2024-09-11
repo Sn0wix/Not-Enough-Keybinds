@@ -5,6 +5,7 @@
   "key.category.not-enough-keybinds.skin_layers": "Skin Layers",
   "key.category.not-enough-keybinds.f3_debug_keys": "F3 Debug Keys",
   "key.category.not-enough-keybinds.chat_keys": "Chat/Command Keys",
+  "key.category.not-enough-keybinds.sound": "Music & Sound Keys",
 
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
   "settings.not-enough-keybinds.chat_keys": "Add/Edit Chat Key",
@@ -27,8 +28,8 @@
   "text.not-enough-keybinds.quick_use": "Quick use",
   "text.not-enough-keybinds.true": "true",
   "text.not-enough-keybinds.false": "false",
-  "text.not-enough-keybinds.off": "Off",
-  "text.not-enough-keybinds.on": "On",
+  "text.not-enough-keybinds.off": "OFF",
+  "text.not-enough-keybinds.on": "ON",
   "text.not-enough-keybinds.hotbar": "Hotbar",
   "text.not-enough-keybinds.current_slot": "Selected slot",
   "text.not-enough-keybinds.offhand": "Offhand",
@@ -59,6 +60,7 @@
   "text.not-enough-keybinds.cancel.1": "No, this was a miss-click",
   "text.not-enough-keybinds.cancel.2": "Nope, i don't want to",
   "text.not-enough-keybinds.cancel.3": "No",
+  "text.not-enough-keybinds.toggle": "Toggle ",
 
 
 
@@ -102,6 +104,11 @@
   "key.not-enough-keybinds.always_place_item": "Air Place",
   "key.not-enough-keybinds.fast_building": "Fast Building",
   "key.not-enough-keybinds.fast_block_breaking": "Fast Block Breaking",
+
+  "key.not-enough-keybinds.toggle_subtitles": "Toggle Show Subtitles",
+  "key.not-enough-keybinds.increase_master_volume": "Increase Master Volume",
+  "key.not-enough-keybinds.decrease_master_volume": "Decrease Master Volume",
+
 
   "key.not-enough-keybinds.toggle_hide_hud": "Toggle Hide Hud",
   "key.not-enough-keybinds.toggle_hitboxes": "Toggle Hitboxes",
