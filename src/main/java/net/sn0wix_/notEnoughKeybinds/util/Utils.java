@@ -1,15 +1,22 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
+import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Utils {
 
@@ -74,5 +81,52 @@ public class Utils {
 
         newArgs[args.length] = addedArg;
         return newArgs;
+    }
+
+    public static String nextValue(String errorRegex, BufferedReader reader) {
+        try {
+            return getValue(reader.readLine());
+        } catch (ArrayIndexOutOfBoundsException | IOException e) {
+            NotEnoughKeybinds.LOGGER.error("Incorrect " + errorRegex + " format");
+        }
+
+        return "";
+    }
+
+    public static String getValue(String string) {
+        String[] list = string.split(":");
+        //make sure that even if the last char is ':' it still gets through
+        if (string.charAt(string.length() - 1) == ':')
+            list[list.length - 1] = list[list.length - 1] + ":";
+
+        StringBuilder builder = new StringBuilder();
+        //remove the initial entry name
+        list[0] = "";
+
+        for (int i = 0; i < list.length; i++) {
+            if (i > 1)
+                builder.append(":");
+            builder.append(list[i]);
+        }
+
+        return builder.toString();
+    }
+
+    public static List<String> currentBindingsToList() {
+        ArrayList<String> bindingsList = new ArrayList<>(MinecraftClient.getInstance().options.allKeys.length);
+
+        Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
+            if (bindings instanceof KeyBinding[] newBindings) {
+                for (KeyBinding binding : newBindings) {
+                    bindingsList.add(binding.getTranslationKey() + ":" + binding.getBoundKeyTranslationKey());
+                }
+            } else if (bindings instanceof INotEKKeybinding[] newBindings) {
+                for (INotEKKeybinding binding : newBindings) {
+                    bindingsList.add(binding.getTranslationKey() + ":" + binding.getBoundKeyTranslationKey());
+                }
+            }
+        });
+
+        return bindingsList;
     }
 }

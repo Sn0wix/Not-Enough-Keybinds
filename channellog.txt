@@ -1,4 +1,4 @@
 Added:
-    Settings screen
-    Skin layer keybinds
-    ModMenu support
+
+Fixed:
+    Chat keys not reseting
