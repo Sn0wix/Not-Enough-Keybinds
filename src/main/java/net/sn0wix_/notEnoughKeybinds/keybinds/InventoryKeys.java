@@ -25,6 +25,7 @@ public class InventoryKeys extends NotEKKeyBindings {
         assert client.player != null;
         AtomicInteger itemSlot = new AtomicInteger(-1);
         boolean elytra = false;
+        boolean swapFirstOrSecond = false;
 
         if (client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isOf(Items.ELYTRA)) {
             itemSlot.set(InventoryUtils.getSlotWithChestplate(client));
@@ -44,10 +45,11 @@ public class InventoryKeys extends NotEKKeyBindings {
                     elytra = true;
                 }
 
-                if (itemSlot.get() == 38)//found chest slot
+                if (itemSlot.get() == 38)//found chest slotIn
                     itemSlot.set(-1);
 
                 if (itemSlot.get() != -1) {
+                    swapFirstOrSecond = true;
                     break;
                 } else if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond) {
                     string = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getOppositeSwap();
@@ -59,44 +61,58 @@ public class InventoryKeys extends NotEKKeyBindings {
             InventoryUtils.equipChestplate(client, itemSlot.get());
 
             if (elytra) {
-                Runnable eqipRocket = () -> {
-                    {
-                        itemSlot.set(InventoryUtils.getFireworkSlot(client.player.getInventory(), NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode));
+                itemSlot.set(InventoryUtils.getFireworkSlot(client.player.getInventory(), NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode));
 
-                        if (itemSlot.get() > -1) {
-                            switch (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode) {
-                                case 1 -> {
-                                    //hotbar
-                                    InventoryUtils.switchInvHotbarSlot(client, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot, itemSlot.get());
-                                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket)
-                                        client.player.getInventory().selectedSlot = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot;
-                                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
-                                        InventoryUtils.interactItem(Hand.MAIN_HAND, client);
-                                }
-                                case 2 -> {
-                                    //current slot
-                                    InventoryUtils.switchInvHotbarSlot(client, client.player.getInventory().selectedSlot, itemSlot.get());
-                                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
-                                        InventoryUtils.interactItem(Hand.MAIN_HAND, client);
-                                }
-                                case 3 -> {
-                                    //offhand
-                                    InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, itemSlot.get());
-                                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
-                                        InventoryUtils.interactItem(Hand.OFF_HAND, client);
-                                }
-                                case 4 ->
-                                    //quick use
-                                        InventoryUtils.quickUseItem(client, itemSlot.get());
-                            }
+                if (itemSlot.get() > -1) {
+                    int swapBackSlot = -1;
+                    switch (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode) {
+                        case 1 -> {
+                            //hotbar
+                            InventoryUtils.switchInvHotbarSlot(client, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot, itemSlot.get());
+                            if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket)
+                                client.player.getInventory().selectedSlot = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot;
+
+                            swapBackSlot = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot;
+                        }
+                        case 2 -> {
+                            //current slotIn
+                            InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, itemSlot.get());
+                            swapBackSlot = client.player.getInventory().selectedSlot;
+                        }
+                        case 3 -> {
+                            //offhand
+                            InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, itemSlot.get());
+                            swapBackSlot = 40;
                         }
                     }
+                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem && swapBackSlot != -1 && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode != 4) {
+                        //write swap back
+                        ElytraController.setSwapBackItem(itemSlot.get(), swapBackSlot, client.player.getInventory().getStack(itemSlot.get()).getItem());
+                    }
+                }
+
+                Runnable useRocket = () -> {
+                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 4) { //quick use
+                        InventoryUtils.quickUseItem(client, itemSlot.get());
+                        return;
+                    }
+
+                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
+                        InventoryUtils.interactItem(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? Hand.OFF_HAND : Hand.MAIN_HAND, client);
                 };
 
                 if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode) {
-                    ElytraController.startFlying(client.player.isCreative() ? 8 : 3, eqipRocket);
+                    ElytraController.startFlying(client.player.isCreative() ? 8 : 3, useRocket);
                 } else {
-                    eqipRocket.run();
+                    useRocket.run();
+                }
+
+            } else if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem && !swapFirstOrSecond) {
+                //execute swap back
+
+                if (ElytraController.hasSwapBack() && ElytraController.shouldSwapBack(client.player.getInventory().getStack(ElytraController.getSwapBackItemSlot()))) {
+                    InventoryUtils.switchInvHotbarSlot(client, ElytraController.getSwapBackRocketSlot(), ElytraController.getSwapBackItemSlot());
+                    ElytraController.clearSwapBackData();
                 }
             }
         }

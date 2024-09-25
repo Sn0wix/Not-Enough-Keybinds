@@ -51,7 +51,7 @@ public class PresetLoader {
 
                 presets.add(new KeybindPreset(version, name, description, content));
             } catch (Exception e) {
-                e.printStackTrace();
+                NotEnoughKeybinds.LOGGER.info("Could not read from file " + file.getAbsolutePath(), e);
             }
         });
 

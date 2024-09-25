@@ -127,8 +127,7 @@ public class EquipElytraSettings extends SettingsScreen {
         swapBackOldItemButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem;
             updateButtons();
-        }).dimensions(x2, y, 150, 20).tooltip(TextUtils.getTooltip(/*"swap_old"*/"coming_soon")).build();
-        swapBackOldItemButton.active = false;
+        }).dimensions(x2, y, 150, 20).tooltip(TextUtils.getTooltip("swap_old")).build();
         addDrawableChild(swapBackOldItemButton);
 
         y += space;
@@ -204,6 +203,7 @@ public class EquipElytraSettings extends SettingsScreen {
         equipSlotButton.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 1;
         useRocket.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode >= 1 && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode <= 3;
         selectRocket.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 1;
+        swapBackOldItemButton.active = useRocket.active;
     }
 
     @Override

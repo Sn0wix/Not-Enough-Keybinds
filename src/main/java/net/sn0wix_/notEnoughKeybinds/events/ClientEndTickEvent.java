@@ -12,8 +12,7 @@ public class ClientEndTickEvent implements ClientTickEvents.EndTick {
         try {
             NotEKKeyBindings.getModKeybindsAsList().forEach(modKeyBinding -> modKeyBinding.tick(client));
         } catch (Exception e) {
-            NotEnoughKeybinds.LOGGER.error("Something went wrong with executing keybinding behavior.");
-            e.printStackTrace();
+            NotEnoughKeybinds.LOGGER.error("Something went wrong with executing keybinding behavior.", e);
         }
     }
 }
