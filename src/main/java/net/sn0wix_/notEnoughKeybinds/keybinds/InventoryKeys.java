@@ -1,11 +1,15 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.EquipElytraSettings;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -92,7 +96,8 @@ public class InventoryKeys extends NotEKKeyBindings {
                 }
 
                 Runnable useRocket = () -> {
-                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 4) { //quick use
+                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 4) {
+                        //quick use
                         InventoryUtils.quickUseItem(client, itemSlot.get());
                         return;
                     }
@@ -126,6 +131,24 @@ public class InventoryKeys extends NotEKKeyBindings {
         public Text getTooltip() {
             return TextUtils.getText("switch_elytra_chestplate", true);
         }
+
+        /*@Override
+        public void setAndSaveKeyBinding(InputUtil.Key key) {
+            if (MinecraftClient.getInstance().options.jumpKey.matchesKey(key.getCode(), 0)) {
+                NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = true;
+                super.setAndSaveKeyBinding(InputUtil.UNKNOWN_KEY);
+            } else {
+                NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = false;
+                super.setAndSaveKeyBinding(key);
+            }
+
+            EquipElytraConfig.saveConfig();
+        }*/
+
+        /*@Override
+        public Text getBoundKeyLocalizedText() {
+            return NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect ? TextUtils.getText("elytra_auto_detect") : super.getBoundKeyLocalizedText();
+        }*/
     });
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {

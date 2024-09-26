@@ -1,4 +1,0 @@
-Added:
-
-Fixed:
-    Chat keys not reseting
