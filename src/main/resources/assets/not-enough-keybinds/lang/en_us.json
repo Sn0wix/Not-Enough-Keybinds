@@ -7,6 +7,7 @@
   "key.category.not-enough-keybinds.chat_keys": "Chat/Command Keys",
   "key.category.not-enough-keybinds.sound": "Music & Sound Keys",
 
+
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
   "settings.not-enough-keybinds.chat_keys": "Add/Edit Chat Key",
   "settings.not-enough-keybinds.swap_totem_shield": "Swap Totem and Shield Settings",
@@ -109,7 +110,6 @@
   "key.not-enough-keybinds.toggle_subtitles": "Toggle Show Subtitles",
   "key.not-enough-keybinds.increase_master_volume": "Increase Master Volume",
   "key.not-enough-keybinds.decrease_master_volume": "Decrease Master Volume",
-
 
   "key.not-enough-keybinds.toggle_hide_hud": "Toggle Hide Hud",
   "key.not-enough-keybinds.toggle_hitboxes": "Toggle Hitboxes",
