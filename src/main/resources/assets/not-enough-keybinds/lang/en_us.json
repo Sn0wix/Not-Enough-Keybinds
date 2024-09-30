@@ -18,12 +18,16 @@
   "text.not-enough-keybinds.add_new_keybind": "Add new Keybind",
   "text.not-enough-keybinds.delete_keybind.confirm": "Are you sure, you want to delete %s?",
   "text.not-enough-keybinds.text": "Text",
+  "text.not-enough-keybinds.none": "None",
   "text.not-enough-keybinds.keybind_name": "Keybind Name",
   "text.not-enough-keybinds.set_to_message": "Set to: Message",
   "text.not-enough-keybinds.set_to_command": "Set to: Command",
   "text.not-enough-keybinds.delete": "Delete",
   "text.not-enough-keybinds.reset_category": "Reset Category",
   "text.not-enough-keybinds.reset_category.confirm": "Are you sure, you want to reset %s Category?",
+  "text.not-enough-keybinds.current_preset": "Current Preset: ",
+  "text.not-enough-keybinds.presets": "Presets...",
+
 
   "text.not-enough-keybinds.chestplate": "Chestplate",
   "text.not-enough-keybinds.elytra_auto_detect": "Auto-Detect",

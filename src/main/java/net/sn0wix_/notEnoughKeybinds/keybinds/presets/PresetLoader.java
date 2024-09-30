@@ -49,7 +49,7 @@ public class PresetLoader {
                 reader.lines().forEach(content::add);
                 reader.close();
 
-                presets.add(new KeybindPreset(version, name, description, content));
+                presets.add(new KeybindPreset(file.getName(), version, name, description, content));
             } catch (Exception e) {
                 NotEnoughKeybinds.LOGGER.info("Could not read from file " + file.getAbsolutePath(), e);
             }
@@ -150,7 +150,11 @@ public class PresetLoader {
         return presets.stream().toList();
     }
 
+    public static String getCurrentPresetName() {
+        return "none0000000000000";
+    }
 
-    public record KeybindPreset(float version, String name, String description, List<String> content) {
+
+    public record KeybindPreset(String fileName, float version, String name, String description, List<String> content) {
     }
 }
