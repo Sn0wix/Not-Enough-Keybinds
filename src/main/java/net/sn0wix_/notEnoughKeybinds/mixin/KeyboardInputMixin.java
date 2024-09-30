@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class KeyboardInputMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     public void injectJumping(boolean slowDown, float slowDownFactor, CallbackInfo ci) {
-        ((Input) (Object) this).jumping = ElytraController.shouldSimulateJump() || ((Input) (Object) this).jumping;
+        ((Input) (Object) this).jumping = ElytraController.shouldStimulateJump() || ((Input) (Object) this).jumping;
     }
 }

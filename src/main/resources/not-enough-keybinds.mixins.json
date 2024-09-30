@@ -11,6 +11,7 @@
     "KeyboardInputMixin",
     "KeyboardMixin",
     "ModSettingsButtonMixin",
-    "ResetAllKeybindsMixin"
+    "ResetAllKeybindsMixin",
+    "ClientPlayerEntityMixin"
   ]
 }

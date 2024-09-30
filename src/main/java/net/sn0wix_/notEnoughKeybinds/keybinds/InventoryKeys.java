@@ -107,7 +107,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                 };
 
                 if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode) {
-                    ElytraController.startFlying(client.player.isCreative() ? 8 : 3, useRocket);
+                    ElytraController.startFlying(ElytraController.getTicksToStartFlying(client), useRocket);
                 } else {
                     useRocket.run();
                 }
@@ -132,7 +132,7 @@ public class InventoryKeys extends NotEKKeyBindings {
             return TextUtils.getText("switch_elytra_chestplate", true);
         }
 
-        /*@Override
+        @Override
         public void setAndSaveKeyBinding(InputUtil.Key key) {
             if (MinecraftClient.getInstance().options.jumpKey.matchesKey(key.getCode(), 0)) {
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = true;
@@ -143,12 +143,12 @@ public class InventoryKeys extends NotEKKeyBindings {
             }
 
             EquipElytraConfig.saveConfig();
-        }*/
+        }
 
-        /*@Override
+        @Override
         public Text getBoundKeyLocalizedText() {
             return NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect ? TextUtils.getText("elytra_auto_detect") : super.getBoundKeyLocalizedText();
-        }*/
+        }
     });
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
