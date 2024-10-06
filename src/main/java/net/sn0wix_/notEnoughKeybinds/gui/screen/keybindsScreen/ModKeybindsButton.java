@@ -1,4 +1,4 @@
-package net.sn0wix_.notEnoughKeybinds.gui;
+package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

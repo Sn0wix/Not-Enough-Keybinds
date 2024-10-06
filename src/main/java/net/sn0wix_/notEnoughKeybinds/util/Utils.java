@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
@@ -112,21 +113,29 @@ public class Utils {
         return builder.toString();
     }
 
-    public static List<String> currentBindingsToList() {
+    public static List<String> bindingsToList(boolean defaultBindings) {
         ArrayList<String> bindingsList = new ArrayList<>(MinecraftClient.getInstance().options.allKeys.length);
 
         Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
             if (bindings instanceof KeyBinding[] newBindings) {
                 for (KeyBinding binding : newBindings) {
-                    bindingsList.add(binding.getTranslationKey() + ":" + binding.getBoundKeyTranslationKey());
+                    bindingsList.add(binding.getTranslationKey() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
                 }
             } else if (bindings instanceof INotEKKeybinding[] newBindings) {
                 for (INotEKKeybinding binding : newBindings) {
-                    bindingsList.add(binding.getTranslationKey() + ":" + binding.getBoundKeyTranslationKey());
+                    bindingsList.add(binding.getTranslationKey() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
                 }
             }
         });
 
         return bindingsList;
+    }
+
+    public static void showToastNotification(Text description) {
+        MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(2500), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
+    }
+
+    public static void showToastNotification(Text description, long displayDuration) {
+        MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(displayDuration), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
     }
 }

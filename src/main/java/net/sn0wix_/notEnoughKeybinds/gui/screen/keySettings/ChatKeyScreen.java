@@ -1,4 +1,4 @@
-package net.sn0wix_.notEnoughKeybinds.gui.screen;
+package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;

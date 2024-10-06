@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "not-enough-keybinds",
 	"version": "${version}",
-	"name": "Not Enough Keybinds",
+	"name": "NotEnoughKeybinds",
 	"description": "Adds more keybinds.",
 	"authors": [
 		"Sn0wix_"

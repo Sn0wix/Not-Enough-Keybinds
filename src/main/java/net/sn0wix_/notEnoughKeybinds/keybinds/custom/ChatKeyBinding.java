@@ -7,7 +7,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringHelper;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import org.apache.commons.lang3.StringUtils;

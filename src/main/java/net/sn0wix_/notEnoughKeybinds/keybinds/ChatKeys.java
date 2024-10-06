@@ -3,7 +3,7 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.ChatKeyScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;

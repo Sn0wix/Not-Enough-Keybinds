@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -39,5 +40,24 @@ public class TextUtils {
 
     public static String getSettingsTranslationKey(String path) {
         return "settings." + NotEnoughKeybinds.MOD_ID + "." + path;
+    }
+
+    public static String trimText(String text, TextRenderer textRenderer, int maxWidth) {
+        String textToRender = text;
+        try {
+            if (maxWidth < textRenderer.getWidth(text)) {
+                StringBuilder builder = new StringBuilder();
+                int i = 0;
+                while (textRenderer.getWidth(builder + "...") < maxWidth) {
+                    builder.append(textToRender.charAt(i));
+                    i++;
+                }
+
+                textToRender = builder + "...";
+            }
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+
+        return textToRender;
     }
 }

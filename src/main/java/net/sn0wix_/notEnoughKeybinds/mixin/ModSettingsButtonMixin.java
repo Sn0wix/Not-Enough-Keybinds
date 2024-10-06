@@ -5,8 +5,8 @@ import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.option.KeyBinding;
-import net.sn0wix_.notEnoughKeybinds.gui.ModKeybindsButton;
-import net.sn0wix_.notEnoughKeybinds.gui.PresetButtons;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.ModKeybindsButton;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.presets.PresetsButton;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +27,7 @@ public abstract class ModSettingsButtonMixin extends ElementListWidget<ControlsL
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void injectTail(KeybindsScreen parent, MinecraftClient client, CallbackInfo ci) {
-        this.addEntryToTop(new PresetButtons(((ControlsListWidget)(Object)this)));
+        this.addEntryToTop(new PresetsButton(((ControlsListWidget)(Object)this), client.textRenderer));
         this.addEntryToTop(new ModKeybindsButton(((ControlsListWidget)(Object)this)));
         this.setScrollAmount(0);
     }
