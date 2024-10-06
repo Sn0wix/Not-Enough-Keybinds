@@ -23,7 +23,7 @@ public class NotEnoughKeybinds implements ClientModInitializer {
     public static final ChatKeysConfig CHAT_KEYS_CONFIG = ChatKeysConfig.getConfig();
     public static final SwapTotemShieldConfig TOTEM_SHIELD_CONFIG = SwapTotemShieldConfig.getConfig();
     public static final EquipElytraConfig EQUIP_ELYTRA_CONFIG = EquipElytraConfig.getConfig();
-    public static final NotEKSettings SETTINGS_CONFIG = NotEKSettings.getConfig();
+    public static final NotEKSettings GENERAL_CONFIG = NotEKSettings.getConfig();
 
 
     @Override

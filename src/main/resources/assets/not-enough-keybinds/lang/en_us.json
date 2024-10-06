@@ -6,6 +6,7 @@
   "key.category.not-enough-keybinds.f3_debug_keys": "F3 Debug Keys",
   "key.category.not-enough-keybinds.chat_keys": "Chat/Command Keys",
   "key.category.not-enough-keybinds.sound": "Music & Sound Keys",
+  "key.category.not-enough-keybinds.presets": "Presets Hotkeys",
 
 
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
@@ -119,6 +120,10 @@
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",
   "key.not-enough-keybinds.switch_totem_shield": "Swap Totem and Shield",
   "key.not-enough-keybinds.equip_elytra": "Swap Elytra",
+
+  "key.not-enough-keybinds.next_preset": "Next Preset",
+  "key.not-enough-keybinds.previous_preset": "Previous Preset",
+
 
   "key.not-enough-keybinds.always_place_item": "Air Place",
   "key.not-enough-keybinds.fast_building": "Fast Building",

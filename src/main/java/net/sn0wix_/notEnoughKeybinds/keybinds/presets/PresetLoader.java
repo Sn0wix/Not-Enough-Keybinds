@@ -70,7 +70,7 @@ public class PresetLoader {
         }
 
         if (!bl.get()) {
-            NotEnoughKeybinds.SETTINGS_CONFIG.currentPreset = "none";
+            NotEnoughKeybinds.GENERAL_CONFIG.currentPreset = "none";
             NotEKSettings.saveConfig();
         }
 
@@ -124,6 +124,10 @@ public class PresetLoader {
                 }
             }
         });
+
+        KeyBinding.updateKeysByCode();
+        KeyBinding.unpressAll();
+        KeyBinding.updatePressedStates();
 
         setCurrentPreset(preset);
         Utils.showToastNotification(Text.translatable(TextUtils.getTranslationKey("preset.load"), preset.getName()));
@@ -187,7 +191,7 @@ public class PresetLoader {
     }
 
     public static String getCurrentPresetName() {
-        return currentPreset == null ? NotEnoughKeybinds.SETTINGS_CONFIG.currentPreset : currentPreset.getName();
+        return currentPreset == null ? NotEnoughKeybinds.GENERAL_CONFIG.currentPreset : currentPreset.getName();
     }
 
     public static KeybindPreset getCurrentPreset() {
@@ -222,7 +226,7 @@ public class PresetLoader {
 
     public static void setCurrentPreset(KeybindPreset preset) {
         currentPreset = preset;
-        NotEnoughKeybinds.SETTINGS_CONFIG.currentPreset = preset.getName();
+        NotEnoughKeybinds.GENERAL_CONFIG.currentPreset = preset.getName();
         NotEKSettings.saveConfig();
     }
 
