@@ -1,5 +1,5 @@
-Vanilla minecraft has some basic keybinds, but it's not enought(for some people at least)!
-<br>NotEnoughKeybinds mod adds a lots of somewhat usefull keybindings and a decent keybinding preset system.
+Vanilla minecraft has some basic keybinds, but it's not enought (for some people at least)!
+NotEnoughKeybinds mod adds a lots of somewhat usefull keybindings and a decent keybinding preset system.
 
 # Inventory Management
 - ## Throw Ender Preal
@@ -7,27 +7,30 @@ Vanilla minecraft has some basic keybinds, but it's not enought(for some people 
 - ## Swap Totem of Undying and Shield</h2>
   Quickly swap totem and shield when you are holding them. <br>You can even use this as **"manual" auto totem**.
 - ## Equip Elytra (auto elytra)
-  Equip an elyrta with one key and start flying. When you press that key again, chestplate is equipped back. If this keybinding is bound to the same key as jumping is, the autodetect feature is turned on, meaning, you can jump in the air as if you had an elytra, and the   elytra is equipped. Upon landing, your chestplate is swapped back.
+  Equip an elyrta with one key and start flying. When you press that key again, chestplate is equipped back. If this keybinding is bound to the same key as jumping is, the autodetect feature is turned on, meaning,   you can jump in the air as if you had an elytra, and the   elytra is equipped. Upon landing, your chestplate is swapped back.
 
 # Chat/Command Hotkeys
-Do you have a command or a message that you send a lot? Bind a key to it.
+Do you have a command or a message that you send a lot? Bind a key to it!
 
 # Keybind Presets
-You can save and load as many presets as you like. You can even use hotkeys, to load the mid-game.
+You can save and load as many presets as you'd like. You can even use hotkeys, to load them mid-game.
 
 # Building keys
-The mos usefull bining from this category is called <b>Air Place</b>. Yes, you can use this to **place blocks in the air**.
+The mos usefull bining from this category is called **Air Place** Yes, you can use this to **place blocks in the air**.
 
 # Other Features & Bindings
-- ### Rebind F3 debug keys</h3>
+- ### Rebind F3 debug key
   Debug keys like F3 + B are no longer hard coded.
-- ### Music & Sound keys</h3>
+- ### Music & Sound keys
   Toggle sounds by clicking a button.
-- ### Toggle Second Skin Layer(s)
 - ### F3 Debug keys shortcuts
   If you use some debug key a lot, you can bind it to whenewer key you'd like.
-
-
+- ### Reset all keys confirm screen
+  No more accidental keybind reseting.
+- ### Toggle in-game HUD
+  Adds the ability to rebind F1, which should be in vanilla game by default.
+- ### Toggle Second Skin Layer(s)
+  
 *This mod may be viewed as an unfair advantage by some servers. Use it at your own risk.*
 <br>
 <br>
