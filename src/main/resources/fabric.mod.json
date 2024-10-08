@@ -3,7 +3,7 @@
 	"id": "not-enough-keybinds",
 	"version": "${version}",
 	"name": "NotEnoughKeybinds",
-	"description": "Adds more keybinds.",
+	"description": "Adds a lots of (un)necessary keybinds and a keybinding preset system.",
 	"authors": [
 		"Sn0wix_"
 	],

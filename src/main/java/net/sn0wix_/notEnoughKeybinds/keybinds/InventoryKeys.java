@@ -2,7 +2,6 @@ package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Items;
@@ -102,7 +101,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                         return;
                     }
 
-                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket)
+                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket && client.player.getStackInHand(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? Hand.OFF_HAND : Hand.MAIN_HAND).isOf(Items.FIREWORK_ROCKET))
                         InventoryUtils.interactItem(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? Hand.OFF_HAND : Hand.MAIN_HAND, client);
                 };
 
