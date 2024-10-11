@@ -9,6 +9,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.NotEKSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
+import net.sn0wix_.notEnoughKeybinds.keybinds.PresetKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
@@ -102,7 +103,8 @@ public class PresetLoader {
 
                 for (int i = 0; i < options.allKeys.length; i++) {
                     KeyBinding binding = options.allKeys[i];
-                    if (binding.getTranslationKey().equals(translation)) {
+
+                    if (binding.getTranslationKey().equals(translation) && !binding.getCategory().equals(PresetKeys.PRESET_CATEGORY)) { //check, if the keys are not preset keys
                         binding.setBoundKey(InputUtil.fromTranslationKey(value));
                         found = true;
                         break;
