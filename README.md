@@ -1,5 +1,8 @@
+[![Curseforge](https://img.shields.io/curseforge/dt/1073514?logo=curseforge&label=Curseforge&color=%23e04e13)](https://www.curseforge.com/minecraft/mc-mods/not-enough-keybinds)
+[![Modrinth](https://img.shields.io/modrinth/dt/G8YAzc8W?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/not-enough-keybinds)
+
 Vanilla minecraft has some basic keybinds, but it's not enough (for some people at least)!
-NotEnoughKeybinds mod adds a lots of somewhat useful keybindings and a decent keybinding preset system.
+NotEnoughKeybinds mod adds lots of somewhat useful keybindings and a decent keybinding preset system.
 
 # Inventory Management
 
@@ -16,6 +19,9 @@ NotEnoughKeybinds mod adds a lots of somewhat useful keybindings and a decent ke
   Equip an elytra with one key and start flying. When you press that key again, chestplate is equipped back. If this
   keybinding is bound to the same key as jumping is, the autodetect feature is turned on, meaning, you can jump in the
   air as if you had an elytra, and the elytra is equipped. Upon landing, your chestplate is swapped back.
+
+  ![totem_shield_swapping_demo](https://github.com/Sn0wix/Not-Enough-Keybinds/blob/master/media/elytra.gif?raw=true)
+
 
 # Chat/Command Hotkeys
 
