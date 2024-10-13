@@ -2,14 +2,14 @@ package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FireworksComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
@@ -22,18 +22,18 @@ import java.util.HashMap;
 public class InventoryUtils {
     public static int getFireworkSlot(PlayerInventory inventory, boolean longestDuration, boolean canExplode) {
         int bestSlot = -1;
-        byte bestFlight = longestDuration ? -1 : Byte.MAX_VALUE;
+        int bestFlight = longestDuration ? -1 : Integer.MAX_VALUE;
 
 
         for (int slot = 0; slot < inventory.size(); slot++) {
             ItemStack stack = inventory.getStack(slot);
 
             if (stack.getItem() instanceof FireworkRocketItem) {
-                NbtCompound nbtCompound = stack.getSubNbt("Fireworks");
-                if (!canExplode && !nbtCompound.getList("Explosions", NbtElement.COMPOUND_TYPE).isEmpty()) continue;
+                FireworksComponent component = stack.getComponents().get(DataComponentTypes.FIREWORKS);
+                if (!canExplode && !component.explosions().isEmpty()) continue;
 
 
-                byte newFlight = nbtCompound.getByte("Flight");
+                int newFlight = component.flightDuration();
                 if (longestDuration ? newFlight > bestFlight : bestFlight != -1 && newFlight < bestFlight) {
                     bestFlight = newFlight;
                     bestSlot = slot;
@@ -81,13 +81,13 @@ public class InventoryUtils {
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.getStack(i);
 
-            if (stack.isOf(item)) {
+            /*UPDATE if (stack.isOf(item)) {
                 int unbreakingLevel = EnchantmentHelper.getLevel(Enchantments.UNBREAKING, stack);
                 int calculatedMendingScore = EnchantmentHelper.getLevel(Enchantments.MENDING, stack) > 0 ? mendingScore : 0;
                 int damageScore = (stack.getMaxDamage() - stack.getDamage()) * (unbreakingLevel + 1);
 
                 map.put(damageScore + calculatedMendingScore, i);
-            }
+            }*/
         }
 
         if (!map.isEmpty()) {
@@ -169,8 +169,10 @@ public class InventoryUtils {
             if (!inventory.getStack(i).isEmpty()) {
                 final ItemStack stack = inventory.getStack(i);
 
-                if ((EnchantmentHelper.hasBindingCurse(stack) && !acceptBinding) || (EnchantmentHelper.hasVanishingCurse(stack) && !acceptVanishing))
+                /*UPDATE if ((EnchantmentHelper.hasBindingCurse(stack) && !acceptBinding) || (EnchantmentHelper.hasVanishingCurse(stack) && !acceptVanishing))
                     continue;
+
+                 */
 
                 if (stack.getItem() instanceof ArmorItem armorItem) {
                     if (armorItem.getType().equals(ArmorItem.Type.CHESTPLATE)) {
@@ -194,13 +196,13 @@ public class InventoryUtils {
 
     public static float getFinalArmorStrength(ItemStack itemStack) {
         float rating = getArmorRating(itemStack);
-        rating += EnchantmentHelper.getLevel(Enchantments.PROTECTION, itemStack) * 1.25F;
+        /*UPDATErating += EnchantmentHelper.getLevel(Enchantments.PROTECTION, itemStack) * 1.25F;
         rating += EnchantmentHelper.getLevel(Enchantments.FIRE_ASPECT, itemStack) * 1.20F;
         rating += EnchantmentHelper.getLevel(Enchantments.BLAST_PROTECTION, itemStack) * 1.20F;
         rating += EnchantmentHelper.getLevel(Enchantments.PROTECTION, itemStack) * 1.20F;
         rating += EnchantmentHelper.getLevel(Enchantments.FEATHER_FALLING, itemStack) * 0.33F;
         rating += EnchantmentHelper.getLevel(Enchantments.THORNS, itemStack) * 0.10F;
-        rating += EnchantmentHelper.getLevel(Enchantments.UNBREAKING, itemStack) * 0.05F;
+        rating += EnchantmentHelper.getLevel(Enchantments.UNBREAKING, itemStack) * 0.05F;*/
         return rating;
     }
 
@@ -208,7 +210,7 @@ public class InventoryUtils {
         float rating = 0;
 
         if (itemStack.getItem() instanceof ArmorItem armor) {
-            ArmorMaterial material = armor.getMaterial();
+            ArmorMaterial material = armor.getMaterial().value();
             if (material.equals(ArmorMaterials.LEATHER)) {
                 rating = 1;
             } else if (material.equals(ArmorMaterials.GOLD)) {

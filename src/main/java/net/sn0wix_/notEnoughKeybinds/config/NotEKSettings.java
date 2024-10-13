@@ -10,7 +10,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 
 public class NotEKSettings {
     public static ConfigClassHandler<NotEKSettings> HANDLER = ConfigClassHandler.createBuilder(NotEKSettings.class)
-            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "settings"))
+            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "settings"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("settings.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)

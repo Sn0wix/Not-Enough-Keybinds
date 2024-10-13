@@ -77,14 +77,14 @@ public class EquipElytraSettings extends SettingsScreen {
         acceptCurseOfVanishingButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing;
             updateButtons();
-        }).dimensions(x, y, 150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.VANISHING_CURSE.getTranslationKey()))).build();
+        }).dimensions(x, y, 150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.VANISHING_CURSE.getRegistry().toTranslationKey()))).build();
         addDrawableChild(acceptCurseOfVanishingButton);
 
         y += space;
         acceptCurseOfBindingButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding;
             updateButtons();
-        }).dimensions(x, y, 150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.BINDING_CURSE.getTranslationKey()))).build();
+        }).dimensions(x, y, 150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.BINDING_CURSE.getRegistry().toTranslationKey()))).build();
         addDrawableChild(acceptCurseOfBindingButton);
 
         y += space;
@@ -169,11 +169,11 @@ public class EquipElytraSettings extends SettingsScreen {
                 Language.getInstance().get(TextUtils.getTranslationKey("chestplate"))));
 
         acceptCurseOfBindingButton.setMessage(TextUtils.getText("accept",
-                Language.getInstance().get(Enchantments.BINDING_CURSE.getTranslationKey()),
+                Language.getInstance().get(Enchantments.BINDING_CURSE.getRegistry().toTranslationKey()),
                 Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding)))));
 
         acceptCurseOfVanishingButton.setMessage(TextUtils.getText("accept",
-                Language.getInstance().get(Enchantments.VANISHING_CURSE.getTranslationKey()),
+                Language.getInstance().get(Enchantments.VANISHING_CURSE.getRegistry().toTranslationKey()),
                 Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing)))));
 
         enterFlightButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("enter_flight_mode"),

@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class ChatKeysConfig {
     public static ConfigClassHandler<ChatKeysConfig> HANDLER = ConfigClassHandler.createBuilder(ChatKeysConfig.class)
-            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "chat_keys"))
+            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "chat_keys"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("chat_keys.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)

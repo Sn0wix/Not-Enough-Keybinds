@@ -22,7 +22,7 @@ public abstract class ResetAllKeybindsMixin {
     @Shadow private ControlsListWidget controlsList;
 
     //confirmation dialog
-    @Inject(method = "method_38532", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "method_60342", at = @At("HEAD"), cancellable = true)
     private void injectUpdate(ButtonWidget button, CallbackInfo ci) {
         MinecraftClient.getInstance().setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeybindsScreen) (Object) this), client -> {
             for (KeyBinding keyBinding : client.options.allKeys) {

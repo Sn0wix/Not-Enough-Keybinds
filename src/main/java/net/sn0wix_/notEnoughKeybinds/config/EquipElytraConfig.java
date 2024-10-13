@@ -13,7 +13,7 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class EquipElytraConfig {
     public static ConfigClassHandler<EquipElytraConfig> HANDLER = ConfigClassHandler.createBuilder(EquipElytraConfig.class)
-            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "equip_elytra"))
+            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "equip_elytra"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("equip_elytra.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
@@ -22,33 +22,33 @@ public class EquipElytraConfig {
             .build();
 
     @SerialEntry
-    public String swapFirst = "off";//
+    public String swapFirst = "off";
     @SerialEntry
-    public boolean swapSecond = false;//
+    public boolean swapSecond = false;
     @SerialEntry
-    public boolean chooseBestChestplate = true;//
+    public boolean chooseBestChestplate = true;
     @SerialEntry
-    public boolean chooseBestElytra = true;//
+    public boolean chooseBestElytra = true;
     @SerialEntry
-    public boolean acceptCurseOfBinding = false;//
+    public boolean acceptCurseOfBinding = false;
     @SerialEntry
-    public boolean acceptCurseOfVanishing = true;//
+    public boolean acceptCurseOfVanishing = true;
     @SerialEntry
-    public boolean enterFlightMode = true;//
+    public boolean enterFlightMode = true;
     @SerialEntry
-    public boolean canExplode = false;//
+    public boolean canExplode = false;
     @SerialEntry
-    public boolean longestDuration = false;//
+    public boolean longestDuration = false;
     @SerialEntry
-    public byte fireworkSwapSlot = -1;//
+    public byte fireworkSwapSlot = -1;
     @SerialEntry
-    public byte equipMode = 2;//
+    public byte equipMode = 2;
     @SerialEntry
     public boolean swapBackOldItem = true;
     @SerialEntry
-    public boolean useRocket = true;//
+    public boolean useRocket = true;
     @SerialEntry
-    public boolean selectRocket = true;//
+    public boolean selectRocket = true;
     @SerialEntry
     public boolean autoDetect = false;
 

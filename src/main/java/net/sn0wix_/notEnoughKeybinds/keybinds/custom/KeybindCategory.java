@@ -1,7 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.ControlsListWidget;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;

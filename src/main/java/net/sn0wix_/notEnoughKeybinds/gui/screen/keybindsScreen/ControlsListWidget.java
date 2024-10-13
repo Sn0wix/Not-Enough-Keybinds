@@ -1,6 +1,5 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
-import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -74,8 +73,8 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     }
 
     @Override
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 15;
+    protected int getScrollbarX() {
+        return super.getScrollbarX() + 15;
     }
 
     @Override
@@ -162,17 +161,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         @Override
         public List<? extends Selectable> selectableChildren() {
-            return ImmutableList.of(new Selectable() {
-                @Override
-                public Selectable.SelectionType getType() {
-                    return Selectable.SelectionType.HOVERED;
-                }
-
-                @Override
-                public void appendNarrations(NarrationMessageBuilder builder) {
-                    builder.put(NarrationPart.TITLE, ControlsListWidget.CategoryEntry.this.text);
-                }
-            });
+            return List.of();
         }
 
         @Override
@@ -254,7 +243,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                 ControlsListWidget.this.update();
             }).dimensions(0, 0, 50, 20).narrationSupplier(textSupplier -> Text.translatable("narrator.controls.reset", bindingName)).build();
             this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Text.empty(), button -> client.setScreen(binding.getSettingsScreen(parent))
-                    , Supplier::get, new Identifier(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
+                    , Supplier::get, Identifier.of(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
 
             this.settingsButton.setTooltip(TextUtils.getTooltip("settings"));
             this.update();

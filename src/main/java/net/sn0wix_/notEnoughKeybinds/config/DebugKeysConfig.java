@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class DebugKeysConfig {
     public static ConfigClassHandler<DebugKeysConfig> HANDLER = ConfigClassHandler.createBuilder(DebugKeysConfig.class)
-            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "debug_keys"))
+            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "debug_keys"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("debug_keys.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)

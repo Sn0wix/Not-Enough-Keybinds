@@ -14,10 +14,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NotEnoughKeybinds implements ClientModInitializer {
+
+    /**
+     * BUGS:
+     * Mod buttons offset
+     * scrollbar not working in custom binding settings
+     * gui lists not updating when they should
+     * rework the whole menu rendering system
+     * */
     public static final String MOD_ID = "not-enough-keybinds";
     public static final String MOD_NAME = "NotEnoughKeybinds";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final Identifier ICON = new Identifier(MOD_ID, "icon.png");
+    public static final Identifier ICON = Identifier.of(MOD_ID, "icon.png");
 
     public static final DebugKeysConfig DEBUG_KEYS_CONFIG = DebugKeysConfig.getConfig();
     public static final ChatKeysConfig CHAT_KEYS_CONFIG = ChatKeysConfig.getConfig();

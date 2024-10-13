@@ -12,7 +12,7 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class SwapTotemShieldConfig {
     public static ConfigClassHandler<SwapTotemShieldConfig> HANDLER = ConfigClassHandler.createBuilder(SwapTotemShieldConfig.class)
-            .id(new Identifier(NotEnoughKeybinds.MOD_ID, "swap_totem_shield"))
+            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "swap_totem_shield"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("swap_totem_shield.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)

@@ -26,11 +26,15 @@ repositories {
         name "Nucleoid"
     }
 
-    repositories {
-        maven {
-            name 'Xander Maven'
-            url 'https://maven.isxander.dev/releases'
-        }
+
+    maven {
+        name 'Xander Maven'
+        url 'https://maven.isxander.dev/releases'
+    }
+
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
     }
 }
 
@@ -44,9 +48,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     //Modmenu
-    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-
-    modImplementation("eu.pb4:placeholder-api:2.4.0-pre.1+1.20.4")
+    modImplementation "maven.modrinth:modmenu:${project.modmenu_version}"
 
     //Yacl
     modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
@@ -61,7 +63,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 17
+    it.options.release = 21
 }
 
 java {
@@ -70,8 +72,8 @@ java {
     // If you remove this line, sources will not be generated.
     withSourcesJar()
 
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {

@@ -70,8 +70,8 @@ public abstract class KeyboardMixin {
 
         while (!pressedF3Keys.isEmpty()) {
             bl = true;
-            key = pressedF3Keys.get(0);
-            pressedF3Keys.remove(0);
+            key = pressedF3Keys.getFirst();
+            pressedF3Keys.removeFirst();
 
             if (!pressedF3Keys.isEmpty()) {
                 this.processF3(key);

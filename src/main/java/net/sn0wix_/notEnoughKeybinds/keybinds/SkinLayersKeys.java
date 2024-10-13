@@ -1,7 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.entity.PlayerModelPart;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;

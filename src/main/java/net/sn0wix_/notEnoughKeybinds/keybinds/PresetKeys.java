@@ -29,7 +29,7 @@ public class PresetKeys extends NotEKKeyBindings {
         public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
             try {
                 if (PresetLoader.getCurrentPreset() == null) {
-                    PresetLoader.loadPreset(PresetLoader.getPresets().get(0));
+                    PresetLoader.loadPreset(PresetLoader.getPresets().getFirst());
                     return;
                 }
 

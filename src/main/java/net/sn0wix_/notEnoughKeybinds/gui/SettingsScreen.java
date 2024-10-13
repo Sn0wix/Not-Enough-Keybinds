@@ -22,10 +22,10 @@ public abstract class SettingsScreen extends GameOptionsScreen {
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 8, 16777215);
     }
 
-    @Override
+    /*UPDATE @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackgroundTexture(context);
-    }
+    }*/
 
     @Override
     public void init() {
@@ -58,5 +58,11 @@ public abstract class SettingsScreen extends GameOptionsScreen {
     public void close() {
         saveOptions();
         super.close();
+    }
+
+    //UPDATE
+    @Override
+    protected void addOptions() {
+
     }
 }
