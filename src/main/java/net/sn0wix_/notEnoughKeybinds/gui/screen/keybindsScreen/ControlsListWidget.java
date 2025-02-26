@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
+import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -17,6 +18,7 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
@@ -40,7 +42,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     private int maxKeyNameLength;
 
     public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
-        super(client, parent.width + 45, parent.height - 52, 20, 20);
+        super(client, parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
         this.parent = parent;
 
         NotEKKeyBindings.getCategories().forEach(category -> {
@@ -73,39 +75,8 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     }
 
     @Override
-    protected int getScrollbarX() {
-        return super.getScrollbarX() + 15;
-    }
-
-    @Override
     public int getRowWidth() {
-        return super.getRowWidth() + 600;
-    }
-
-    @Override
-    public int getRowLeft() {
-        return this.getX() + this.width / 2 - this.getRowWidth() / 2;
-    }
-
-    @Override
-    public int getRowRight() {
-        return this.getRowLeft() + this.getRowWidth();
-    }
-
-    @Override
-    protected void renderList(DrawContext context, int mouseX, int mouseY, float delta) {
-        int i = this.getRowLeft() + 300;
-        int j = this.getRowWidth() + 300;
-        int k = this.itemHeight - 4;
-        int l = this.getEntryCount();
-
-        for (int m = 0; m < l; m++) {
-            int n = this.getRowTop(m);
-            int o = this.getRowBottom(m);
-            if (o >= this.getY() && n <= this.getBottom()) {
-                this.renderEntry(context, mouseX, mouseY, delta, m, i, n, j, k);
-            }
-        }
+        return 340;
     }
 
     //Entries
@@ -134,16 +105,16 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             context.drawText(
                     ControlsListWidget.this.client.textRenderer,
                     this.text,
-                    ControlsListWidget.this.client.currentScreen.width / 2 - this.textWidth / 2,
+                    ControlsListWidget.this.width / 2 - this.textWidth / 2,
                     y + entryHeight - 9 - 1,
-                    16777215,
+                    Colors.WHITE,
                     false
             );
 
             int var10003 = x + 90 - ControlsListWidget.this.maxKeyNameLength;
 
             resetCategoryButton.setWidth(client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6);
-            resetCategoryButton.setX(var10003 - 2);
+            resetCategoryButton.setX(100);
             resetCategoryButton.setY(y + 2);
             resetCategoryButton.render(context, mouseX, mouseY, tickDelta);
         }
@@ -161,7 +132,17 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         @Override
         public List<? extends Selectable> selectableChildren() {
-            return List.of();
+            return ImmutableList.of(new Selectable() {
+                @Override
+                public Selectable.SelectionType getType() {
+                    return Selectable.SelectionType.HOVERED;
+                }
+
+                @Override
+                public void appendNarrations(NarrationMessageBuilder builder) {
+                    builder.put(NarrationPart.TITLE, CategoryEntry.this.text);
+                }
+            });
         }
 
         @Override

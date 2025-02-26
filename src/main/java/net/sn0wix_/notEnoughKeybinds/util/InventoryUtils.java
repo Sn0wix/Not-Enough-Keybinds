@@ -4,8 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FireworksComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
@@ -14,6 +12,8 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 
 import java.util.Arrays;
@@ -210,7 +210,7 @@ public class InventoryUtils {
         float rating = 0;
 
         if (itemStack.getItem() instanceof ArmorItem armor) {
-            ArmorMaterial material = armor.getMaterial().value();
+            RegistryEntry<ArmorMaterial> material = armor.getMaterial();
             if (material.equals(ArmorMaterials.LEATHER)) {
                 rating = 1;
             } else if (material.equals(ArmorMaterials.GOLD)) {

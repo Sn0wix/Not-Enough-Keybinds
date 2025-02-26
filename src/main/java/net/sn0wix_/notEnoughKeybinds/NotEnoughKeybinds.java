@@ -22,6 +22,7 @@ public class NotEnoughKeybinds implements ClientModInitializer {
      * gui lists not updating when they should
      * rework the whole menu rendering system
      * */
+
     public static final String MOD_ID = "not-enough-keybinds";
     public static final String MOD_NAME = "NotEnoughKeybinds";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
