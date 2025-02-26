@@ -7,9 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(ControlsListWidget.class)
 public interface ControlsListWidgetAccessor {
-    @Accessor("maxKeyNameLength")
-    int getMaxKeyNameLength();
-
     @Accessor("parent")
     KeybindsScreen getParent();
 }

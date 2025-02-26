@@ -19,28 +19,26 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
     public final Text currentPreset;
     public final ButtonWidget presetSettings;
     public final TextRenderer textRenderer;
-    int maxKeyNameLength;
 
     public PresetsButton(ControlsListWidget widget, TextRenderer renderer) {
         widget.super(Text.empty());
         this.textRenderer = renderer;
-        maxKeyNameLength = ((ControlsListWidgetAccessor) widget).getMaxKeyNameLength();
 
         currentPreset = Text.literal(TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName());
         presetSettings = ButtonWidget.builder(TextUtils.getText("presets"), button1 ->
                         MinecraftClient.getInstance().setScreen(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
-                .size(135, 20).build();
+                .size(132, 20).build();
     }
 
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         String textToRender = currentPreset.getString();
 
-        //same spacing as keybind names
-        int x1 = x + 90 - maxKeyNameLength;
+        //location of the presets button
+        int x1 = x + entryWidth / 2 - 340 / 2 + 340 - presetSettings.getWidth();
 
         //spacing that is computed from the text length
-        int x2 = x + (textRenderer.getWidth(textToRender) % 2) + 105 - textRenderer.getWidth(textToRender);
+        int x2 = x;
 
         int finalX = Math.min(x1, x2);
 
@@ -64,7 +62,7 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
 
         context.drawText(textRenderer, textToRender, finalX, y + entryHeight / 2 - 9 / 2, Colors.GRAY, true);
 
-        presetSettings.setPosition(x + 105, y);
+        presetSettings.setPosition(x1, y);
         presetSettings.render(context, mouseX, mouseY, tickDelta);
     }
 

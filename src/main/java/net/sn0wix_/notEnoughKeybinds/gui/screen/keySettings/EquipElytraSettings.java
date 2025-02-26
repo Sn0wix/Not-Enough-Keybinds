@@ -37,7 +37,7 @@ public class EquipElytraSettings extends SettingsScreen {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
     }
 
-    @Override
+    /*@Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
         addDrawableChild(new TextWidget(x, y - 20, 200, 20, TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
         addDrawableChild(new TextWidget(x2, y - 20, 200, 20, TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
@@ -146,7 +146,7 @@ public class EquipElytraSettings extends SettingsScreen {
 
 
         updateButtons();
-        addDoneButton();
+        addDoneButtonFooter();
     }
 
     public void updateButtons() {
@@ -209,5 +209,5 @@ public class EquipElytraSettings extends SettingsScreen {
     @Override
     public void saveOptions() {
         EquipElytraConfig.saveConfig();
-    }
+    }*/
 }

@@ -27,7 +27,7 @@ public class PresetsSettingScreen extends SettingsScreen {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("presets")));
     }
 
-    @Override
+    /*@Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
         this.presetsList = this.addDrawableChild(
                 new PresetsListWidget(this, this.client, this.width, this.height - 112, 48, 36)
@@ -94,7 +94,7 @@ public class PresetsSettingScreen extends SettingsScreen {
         );
 
         updateScreen();
-    }
+    }*/
 
     public void updateScreen() {
         writeButton.active = presetsList.getSelectedOrNull() != null;

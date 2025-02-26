@@ -23,9 +23,9 @@ public class SwapTotemShieldSettings extends SettingsScreen {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("swap_totem_shield")));
     }
 
-    @Override
+    /*@Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
-        addDoneButton();
+        addDoneButtonFooter();
 
         swapFirstButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.cycleSwapFirst();
@@ -90,5 +90,5 @@ public class SwapTotemShieldSettings extends SettingsScreen {
     @Override
     public void saveOptions() {
         SwapTotemShieldConfig.saveConfig();
-    }
+    }*/
 }

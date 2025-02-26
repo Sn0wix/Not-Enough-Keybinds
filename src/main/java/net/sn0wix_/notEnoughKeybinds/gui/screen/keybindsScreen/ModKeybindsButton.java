@@ -19,23 +19,21 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
     public final ButtonWidget button;
-    int maxKeyNameLength;
 
     public ModKeybindsButton(ControlsListWidget widget) {
         widget.super(Text.empty());
-        maxKeyNameLength = ((ControlsListWidgetAccessor) widget).getMaxKeyNameLength();
 
         button = ButtonWidget.builder(Text.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
                 MinecraftClient.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
-        ).size(maxKeyNameLength + 150, 20).build();
+        ).size(340, 20).build();
     }
 
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        button.setPosition(x + 90 - maxKeyNameLength, y);
+        button.setPosition(x, y);
         button.render(context, mouseX, mouseY, tickDelta);
 
-        context.drawTexture(NotEnoughKeybinds.ICON, x + 150 - maxKeyNameLength, y, 0, 0, 0, 18, 18, 18, 18);
+        context.drawTexture(NotEnoughKeybinds.ICON, x + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, y, 0, 0, 0, 18, 18, 18, 18);
     }
 
     @Override

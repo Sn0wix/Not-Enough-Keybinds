@@ -2,7 +2,6 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
@@ -28,10 +27,20 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    public void init(int x, int x2, int y, TextRenderer textRenderer) {
-        this.controlsList = this.addDrawableChild(new ControlsListWidget(this, this.client));
+    protected void init() {
+        controlsList = new ControlsListWidget(this, this.client);
         controlsList.setScrollAmount(scrollAmount);
-        addDoneButton();
+        super.init();
+    }
+
+    @Override
+    protected void initBody() {
+        this.layout.addBody(controlsList);
+    }
+
+    @Override
+    protected void initFooter() {
+        addDoneButtonFooter();
     }
 
     @Override
@@ -68,5 +77,11 @@ public class NotEKSettingsScreen extends SettingsScreen {
         } else {
             return super.keyPressed(keyCode, scanCode, modifiers);
         }
+    }
+
+    @Override
+    protected void initTabNavigation() {
+        this.layout.refreshPositions();
+        this.controlsList.position(this.width, this.layout);
     }
 }

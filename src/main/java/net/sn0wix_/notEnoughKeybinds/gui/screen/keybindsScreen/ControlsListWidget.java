@@ -76,7 +76,12 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
     @Override
     public int getRowWidth() {
-        return 340;
+        return getWidth();
+    }
+
+    @Override
+    protected int getScrollbarX() {
+        return this.getX() + this.width / 2 - 340 / 2 + 340 + 10;
     }
 
     //Entries
@@ -91,11 +96,11 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             this.textWidth = ControlsListWidget.this.client.textRenderer.getWidth(this.text);
 
             resetCategoryButton = ButtonWidget.builder(TextUtils.getText("reset_category"), button ->
-                    client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(parent, client1 -> {
-                        for (int i = 0; i < category.getKeyBindings().length; i++) {
-                            category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
-                        }
-                    }, true), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
+                            client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(parent, client1 -> {
+                                for (int i = 0; i < category.getKeyBindings().length; i++) {
+                                    category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
+                                }
+                            }, true), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
                     .size(85, 16).build();
         }
 
@@ -111,13 +116,8 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                     false
             );
 
-            int var10003 = x + 90 - ControlsListWidget.this.maxKeyNameLength;
-
             resetCategoryButton.setWidth(client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6);
-            /*NotEnoughKeybinds.LOGGER.info("max:" + maxKeyNameLength);
-            NotEnoughKeybinds.LOGGER.info("width:" + resetCategoryButton.getWidth());
-            NotEnoughKeybinds.LOGGER.info("screen width:" + ControlsListWidget.this.width);*/
-            resetCategoryButton.setX((ControlsListWidget.this.width / 2) - resetCategoryButton.getWidth() /*- maxKeyNameLength*/);
+            resetCategoryButton.setX((ControlsListWidget.this.width / 2) - maxKeyNameLength - 2);
             resetCategoryButton.setY(y + 2);
             resetCategoryButton.render(context, mouseX, mouseY, tickDelta);
         }
@@ -237,12 +237,13 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             int resetButtonPos = ControlsListWidget.this.getScrollbarX() - this.resetButton.getWidth() - 10;
             int j = y - 2;
+            int startPos = getWidth() / 2 - maxKeyNameLength;
             this.resetButton.setPosition(resetButtonPos, j);
             this.resetButton.render(context, mouseX, mouseY, tickDelta);
             int editButtonPos = resetButtonPos - 5 - this.editButton.getWidth();
             this.editButton.setPosition(editButtonPos, j);
             this.editButton.render(context, mouseX, mouseY, tickDelta);
-            context.drawTextWithShadow(ControlsListWidget.this.client.textRenderer, this.bindingName, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE);
+            context.drawTextWithShadow(ControlsListWidget.this.client.textRenderer, this.bindingName, startPos, y + entryHeight / 2 - 9 / 2, Colors.WHITE);
             if (this.duplicate) {
                 int m = this.editButton.getX() - 6;
                 context.fill(m, y - 1, m + 3, y + entryHeight, -65536);
@@ -261,7 +262,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
             this.editButton.render(context, mouseX, mouseY, tickDelta);
 */
-            this.settingsButton.setX(x - 25);
+            this.settingsButton.setX(startPos - 25);
             this.settingsButton.setY(y);
             this.settingsButton.render(context, mouseX, mouseY, tickDelta);
         }

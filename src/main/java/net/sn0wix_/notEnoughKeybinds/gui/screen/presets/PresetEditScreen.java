@@ -36,13 +36,13 @@ public class PresetEditScreen extends SettingsScreen {
         this.newPreset = newPreset;
     }
 
-    @Override
+    /*@Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
         backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> client.setScreen(parent)
         ).dimensions(x + 240, this.height - 29, 70, 20).build();
         addDrawableChild(backButton);
 
-        addDoneButton(button -> {
+        addDoneButtonFooter(button -> {
             preset.setName(nameWidget.getText());
             preset.setDescription(descriptionWidget.getText());
             PresetLoader.writePreset(preset, preset.getContent().isEmpty() ? Utils.bindingsToList(true) : preset.getContent());
@@ -81,5 +81,5 @@ public class PresetEditScreen extends SettingsScreen {
             doneButton.active = !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
-    }
+    }*/
 }

@@ -38,7 +38,7 @@ public class ChatKeyScreen extends SettingsScreen {
         this.message = binding.getChatMessage();
     }
 
-    @Override
+    /*@Override
     public void init(int x, int x2, int y, TextRenderer textRenderer) {
         trashButton = ButtonWidget.builder(TextUtils.getText("delete"), button ->
                 {
@@ -52,7 +52,7 @@ public class ChatKeyScreen extends SettingsScreen {
         ).dimensions(x + 240, this.height - 29, 70, 20).build();
         addDrawableChild(trashButton);
 
-        addDoneButton(button -> {
+        addDoneButtonFooter(button -> {
             binding.setChatMessage(messageWidget.getText());
             binding.setSettingDisplayName(nameWidget.getText());
             ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
@@ -112,5 +112,5 @@ public class ChatKeyScreen extends SettingsScreen {
             doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
-    }
+    }*/
 }
