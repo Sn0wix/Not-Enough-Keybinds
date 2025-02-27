@@ -154,7 +154,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     }
 
     @Environment(EnvType.CLIENT)
-    public static class AddNewKeyButtonEntry extends Entry {
+    public class AddNewKeyButtonEntry extends Entry {
         public final ButtonWidget button;
         public final String translationKey;
 
@@ -168,7 +168,13 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
         @Override
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            button.setDimensionsAndPosition(175, 20, x + 5, y + 2);
+            int resetButtonPos = ControlsListWidget.this.getScrollbarX() - 50 - 10;
+            int editButtonPos = resetButtonPos - 5 - 75;
+
+            int resetCategoryButtonWidth = client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6;
+            int resetCategoryButtonPos = (ControlsListWidget.this.width / 2) - maxKeyNameLength - 2;
+
+            button.setDimensionsAndPosition(editButtonPos + 75 - resetCategoryButtonWidth - resetCategoryButtonPos - 10, 20, resetCategoryButtonWidth + resetCategoryButtonPos + 10, y + 2);
             button.render(context, mouseX, mouseY, tickDelta);
         }
 
@@ -248,20 +254,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                 int m = this.editButton.getX() - 6;
                 context.fill(m, y - 1, m + 3, y + entryHeight, -65536);
             }
-            /*int var10003 = Math.max(x - ControlsListWidget.this.maxKeyNameLength, settingsButton.visible ? 30 : 5);
-            context.drawText(ControlsListWidget.this.client.textRenderer, this.bindingName, var10003, y + entryHeight / 2 - 9 / 2, 16777215, false);
-            this.resetButton.setX(x + 190);
-            this.resetButton.setY(y);
-            this.resetButton.render(context, mouseX, mouseY, tickDelta);
-            this.editButton.setX(x + 105);
-            this.editButton.setY(y);
-            if (this.duplicate) {
-                int j = this.editButton.getX() - 6;
-                context.fill(j, y + 2, j + 3, y + entryHeight + 2, Formatting.RED.getColorValue() | 0xFF000000);
-            }
 
-            this.editButton.render(context, mouseX, mouseY, tickDelta);
-*/
             this.settingsButton.setX(startPos - 25);
             this.settingsButton.setY(y);
             this.settingsButton.render(context, mouseX, mouseY, tickDelta);
