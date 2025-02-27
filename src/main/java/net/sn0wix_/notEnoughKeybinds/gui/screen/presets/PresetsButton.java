@@ -35,34 +35,27 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
         String textToRender = currentPreset.getString();
 
         //location of the presets button
-        int x1 = x + entryWidth / 2 - 340 / 2 + 340 - presetSettings.getWidth();
-
-        //spacing that is computed from the text length
-        int x2 = x;
-
-        int finalX = Math.min(x1, x2);
+        int buttonPos = x + entryWidth / 2 - 340 / 2 + 340 - presetSettings.getWidth();
+        int textLength = textRenderer.getWidth(textToRender) + 20;
+        int padding = 5;
 
         try {
-            if (finalX < 1) {
+            if (buttonPos - x - padding <= textLength) {
                 //the text is so large, it doesn't fit on the screen
                 StringBuilder builder = new StringBuilder();
-                int i = 0;
-                x2 = 69;
-                while (x2 > 20) {
+
+                for (int i = 0; textRenderer.getWidth(builder + "...") <= buttonPos - x - padding; i++) {
                     builder.append(textToRender.charAt(i));
-                    x2 = x + (textRenderer.getWidth(builder + "...") % 2) + 105 - textRenderer.getWidth(builder + "...");
-                    i++;
                 }
 
                 textToRender = builder + "...";
-                finalX = x2;
             }
         } catch (IndexOutOfBoundsException ignored) {
         }
 
-        context.drawText(textRenderer, textToRender, finalX, y + entryHeight / 2 - 9 / 2, Colors.GRAY, true);
+        context.drawText(textRenderer, textToRender, x, y + entryHeight / 2 - 9 / 2, Colors.GRAY, true);
 
-        presetSettings.setPosition(x1, y);
+        presetSettings.setPosition(buttonPos, y);
         presetSettings.render(context, mouseX, mouseY, tickDelta);
     }
 
