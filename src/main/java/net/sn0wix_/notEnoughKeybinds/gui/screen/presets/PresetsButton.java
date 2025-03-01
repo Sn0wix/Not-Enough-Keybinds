@@ -41,14 +41,20 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
 
         try {
             if (buttonPos - x - padding <= textLength) {
-                //the text is so large, it doesn't fit on the screen
-                StringBuilder builder = new StringBuilder();
+                //the text is larger than the available space
+                x = buttonPos - textLength + padding * 3;
 
-                for (int i = 0; textRenderer.getWidth(builder + "...") <= buttonPos - x - padding; i++) {
-                    builder.append(textToRender.charAt(i));
+                if (textLength > buttonPos - padding) {
+                    //the text is so large, it doesn't fit on the screen
+                    StringBuilder builder = new StringBuilder();
+
+                    for (int i = 0; textRenderer.getWidth(builder + "...") <= buttonPos - padding * 2; i++) {
+                        builder.append(textToRender.charAt(i));
+                    }
+
+                    textToRender = builder + "...";
+                    x = padding;
                 }
-
-                textToRender = builder + "...";
             }
         } catch (IndexOutOfBoundsException ignored) {
         }
