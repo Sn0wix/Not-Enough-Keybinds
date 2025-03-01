@@ -1,10 +1,11 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
@@ -15,6 +16,8 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
+
+import java.util.List;
 
 public class EquipElytraSettings extends SettingsScreen {
     public ButtonWidget swapFirstButton;
@@ -40,111 +43,113 @@ public class EquipElytraSettings extends SettingsScreen {
 
     @Override
     protected void initBody() {
-        DirectionalLayoutWidget leftWidget = DirectionalLayoutWidget.vertical().spacing(2);
-        DirectionalLayoutWidget rightWidget = DirectionalLayoutWidget.vertical().spacing(2);
-        init(leftWidget, rightWidget, textRenderer);
+        super.initBody();
+        init();
 
-        DirectionalLayoutWidget finalBodyWidget = DirectionalLayoutWidget.horizontal().spacing(5);
-        finalBodyWidget.add(leftWidget);
-        finalBodyWidget.add(rightWidget);
 
-        this.layout.addBody(finalBodyWidget);
+        assert body != null;
+        body.addAll(List.of(
+                new TextWidget(TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer).alignLeft(),
+                new TextWidget(TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer).alignLeft(),
+                swapFirstButton, fireworkEquipMode, swapSecondButton, equipSlotButton, chooseElytraButton, new ClickableWidget(0, 0, 150, 20, Text.empty()) {
+                    //Two buttons in one slot
+                    @Override
+                    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+                        useRocket.setPosition(getX(), getY());
+                        useRocket.render(context, mouseX, mouseY, delta);
+                        selectRocket.setPosition(getX() + selectRocket.getWidth() + 2, getY());
+                        selectRocket.render(context, mouseX, mouseY, delta);
+                    }
+
+                    @Override
+                    protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+                        useRocket.appendClickableNarrations(builder);
+                        selectRocket.appendClickableNarrations(builder);
+                    }
+
+                    @Override
+                    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+                        return useRocket.mouseClicked(mouseX, mouseY, button) || selectRocket.mouseClicked(mouseX, mouseY, button);
+                    }
+                }, chooseElytraButton, swapBackOldItemButton, acceptCurseOfBindingButton, fireworkDurationButton, acceptCurseOfBindingButton, canExplodeButton, enterFlightButton));
+
+        this.layout.addBody(body);
     }
 
-    public void init(DirectionalLayoutWidget leftWidget, DirectionalLayoutWidget rightWidget, TextRenderer textRenderer) {
-        leftWidget.add(new TextWidget(TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
-        rightWidget.add(new TextWidget(TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
-
+    public void init() {
         //Elytra
         swapFirstButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.cycleSwapFirst();
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("swap_first.elytra")).build();
-        leftWidget.add(swapFirstButton);
 
         swapSecondButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond;
             updateButtons();
         }).size(150, 20).build();
-        leftWidget.add(swapSecondButton);
 
         chooseElytraButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra;
             updateButtons();
         }).size(150, 20).tooltip(Tooltip.of(Text.translatable(TextUtils.getTranslationKey("choose", true), Language.getInstance().get(Items.ELYTRA.getTranslationKey())))).build();
-        leftWidget.add(chooseElytraButton);
 
         chooseChestplateButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate;
             updateButtons();
         }).size(150, 20).tooltip(Tooltip.of(Text.translatable(TextUtils.getTranslationKey("choose", true), Language.getInstance().get(TextUtils.getTranslationKey("chestplate"))))).build();
-        leftWidget.add(chooseChestplateButton);
 
         acceptCurseOfVanishingButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.VANISHING_CURSE.getRegistry().toTranslationKey()))).build();
-        leftWidget.add(acceptCurseOfVanishingButton);
 
         acceptCurseOfBindingButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.BINDING_CURSE.getRegistry().toTranslationKey()))).build();
-        leftWidget.add(acceptCurseOfBindingButton);
 
         enterFlightButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("toggle_flight")).build();
-        leftWidget.add(enterFlightButton);
 
         //Fireworks
         fireworkEquipMode = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.cycleUseMode();
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("firework.equip")).build();
-        rightWidget.add(fireworkEquipMode);
 
         equipSlotButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.cycleSlot();
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("firework.slot")).build();
-        rightWidget.add(equipSlotButton);
 
 
-        DirectionalLayoutWidget widget = DirectionalLayoutWidget.horizontal().spacing(2);
 
         useRocket = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket;
             updateButtons();
         }).size(74, 20).tooltip(TextUtils.getTooltip("firework.use")).build();
-        widget.add(useRocket);
 
         selectRocket = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket;
             updateButtons();
         }).size(74, 20).tooltip(TextUtils.getTooltip("firework.select")).build();
-        widget.add(selectRocket);
-
-        rightWidget.add(widget);
 
         swapBackOldItemButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("swap_old")).build();
-        rightWidget.add(swapBackOldItemButton);
 
         fireworkDurationButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("firework.duration")).build();
-        rightWidget.add(fireworkDurationButton);
 
         canExplodeButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode;
             updateButtons();
         }).size(150, 20).build();
-        rightWidget.add(canExplodeButton);
 
         updateButtons();
     }
