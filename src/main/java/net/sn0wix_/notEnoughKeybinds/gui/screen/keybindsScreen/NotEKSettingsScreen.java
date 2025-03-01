@@ -39,11 +39,6 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    protected void initFooter() {
-        addDoneButtonFooter();
-    }
-
-    @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         scrollAmount = controlsList.getScrollAmount();

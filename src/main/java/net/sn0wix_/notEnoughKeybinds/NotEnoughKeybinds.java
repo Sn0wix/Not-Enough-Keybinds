@@ -17,8 +17,6 @@ public class NotEnoughKeybinds implements ClientModInitializer {
 
     /**
      * BUGS:
-     * Mod buttons offset
-     * scrollbar not working in custom binding settings
      * gui lists not updating when they should
      * rework the whole menu rendering system
      * */
