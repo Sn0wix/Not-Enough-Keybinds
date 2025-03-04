@@ -33,13 +33,14 @@ public class EquipElytraSettings extends SettingsScreen {
     public ButtonWidget useRocket;
     public ButtonWidget selectRocket;
 
+    public DirectionalLayoutWidget layout = DirectionalLayoutWidget.vertical().spacing(10);
 
     public EquipElytraSettings(Screen parent) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
     }
 
     @Override
-    protected void initBody() {
+    protected void init() {
         DirectionalLayoutWidget leftWidget = DirectionalLayoutWidget.vertical().spacing(2);
         DirectionalLayoutWidget rightWidget = DirectionalLayoutWidget.vertical().spacing(2);
         init(leftWidget, rightWidget, textRenderer);
@@ -48,7 +49,20 @@ public class EquipElytraSettings extends SettingsScreen {
         finalBodyWidget.add(leftWidget);
         finalBodyWidget.add(rightWidget);
 
-        this.layout.addBody(finalBodyWidget);
+        layout.getMainPositioner().marginTop(10);
+        layout.getMainPositioner().alignHorizontalCenter();
+        layout.getMainPositioner().alignVerticalCenter();
+
+        layout.add(new TextWidget(title, textRenderer));
+        layout.add(finalBodyWidget);
+
+        this.layout.forEachChild(this::addDrawableChild);
+        this.initTabNavigation();
+    }
+
+    @Override
+    protected void initTabNavigation() {
+        layout.refreshPositions();
     }
 
     public void init(DirectionalLayoutWidget leftWidget, DirectionalLayoutWidget rightWidget, TextRenderer textRenderer) {

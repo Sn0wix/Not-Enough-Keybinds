@@ -47,7 +47,8 @@ public class NotEKSettingsScreen extends SettingsScreen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.selectedKeyBinding != null && selectedKeyBinding.getBinding() != null) {
-            this.gameOptions.setKeyCode(selectedKeyBinding.getBinding(), InputUtil.Type.MOUSE.createFromCode(button));
+            assert this.client != null;
+            this.client.options.setKeyCode(selectedKeyBinding.getBinding(), InputUtil.Type.MOUSE.createFromCode(button));
             this.selectedKeyBinding = null;
             this.controlsList.update();
             return true;
