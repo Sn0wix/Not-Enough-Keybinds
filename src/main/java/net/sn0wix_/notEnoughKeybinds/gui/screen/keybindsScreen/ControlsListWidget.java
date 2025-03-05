@@ -42,7 +42,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     private int maxKeyNameLength;
 
     public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
-        super(client, parent.width, parent.layout.getContentHeight(), parent.layout.getHeaderHeight(), 20);
+        super(client, parent.width, parent.threePartsLayout.getContentHeight(), parent.threePartsLayout.getHeaderHeight(), 20);
         this.parent = parent;
 
         NotEKKeyBindings.getCategories().forEach(category -> {

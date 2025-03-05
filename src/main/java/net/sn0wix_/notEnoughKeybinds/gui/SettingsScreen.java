@@ -3,76 +3,84 @@ package net.sn0wix_.notEnoughKeybinds.gui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.OptionListWidget;
-import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
+import net.minecraft.client.gui.widget.*;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import org.jetbrains.annotations.Nullable;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 
 @Environment(EnvType.CLIENT)
 public abstract class SettingsScreen extends Screen {
     protected final Screen parent;
-    @Nullable
-    protected OptionListWidget body;
-    public ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
+    public BasicLayoutWidget basicLayout;
+    public ThreePartsLayoutWidget threePartsLayout;
 
     public SettingsScreen(Screen parent, Text title) {
         super(title);
         this.parent = parent;
     }
 
-    public SettingsScreen(Screen parent, Text title, int headerFooterHeight) {
-        this(parent, title);
-        layout = new ThreePartsLayoutWidget(this, headerFooterHeight);
-    }
-
     public SettingsScreen(Screen parent, Text title, int headerHeight, int footerHeight) {
         this(parent, title);
-        layout = new ThreePartsLayoutWidget(this, headerHeight, footerHeight);
+        initThreePartsLayout();
+        this.threePartsLayout.setHeaderHeight(headerHeight);
+        this.threePartsLayout.setFooterHeight(footerHeight);
+    }
+
+    public void initBasicLayout() {
+        basicLayout = new BasicLayoutWidget(this);
+        basicLayout.getMainPositioner().relative(0.5F, 0.5F);
+    }
+
+    public void initThreePartsLayout() {
+        threePartsLayout = new ThreePartsLayoutWidget(this);
     }
 
     @Override
     protected void init() {
-        this.initHeader();
-        this.initBody();
-        this.initFooter();
-        this.layout.forEachChild(this::addDrawableChild);
+        if (threePartsLayout != null) {
+            this.initHeader();
+            this.initBody();
+            this.initFooter();
+            this.threePartsLayout.forEachChild(this::addDrawableChild);
+        } else {
+            this.basicLayout.forEachChild(this::addDrawableChild);
+        }
+
         this.initTabNavigation();
     }
 
-    protected void initHeader() {
-        this.layout.addHeader(this.title, this.textRenderer);
+    public void initBody() {
     }
 
-    protected void initBody() {
-
+    public void initFooter() {
+        this.threePartsLayout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());
     }
 
-    protected void initFooter() {
-        this.layout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());
+    public void initHeader() {
+        this.threePartsLayout.addHeader(this.title, this.textRenderer);
     }
+
 
     @Override
     protected void initTabNavigation() {
-        this.layout.refreshPositions();
-        if (this.body != null) {
-            this.body.position(this.width, this.layout);
+        if (threePartsLayout != null) {
+            this.threePartsLayout.refreshPositions();
+        } else {
+            this.basicLayout.refreshPositions();
         }
     }
 
     @Override
     public void removed() {
+        assert this.client != null;
         this.client.options.write();
     }
 
     @Override
     public void close() {
-        if (this.body != null) {
-            this.body.applyAllPendingValues();
-        }
         saveOptions();
 
+        assert this.client != null;
         this.client.setScreen(this.parent);
     }
 

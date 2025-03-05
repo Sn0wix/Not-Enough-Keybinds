@@ -14,6 +14,7 @@ import net.minecraft.util.Language;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class EquipElytraSettings extends SettingsScreen {
@@ -33,10 +34,9 @@ public class EquipElytraSettings extends SettingsScreen {
     public ButtonWidget useRocket;
     public ButtonWidget selectRocket;
 
-    public DirectionalLayoutWidget layout = DirectionalLayoutWidget.vertical().spacing(10);
-
     public EquipElytraSettings(Screen parent) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
+        initThreePartsLayout();
     }
 
     @Override
@@ -45,24 +45,21 @@ public class EquipElytraSettings extends SettingsScreen {
         DirectionalLayoutWidget rightWidget = DirectionalLayoutWidget.vertical().spacing(2);
         init(leftWidget, rightWidget, textRenderer);
 
-        DirectionalLayoutWidget finalBodyWidget = DirectionalLayoutWidget.horizontal().spacing(5);
-        finalBodyWidget.add(leftWidget);
-        finalBodyWidget.add(rightWidget);
+        DirectionalLayoutWidget bodyWidget = DirectionalLayoutWidget.horizontal().spacing(5);
+        bodyWidget.add(leftWidget);
+        bodyWidget.add(rightWidget);
 
-        layout.getMainPositioner().marginTop(10);
-        layout.getMainPositioner().alignHorizontalCenter();
-        layout.getMainPositioner().alignVerticalCenter();
+        DirectionalLayoutWidget headerBodyWidget = DirectionalLayoutWidget.vertical().spacing(10);
+        TextWidget title = new TextWidget(this.title, textRenderer);
+        title.alignCenter();
 
-        layout.add(new TextWidget(title, textRenderer));
-        layout.add(finalBodyWidget);
+        headerBodyWidget.add(title);
+        headerBodyWidget.add(bodyWidget);
 
-        this.layout.forEachChild(this::addDrawableChild);
-        this.initTabNavigation();
-    }
+        threePartsLayout.addHeader(title);
+        threePartsLayout.addBody(bodyWidget);
 
-    @Override
-    protected void initTabNavigation() {
-        layout.refreshPositions();
+        super.init();
     }
 
     public void init(DirectionalLayoutWidget leftWidget, DirectionalLayoutWidget rightWidget, TextRenderer textRenderer) {

@@ -4,7 +4,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -24,6 +27,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
 
     public NotEKSettingsScreen(Screen parent) {
         super(parent, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
+        initThreePartsLayout();
     }
 
     @Override
@@ -34,9 +38,11 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    protected void initBody() {
-        this.layout.addBody(controlsList);
+    public void initBody() {
+        this.threePartsLayout.addBody(controlsList);
     }
+
+
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -77,7 +83,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
 
     @Override
     protected void initTabNavigation() {
-        this.layout.refreshPositions();
-        this.controlsList.position(this.width, this.layout);
+        this.controlsList.position(this.width, this.threePartsLayout);
+        super.initTabNavigation();
     }
 }
