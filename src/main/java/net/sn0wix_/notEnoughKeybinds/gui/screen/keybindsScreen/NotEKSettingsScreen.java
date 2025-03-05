@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -24,6 +25,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
 
     public NotEKSettingsScreen(Screen parent) {
         super(parent, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
+        threePartsLayout = new BasicLayoutWidget(33,this);
     }
 
     @Override
@@ -37,8 +39,6 @@ public class NotEKSettingsScreen extends SettingsScreen {
     public void initBody() {
         this.threePartsLayout.addBody(controlsList);
     }
-
-
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {

@@ -34,8 +34,8 @@ public abstract class SettingsScreen extends Screen {
         this.initTabNavigation();
     }
 
-    public void initBody() {
-    }
+    //TODO make abstract
+    protected void initBody() {};
 
     public void initFooter() {
         this.threePartsLayout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());

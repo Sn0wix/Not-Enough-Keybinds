@@ -1,6 +1,5 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -14,10 +13,10 @@ import net.minecraft.util.Language;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.INotEKLayoutTemplate;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
-public class EquipElytraSettings extends SettingsScreen {
+public class EquipElytraSettings extends SettingsScreen implements INotEKLayoutTemplate {
     public ButtonWidget swapFirstButton;
     public ButtonWidget swapSecondButton;
     public ButtonWidget chooseElytraButton;
@@ -34,27 +33,20 @@ public class EquipElytraSettings extends SettingsScreen {
     public ButtonWidget useRocket;
     public ButtonWidget selectRocket;
 
+    public DirectionalLayoutWidget leftWidget = getColumnWidget();
+    public DirectionalLayoutWidget rightWidget = getColumnWidget();
+
     public EquipElytraSettings(Screen parent) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
-        threePartsLayout = new BasicLayoutWidget(5, this);
     }
 
     @Override
-    protected void init() {
-        DirectionalLayoutWidget leftWidget = DirectionalLayoutWidget.vertical().spacing(2);
-        DirectionalLayoutWidget rightWidget = DirectionalLayoutWidget.vertical().spacing(2);
-        init(leftWidget, rightWidget, textRenderer);
-
-        DirectionalLayoutWidget bodyWidget = DirectionalLayoutWidget.horizontal().spacing(5);
-        bodyWidget.add(leftWidget);
-        bodyWidget.add(rightWidget);
-
-        threePartsLayout.addBody(bodyWidget);
-
-        super.init();
+    protected void initBody() {
+        initButtons();
+        initBodyWidget(leftWidget, rightWidget, threePartsLayout);
     }
 
-    public void init(DirectionalLayoutWidget leftWidget, DirectionalLayoutWidget rightWidget, TextRenderer textRenderer) {
+    public void initButtons() {
         leftWidget.add(new TextWidget(TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
         rightWidget.add(new TextWidget(TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
 

@@ -11,7 +11,7 @@ import net.minecraft.text.Text;
 @Environment(EnvType.CLIENT)
 public class BasicLayoutWidget extends ThreePartsLayoutWidget {
     public static final int DEFAULT_HEADER_FOOTER_HEIGHT = 33;
-    private int BODY_MARGIN_TOP = 30;
+    private int BODY_MARGIN_TOP = 5;
     private final SimplePositioningWidget header = new SimplePositioningWidget();
     private final SimplePositioningWidget footer = new SimplePositioningWidget();
     private final SimplePositioningWidget body = new SimplePositioningWidget();
