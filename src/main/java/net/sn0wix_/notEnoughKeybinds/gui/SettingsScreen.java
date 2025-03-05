@@ -11,8 +11,7 @@ import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 @Environment(EnvType.CLIENT)
 public abstract class SettingsScreen extends Screen {
     protected final Screen parent;
-    public BasicLayoutWidget basicLayout;
-    public ThreePartsLayoutWidget threePartsLayout;
+    public BasicLayoutWidget threePartsLayout = new BasicLayoutWidget(this);
 
     public SettingsScreen(Screen parent, Text title) {
         super(title);
@@ -21,30 +20,16 @@ public abstract class SettingsScreen extends Screen {
 
     public SettingsScreen(Screen parent, Text title, int headerHeight, int footerHeight) {
         this(parent, title);
-        initThreePartsLayout();
         this.threePartsLayout.setHeaderHeight(headerHeight);
         this.threePartsLayout.setFooterHeight(footerHeight);
     }
 
-    public void initBasicLayout() {
-        basicLayout = new BasicLayoutWidget(this);
-        basicLayout.getMainPositioner().relative(0.5F, 0.5F);
-    }
-
-    public void initThreePartsLayout() {
-        threePartsLayout = new ThreePartsLayoutWidget(this);
-    }
-
     @Override
     protected void init() {
-        if (threePartsLayout != null) {
-            this.initHeader();
-            this.initBody();
-            this.initFooter();
-            this.threePartsLayout.forEachChild(this::addDrawableChild);
-        } else {
-            this.basicLayout.forEachChild(this::addDrawableChild);
-        }
+        this.initHeader();
+        this.initBody();
+        this.initFooter();
+        this.threePartsLayout.forEachChild(this::addDrawableChild);
 
         this.initTabNavigation();
     }
@@ -63,11 +48,7 @@ public abstract class SettingsScreen extends Screen {
 
     @Override
     protected void initTabNavigation() {
-        if (threePartsLayout != null) {
-            this.threePartsLayout.refreshPositions();
-        } else {
-            this.basicLayout.refreshPositions();
-        }
+        this.threePartsLayout.refreshPositions();
     }
 
     @Override

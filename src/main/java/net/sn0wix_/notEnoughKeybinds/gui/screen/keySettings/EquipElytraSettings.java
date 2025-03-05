@@ -36,7 +36,7 @@ public class EquipElytraSettings extends SettingsScreen {
 
     public EquipElytraSettings(Screen parent) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
-        initThreePartsLayout();
+        threePartsLayout = new BasicLayoutWidget(5, this);
     }
 
     @Override
@@ -49,14 +49,6 @@ public class EquipElytraSettings extends SettingsScreen {
         bodyWidget.add(leftWidget);
         bodyWidget.add(rightWidget);
 
-        DirectionalLayoutWidget headerBodyWidget = DirectionalLayoutWidget.vertical().spacing(10);
-        TextWidget title = new TextWidget(this.title, textRenderer);
-        title.alignCenter();
-
-        headerBodyWidget.add(title);
-        headerBodyWidget.add(bodyWidget);
-
-        threePartsLayout.addHeader(title);
         threePartsLayout.addBody(bodyWidget);
 
         super.init();
