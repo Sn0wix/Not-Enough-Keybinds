@@ -44,6 +44,11 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
     public ControlsListWidget(NotEKSettingsScreen parent, MinecraftClient client) {
         super(client, parent.width, parent.threePartsLayout.getContentHeight(), parent.threePartsLayout.getHeaderHeight(), 20);
         this.parent = parent;
+        initEntries();
+    }
+
+    public void initEntries() {
+        this.clearEntries();
 
         NotEKKeyBindings.getCategories().forEach(category -> {
             this.addEntry(new ControlsListWidget.CategoryEntry(Text.translatable(category.getTranslationKey()), category));
@@ -171,10 +176,16 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             int resetButtonPos = ControlsListWidget.this.getScrollbarX() - 50 - 10;
             int editButtonPos = resetButtonPos - 5 - 75;
 
+
             int resetCategoryButtonWidth = client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6;
             int resetCategoryButtonPos = (ControlsListWidget.this.width / 2) - maxKeyNameLength - 2;
 
-            button.setDimensionsAndPosition(editButtonPos + 75 - resetCategoryButtonWidth - resetCategoryButtonPos - 10, 20, resetCategoryButtonWidth + resetCategoryButtonPos + 10, y + 2);
+            //Math.abs(((ControlsListWidget.this.width / 2) - maxKeyNameLength - 2) - 2 * (resetCategoryButtonWidth + resetCategoryButtonPos + 10))
+            int width = resetButtonPos - resetCategoryButtonWidth - resetCategoryButtonPos - 10;
+
+            button.setDimensionsAndPosition(
+                    width,
+                    20, resetButtonPos - 5 - width, y + 2);
             button.render(context, mouseX, mouseY, tickDelta);
         }
 

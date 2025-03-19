@@ -71,13 +71,13 @@
   "text.not-enough-keybinds.swap_old": "Swap back old item: %s",
 
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
-  "text.not-enough-keybinds.confirm.0": "Yes, i'm sure",
+  "text.not-enough-keybinds.confirm.0": "Yes, I'm sure",
   "text.not-enough-keybinds.confirm.1": "Yes sir!",
-  "text.not-enough-keybinds.confirm.2": "Yep, i'm sure",
+  "text.not-enough-keybinds.confirm.2": "Yep, I'm sure",
   "text.not-enough-keybinds.confirm.3": "Yes",
   "text.not-enough-keybinds.cancel.0": "No, thanks",
   "text.not-enough-keybinds.cancel.1": "No, this was a miss-click",
-  "text.not-enough-keybinds.cancel.2": "Nope, i don't want to",
+  "text.not-enough-keybinds.cancel.2": "Nope, I don't want to",
   "text.not-enough-keybinds.cancel.3": "No",
   "text.not-enough-keybinds.toggle": "Toggle ",
 

@@ -86,6 +86,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
     @Override
     public void onDisplayed() {
         if (controlsList != null) {
+            controlsList.initEntries();
             controlsList.update();
         }
     }

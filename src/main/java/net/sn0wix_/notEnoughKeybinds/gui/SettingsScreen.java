@@ -34,7 +34,6 @@ public abstract class SettingsScreen extends Screen {
         this.initTabNavigation();
     }
 
-    //TODO make abstract
     protected void initBody() {}
 
     public void initFooter() {
