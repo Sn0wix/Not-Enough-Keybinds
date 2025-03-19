@@ -82,4 +82,11 @@ public class NotEKSettingsScreen extends SettingsScreen {
         this.controlsList.position(this.width, this.threePartsLayout);
         super.initTabNavigation();
     }
+
+    @Override
+    public void onDisplayed() {
+        if (controlsList != null) {
+            controlsList.update();
+        }
+    }
 }

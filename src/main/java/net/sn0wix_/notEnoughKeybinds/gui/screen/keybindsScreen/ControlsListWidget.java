@@ -100,7 +100,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                                 for (int i = 0; i < category.getKeyBindings().length; i++) {
                                     category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
                                 }
-                            }, true), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
+                            }), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
                     .size(85, 16).build();
         }
 
@@ -264,7 +264,6 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
         public List<? extends Element> children() {
             return List.of(this.editButton, this.resetButton, this.settingsButton);
         }
-
 
         @Override
         public List<? extends Selectable> selectableChildren() {

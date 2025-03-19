@@ -5,7 +5,6 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -78,13 +77,13 @@ public class EquipElytraSettings extends SettingsScreen implements INotEKLayoutT
         acceptCurseOfVanishingButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing;
             updateButtons();
-        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.VANISHING_CURSE.getRegistry().toTranslationKey()))).build();
+        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get("enchantment.minecraft.vanishing_curse"))).build();
         leftWidget.add(acceptCurseOfVanishingButton);
 
         acceptCurseOfBindingButton = ButtonWidget.builder(Text.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding;
             updateButtons();
-        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get(Enchantments.BINDING_CURSE.getRegistry().toTranslationKey()))).build();
+        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get("enchantment.minecraft.binding_curse"))).build();
         leftWidget.add(acceptCurseOfBindingButton);
 
         enterFlightButton = ButtonWidget.builder(Text.empty(), button -> {
@@ -164,11 +163,11 @@ public class EquipElytraSettings extends SettingsScreen implements INotEKLayoutT
                 Language.getInstance().get(TextUtils.getTranslationKey("chestplate"))));
 
         acceptCurseOfBindingButton.setMessage(TextUtils.getText("accept",
-                Language.getInstance().get(Enchantments.BINDING_CURSE.getRegistry().toTranslationKey()),
+                Language.getInstance().get("enchantment.minecraft.binding_curse"),
                 Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding)))));
 
         acceptCurseOfVanishingButton.setMessage(TextUtils.getText("accept",
-                Language.getInstance().get(Enchantments.VANISHING_CURSE.getRegistry().toTranslationKey()),
+                Language.getInstance().get("enchantment.minecraft.vanishing_curse"),
                 Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing)))));
 
         enterFlightButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("enter_flight_mode"),

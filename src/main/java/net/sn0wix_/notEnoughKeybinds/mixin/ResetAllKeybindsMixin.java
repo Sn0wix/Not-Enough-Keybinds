@@ -40,7 +40,7 @@ public abstract class ResetAllKeybindsMixin {
             }
 
             this.controlsList.update();
-        }, true), Text.translatable("text.not-enough-keybinds.resetAllKeys")));
+        }), Text.translatable("text.not-enough-keybinds.resetAllKeys")));
         ci.cancel();
     }
 }
