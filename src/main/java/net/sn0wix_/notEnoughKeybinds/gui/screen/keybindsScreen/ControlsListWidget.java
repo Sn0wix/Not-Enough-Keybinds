@@ -100,7 +100,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                                 for (int i = 0; i < category.getKeyBindings().length; i++) {
                                     category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
                                 }
-                            }), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
+                            }, true), Text.translatable(TextUtils.getTranslationKey("reset_category.confirm"), Language.getInstance().get(category.getTranslationKey())))))
                     .size(85, 16).build();
         }
 

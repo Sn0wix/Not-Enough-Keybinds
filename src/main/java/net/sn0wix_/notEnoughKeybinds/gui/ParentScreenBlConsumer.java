@@ -6,14 +6,17 @@ import net.minecraft.client.gui.screen.Screen;
 
 import java.util.function.Consumer;
 
-public record ParentScreenBlConsumer(Screen parent, Consumer<MinecraftClient> consumer) implements BooleanConsumer {
+public record ParentScreenBlConsumer(Screen parent, Consumer<MinecraftClient> consumer, boolean setParentIf) implements BooleanConsumer {
     @Override
     public void accept(boolean t) {
         if (t) {
             consumer.accept(MinecraftClient.getInstance());
-        }
 
-        parent.tick();
-        MinecraftClient.getInstance().setScreen(parent);
+            if (setParentIf) {
+                MinecraftClient.getInstance().setScreen(parent);
+            }
+        } else {
+            MinecraftClient.getInstance().setScreen(parent);
+        }
     }
 }

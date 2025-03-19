@@ -35,7 +35,7 @@ public abstract class SettingsScreen extends Screen {
     }
 
     //TODO make abstract
-    protected void initBody() {};
+    protected void initBody() {}
 
     public void initFooter() {
         this.threePartsLayout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());

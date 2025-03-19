@@ -3,8 +3,10 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
@@ -25,11 +27,11 @@ public class ChatKeyScreen extends SettingsScreen {
     public TextFieldWidget nameWidget;
     public TextFieldWidget messageWidget;
     public ButtonWidget commandMessageWidget;
-    public ButtonWidget trashButton;
 
     public String name;
     public String message;
 
+    public DirectionalLayoutWidget body = DirectionalLayoutWidget.vertical().spacing(20);
 
     public ChatKeyScreen(Screen parent, ChatKeyBinding binding) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("chat_keys")));
@@ -38,32 +40,43 @@ public class ChatKeyScreen extends SettingsScreen {
         this.message = binding.getChatMessage();
     }
 
-    /*@Override
-    public void init(int x, int x2, int y, TextRenderer textRenderer) {
-        trashButton = ButtonWidget.builder(TextUtils.getText("delete"), button ->
-                {
-                    assert client != null;
-                    client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
-                                ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
-                                client.setScreen(parent);
-                            }, false),
-                            Text.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getText())));
-                }
-        ).dimensions(x + 240, this.height - 29, 70, 20).build();
-        addDrawableChild(trashButton);
+    @Override
+    protected void initBody() {
+        initButtons();
+        threePartsLayout.addBody(body);
+    }
 
-        addDoneButtonFooter(button -> {
+    @Override
+    public void initFooter() {
+        DirectionalLayoutWidget directionalLayoutWidget = this.threePartsLayout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
+        directionalLayoutWidget.add(ButtonWidget.builder(TextUtils.getText("delete"), button -> {
+            assert client != null;
+            client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+                        ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
+                        client.setScreen(parent);
+                    }, false),
+                    Text.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getText())));
+        }).build());
+
+        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
             binding.setChatMessage(messageWidget.getText());
             binding.setSettingDisplayName(nameWidget.getText());
             ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
             assert client != null;
             client.setScreen(parent);
-        }, 0, 0, 230, 20);
+        }).build());
+    }
 
-        nameWidget = new TextFieldWidget(textRenderer, x, y, 150, 20, KEYBIND_NAME_TEXT);
+    public void initButtons() {
+        DirectionalLayoutWidget top = DirectionalLayoutWidget.vertical().spacing(2);
+        DirectionalLayoutWidget bottom = DirectionalLayoutWidget.vertical().spacing(2);
+
+        top.add(new TextWidget(200, 20, KEYBIND_NAME_TEXT, textRenderer).alignLeft());
+        bottom.add(new TextWidget(200, 20, MESSAGE_TEXT_FORMATTED, textRenderer).alignLeft());
+
+        nameWidget = new TextFieldWidget(textRenderer, 150, 20, KEYBIND_NAME_TEXT);
         nameWidget.setChangedListener(s -> updateChildren());
         nameWidget.setText(name);
-        addDrawableChild(nameWidget);
 
 
         commandMessageWidget = ButtonWidget.builder(
@@ -79,16 +92,10 @@ public class ChatKeyScreen extends SettingsScreen {
 
                     setFocused(true);
                     setFocused(messageWidget);
-                }).dimensions(x2, y, 150, 20).build();
-        addDrawableChild(commandMessageWidget);
+                }).size(150, 20).build();
 
 
-        addDrawableChild(new TextWidget(x, y - 20, 200, 20, KEYBIND_NAME_TEXT, textRenderer).alignLeft());
-        y += 40;
-        addDrawableChild(new TextWidget(x, y, 200, 20, MESSAGE_TEXT_FORMATTED, textRenderer).alignLeft());
-
-
-        messageWidget = new TextFieldWidget(textRenderer, x, y + 20, 310, 20, MESSAGE_TEXT_FORMATTED);
+        messageWidget = new TextFieldWidget(textRenderer, 310, 20, MESSAGE_TEXT_FORMATTED);
         messageWidget.setMaxLength(Integer.MAX_VALUE);
         messageWidget.setChangedListener(s -> {
             if (s.startsWith("/")) {
@@ -101,7 +108,16 @@ public class ChatKeyScreen extends SettingsScreen {
         });
         messageWidget.setText(message);
 
-        addDrawableChild(messageWidget);
+        DirectionalLayoutWidget nameLayout = DirectionalLayoutWidget.horizontal().spacing(10);
+        nameLayout.add(nameWidget);
+        nameLayout.add(commandMessageWidget);
+
+        top.add(nameLayout);
+        bottom.add(messageWidget);
+
+        body.add(top);
+        body.add(bottom);
+
         setInitialFocus(messageWidget);
     }
 
@@ -109,8 +125,8 @@ public class ChatKeyScreen extends SettingsScreen {
         try {
             message = messageWidget.getText();
             name = nameWidget.getText();
-            doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
+            //doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
-    }*/
+    }
 }
