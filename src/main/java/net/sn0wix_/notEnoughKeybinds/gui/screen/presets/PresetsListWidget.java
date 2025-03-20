@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.ControlsListWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import org.jetbrains.annotations.Nullable;
@@ -18,11 +19,15 @@ public class PresetsListWidget extends AlwaysSelectedEntryListWidget<PresetsList
     public PresetsListWidget(PresetsSettingScreen parent, MinecraftClient client, int width, int height, int y, int itemHeight) {
         super(client, width, height, y, itemHeight);
         this.parent = parent;
-
-        PresetLoader.getPresets().forEach(keybindPreset -> {
-            addEntry(new PresetEntry(keybindPreset, client.textRenderer));
-        });
+        initEntries();
     }
+
+    public void initEntries() {
+        clearEntries();
+        PresetLoader.getPresets().forEach(keybindPreset -> addEntry(new PresetEntry(keybindPreset, client.textRenderer)));
+    }
+
+    //TODO fix list duplicating upon reloading
 
     @Override
     public void setSelected(@Nullable PresetsListWidget.PresetEntry entry) {

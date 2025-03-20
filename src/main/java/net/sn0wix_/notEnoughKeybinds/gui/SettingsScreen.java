@@ -24,11 +24,6 @@ public abstract class SettingsScreen extends Screen {
         this.threePartsLayout.setFooterHeight(footerHeight);
     }
 
-    public SettingsScreen(Screen parent, Text title, int additionalFooterHeight) {
-        this(parent, title);
-        this.threePartsLayout.setFooterHeight(threePartsLayout.getFooterHeight() + additionalFooterHeight);
-    }
-
     @Override
     protected void init() {
         this.initHeader();

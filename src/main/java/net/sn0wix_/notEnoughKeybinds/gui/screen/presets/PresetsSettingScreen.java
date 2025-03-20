@@ -1,14 +1,15 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
+import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
@@ -26,7 +27,9 @@ public class PresetsSettingScreen extends SettingsScreen {
     public Text currentPreset;
 
     public PresetsSettingScreen(Screen parent) {
-        super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("presets")),30);
+        super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("presets")),
+                BasicLayoutWidget.DEFAULT_HEADER_FOOTER_HEIGHT + 8,
+                BasicLayoutWidget.DEFAULT_HEADER_FOOTER_HEIGHT + 25);
     }
 
     @Override
@@ -37,7 +40,19 @@ public class PresetsSettingScreen extends SettingsScreen {
 
     @Override
     public void initHeader() {
-        super.initHeader();
+        DirectionalLayoutWidget header = DirectionalLayoutWidget.vertical().spacing(7);
+        TextWidget headerText = new TextWidget(title, textRenderer);
+        headerText.setWidth(200);
+        headerText.alignCenter();
+
+        TextWidget currentPresetText = new TextWidget(currentPreset, textRenderer);
+        currentPresetText.setTextColor(Colors.GRAY);
+        currentPresetText.setWidth(200);
+        currentPresetText.alignCenter();
+
+        header.add(headerText);
+        header.add(currentPresetText);
+        threePartsLayout.addHeader(header);
     }
 
     @Override
@@ -70,8 +85,17 @@ public class PresetsSettingScreen extends SettingsScreen {
         threePartsLayout.addFooter(footerBody);
     }
 
+    @Override
+    protected void initTabNavigation() {
+        super.initTabNavigation();
+
+        if (this.presetsList != null) {
+            this.presetsList.position(this.width, this.threePartsLayout);
+        }
+    }
+
     public void initButtons() {
-        this.presetsList = new PresetsListWidget(this, this.client, this.width, this.height - 112, 48, 36);
+        this.presetsList = new PresetsListWidget(this, this.client, this.width, threePartsLayout.getContentHeight(), threePartsLayout.getHeaderHeight(), 36);
 
         this.loadButton = ButtonWidget.builder(TextUtils.getText("load_preset"), button -> {
             if (presetsList.getSelectedOrNull() != null) {
@@ -106,9 +130,17 @@ public class PresetsSettingScreen extends SettingsScreen {
             updateScreen();
         }).size(72, 20).tooltip(TextUtils.getTooltip("write_preset")).build();
 
-        this.backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> this.client.setScreen(this.parent)).size( 72, 20).build();
+        this.backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> this.client.setScreen(this.parent)).size(72, 20).build();
 
         updateScreen();
+    }
+
+    @Override
+    public void onDisplayed() {
+        if (presetsList != null) {
+            presetsList.initEntries();
+            //presetsList.update();
+        }
     }
 
     public void updateScreen() {
@@ -118,14 +150,6 @@ public class PresetsSettingScreen extends SettingsScreen {
         loadButton.active = presetsList.getSelectedOrNull() != null;
 
         currentPreset = Text.literal(TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName());
-    }
-
-    @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-
-        //TODO add text to header
-        context.drawCenteredTextWithShadow(textRenderer, currentPreset, this.width / 2, 32, Colors.GRAY);
     }
 
     @Override
