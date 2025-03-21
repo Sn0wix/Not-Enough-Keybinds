@@ -13,7 +13,6 @@ import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
-import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.lwjgl.glfw.GLFW;
@@ -170,10 +169,10 @@ public class PresetsSettingScreen extends SettingsScreen {
             PresetLoader.reload(true);
             this.clearAndInit();
             return true;
-        }else if (keyCode == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
+        } else if (keyCode == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
             deleteButton.onPress();
             return true;
-        }else if (keyCode == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
+        } else if (keyCode == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
             loadButton.onPress();
             return true;
         } else if (keyCode == GLFW.GLFW_KEY_KP_ADD) {

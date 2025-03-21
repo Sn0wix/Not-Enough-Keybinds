@@ -16,7 +16,6 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import java.util.List;
 
 public class PresetsButton extends ControlsListWidget.CategoryEntry {
-    public final Text currentPreset;
     public final ButtonWidget presetSettings;
     public final TextRenderer textRenderer;
 
@@ -24,7 +23,6 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
         widget.super(Text.empty());
         this.textRenderer = renderer;
 
-        currentPreset = Text.literal(TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName());
         presetSettings = ButtonWidget.builder(TextUtils.getText("presets"), button1 ->
                         MinecraftClient.getInstance().setScreen(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
                 .size(132, 20).build();
@@ -32,7 +30,7 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
 
     @Override
     public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        String textToRender = currentPreset.getString();
+        String textToRender = TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName();
 
         //location of the presets button
         int buttonPos = x + entryWidth / 2 - 340 / 2 + 340 - presetSettings.getWidth();
