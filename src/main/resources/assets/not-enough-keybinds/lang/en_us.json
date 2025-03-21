@@ -33,6 +33,7 @@
   "text.not-enough-keybinds.current_preset": "Current Preset: ",
   "text.not-enough-keybinds.preset.delete.toast": "Preset %s was deleted",
   "text.not-enough-keybinds.preset.create.toast": "Created preset %s",
+  "text.not-enough-keybinds.preset.edit.toast": "Preset %s was edited",
   "text.not-enough-keybinds.presets": "Presets...",
   "text.not-enough-keybinds.create_preset": "Create New Preset",
   "text.not-enough-keybinds.load_preset": "Load Preset",

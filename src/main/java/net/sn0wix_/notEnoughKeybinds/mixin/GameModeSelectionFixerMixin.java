@@ -23,18 +23,4 @@ public abstract class GameModeSelectionFixerMixin {
 
         return value;
     }
-
-    @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/text/Text;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/text/MutableText;"), index = 1)
-    private static Object[] injectF4Text(Object[] args) {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i] instanceof Text text) {
-                if (text.getString().contains("debug.gamemodes.press_f4")) {
-                    args[i] = Text.translatable("debug." + NotEnoughKeybinds.MOD_ID + ".press_next", F3DebugKeys.GAMEMODES.boundKey.getLocalizedText()).formatted(Formatting.AQUA);
-                }
-            }
-        }
-
-        return args;
-    }
 }

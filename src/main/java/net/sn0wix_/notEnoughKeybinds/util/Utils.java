@@ -1,12 +1,12 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.AdvancedConfirmScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class Utils {
 
     public static Screen getModConfirmScreen(ParentScreenBlConsumer consumer, Text text) {
-        return new ConfirmScreen(consumer, Text.empty(), text,
+        return new AdvancedConfirmScreen(consumer, Text.empty(), text,
                 Text.translatable("text.not-enough-keybinds.confirm." + new Random().nextInt(4)),
                 Text.translatable("text.not-enough-keybinds.cancel." + new Random().nextInt(4)));
     }
@@ -132,7 +132,7 @@ public class Utils {
     }
 
     public static void showToastNotification(Text description) {
-        MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(2500), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
+        MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(2769), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
     }
 
     public static void showToastNotification(Text description, long displayDuration) {

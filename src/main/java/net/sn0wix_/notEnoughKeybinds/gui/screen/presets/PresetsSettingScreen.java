@@ -45,7 +45,7 @@ public class PresetsSettingScreen extends SettingsScreen {
         headerText.setWidth(200);
         headerText.alignCenter();
 
-        TextWidget currentPresetText = new TextWidget(currentPreset, textRenderer);
+        TextWidget currentPresetText = new TextWidget(Text.of(PresetLoader.getCurrentPresetName()), textRenderer);
         currentPresetText.setTextColor(Colors.GRAY);
         currentPresetText.setWidth(200);
         currentPresetText.alignCenter();
@@ -100,7 +100,6 @@ public class PresetsSettingScreen extends SettingsScreen {
         this.loadButton = ButtonWidget.builder(TextUtils.getText("load_preset"), button -> {
             if (presetsList.getSelectedOrNull() != null) {
                 PresetLoader.loadPreset(presetsList.getFocused().getPreset());
-                presetsList.setSelected(null);
             }
 
             updateScreen();
@@ -157,8 +156,17 @@ public class PresetsSettingScreen extends SettingsScreen {
             PresetLoader.reload(true);
             this.clearAndInit();
             return true;
+        }else if (keyCode == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
+            deleteButton.onPress();
+            return true;
+        }else if (keyCode == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
+            loadButton.onPress();
+            return true;
+        } else if (keyCode == GLFW.GLFW_KEY_KP_ADD) {
+            createNewButton.onPress();
+            return true;
         }
-        
+
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }

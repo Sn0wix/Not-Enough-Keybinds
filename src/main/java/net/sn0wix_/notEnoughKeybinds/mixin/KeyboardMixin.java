@@ -98,10 +98,6 @@ public abstract class KeyboardMixin {
         return Utils.correctF3DebugMessage(message);
     }
 
-    /*@ModifyArg(method = "processF3", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;debugLog(Ljava/lang/String;[Ljava/lang/Object;)V", ordinal = 5), index = 1)
-    public Object[] fixF3LMessage(Object[] args) {
-        return Utils.addArgToEnd(args, F3DebugKeys.PROFILING.boundKey.getLocalizedText());
-    }*/
 
     @ModifyArg(method = "pollDebugCrash", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;debugLog(Ljava/lang/String;[Ljava/lang/Object;)V"), index = 1)
     public Object[] fixF3CMessage(Object[] args) {

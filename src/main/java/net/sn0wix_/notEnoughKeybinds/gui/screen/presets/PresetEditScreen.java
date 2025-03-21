@@ -61,11 +61,11 @@ public class PresetEditScreen extends SettingsScreen {
             PresetLoader.writePreset(preset, preset.getContent().isEmpty() ? Utils.bindingsToList(true) : preset.getContent());
             PresetLoader.reload(false);
 
-            Utils.showToastNotification(TextUtils.getText("preset.create.toast", preset.getName()));
-
             if (parent instanceof PresetsSettingScreen presetsSettingScreen) {
                 presetsSettingScreen.clearAndInit();
             }
+
+            Utils.showToastNotification(TextUtils.getText("preset." + (newPreset ? "create" : "edit") + ".toast", preset.getName()));
 
             assert client != null;
             client.setScreen(parent);
@@ -108,6 +108,11 @@ public class PresetEditScreen extends SettingsScreen {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_DELETE) {
             client.setScreen(parent);
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+            doneButton.onPress();
             return true;
         }
 
