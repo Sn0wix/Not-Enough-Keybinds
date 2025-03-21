@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.ControlsListWidget;
+import net.minecraft.util.Formatting;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import org.jetbrains.annotations.Nullable;
@@ -26,8 +26,6 @@ public class PresetsListWidget extends AlwaysSelectedEntryListWidget<PresetsList
         clearEntries();
         PresetLoader.getPresets().forEach(keybindPreset -> addEntry(new PresetEntry(keybindPreset, client.textRenderer)));
     }
-
-    //TODO fix list duplicating upon reloading
 
     @Override
     public void setSelected(@Nullable PresetsListWidget.PresetEntry entry) {
@@ -49,7 +47,7 @@ public class PresetsListWidget extends AlwaysSelectedEntryListWidget<PresetsList
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             context.drawText(textRenderer, TextUtils.trimText(preset.getName(), textRenderer, entryWidth - 6), x + 3, y + 1, Colors.WHITE, false);
             context.drawText(textRenderer, TextUtils.trimText(preset.getDescription(), textRenderer, entryWidth), x + 3, y + 9 + 3, Colors.LIGHT_GRAY, false);
-            context.drawText(textRenderer, TextUtils.trimText(preset.getFileName(), textRenderer, entryWidth), x + 3, y + 9 + 9 + 3, Colors.GRAY, false);
+            context.drawText(textRenderer, TextUtils.trimText(preset.getFileName(), textRenderer, entryWidth), x + 3, y + 9 + 9 + 3, Formatting.DARK_GRAY.getColorValue(), false);
         }
 
         public PresetLoader.KeybindPreset getPreset() {

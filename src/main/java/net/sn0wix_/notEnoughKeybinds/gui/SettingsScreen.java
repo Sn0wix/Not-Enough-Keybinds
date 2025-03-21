@@ -26,6 +26,13 @@ public abstract class SettingsScreen extends Screen {
 
     @Override
     protected void init() {
+        int header = threePartsLayout.getHeaderHeight();
+        int footer = threePartsLayout.getFooterHeight();
+
+        threePartsLayout = new BasicLayoutWidget(this);
+        threePartsLayout.setHeaderHeight(header);
+        threePartsLayout.setFooterHeight(footer);
+
         this.initHeader();
         this.initBody();
         this.initFooter();

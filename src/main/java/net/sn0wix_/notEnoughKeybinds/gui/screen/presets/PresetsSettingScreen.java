@@ -115,7 +115,9 @@ public class PresetsSettingScreen extends SettingsScreen {
 
         this.deleteButton = ButtonWidget.builder(TextUtils.getText("delete"), button -> client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
             if (presetsList.getSelectedOrNull() != null) {
-                PresetLoader.deletePreset(presetsList.getSelectedOrNull().getPreset());
+                PresetLoader.KeybindPreset p = presetsList.getSelectedOrNull().getPreset();
+                PresetLoader.deletePreset(p);
+                Utils.showToastNotification(TextUtils.getText("preset.delete.toast", p.getName()));
                 this.clearAndInit();
             }
         }, true), TextUtils.getText("preset.delete.confirm", presetsList.getSelectedOrNull().getPreset().getName())))).size(72, 20).build();
@@ -133,14 +135,6 @@ public class PresetsSettingScreen extends SettingsScreen {
         this.backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> this.client.setScreen(this.parent)).size(72, 20).build();
 
         updateScreen();
-    }
-
-    @Override
-    public void onDisplayed() {
-        if (presetsList != null) {
-            presetsList.initEntries();
-            //presetsList.update();
-        }
     }
 
     public void updateScreen() {
