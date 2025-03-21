@@ -104,7 +104,7 @@ public class PresetLoader {
                 for (int i = 0; i < options.allKeys.length; i++) {
                     KeyBinding binding = options.allKeys[i];
 
-                    if (binding.getTranslationKey().equals(translation) && !binding.getCategory().equals(PresetKeys.PRESET_CATEGORY)) { //check, if the keys are not preset keys
+                    if (binding.getTranslationKey().equals(translation) && !binding.equals(PresetKeys.NEXT_PRESET_GLOBAL) && !binding.equals(PresetKeys.PREVIOUS_PRESET_GLOBAL)) { //check, if the keys are not global preset keys
                         binding.setBoundKey(InputUtil.fromTranslationKey(value));
                         found = true;
                         break;

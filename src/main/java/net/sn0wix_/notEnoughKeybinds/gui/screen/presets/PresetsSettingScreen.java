@@ -1,6 +1,8 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.ControlsListWidget;
+import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextWidget;
@@ -11,6 +13,7 @@ import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
+import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.lwjgl.glfw.GLFW;
@@ -131,7 +134,18 @@ public class PresetsSettingScreen extends SettingsScreen {
             updateScreen();
         }).size(72, 20).tooltip(TextUtils.getTooltip("write_preset")).build();
 
-        this.backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> this.client.setScreen(this.parent)).size(72, 20).build();
+        this.backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> {
+            //update the parent gui
+            if (parent instanceof KeybindsScreen keybindsScreen) {
+                keybindsScreen.children().forEach(child -> {
+                    if (child instanceof ControlsListWidget widget) {
+                        widget.update();
+                    }
+                });
+            }
+
+            client.setScreen(parent);
+        }).size(72, 20).build();
 
         updateScreen();
     }

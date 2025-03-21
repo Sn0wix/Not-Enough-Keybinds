@@ -14,6 +14,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
+import org.lwjgl.glfw.GLFW;
 
 public class ChatKeyScreen extends SettingsScreen {
     public static final Text KEYBIND_NAME_TEXT = Text.translatable(TextUtils.getTranslationKey("keybind_name")).formatted(Formatting.GRAY);
@@ -26,6 +27,8 @@ public class ChatKeyScreen extends SettingsScreen {
     public TextFieldWidget nameWidget;
     public TextFieldWidget messageWidget;
     public ButtonWidget commandMessageWidget;
+    public ButtonWidget doneButton;
+    public ButtonWidget deleteButton;
 
     public String name;
     public String message;
@@ -48,22 +51,8 @@ public class ChatKeyScreen extends SettingsScreen {
     @Override
     public void initFooter() {
         DirectionalLayoutWidget directionalLayoutWidget = this.threePartsLayout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
-        directionalLayoutWidget.add(ButtonWidget.builder(TextUtils.getText("delete"), button -> {
-            assert client != null;
-            client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
-                        ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
-                        client.setScreen(parent);
-                    }, false),
-                    Text.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getText())));
-        }).build());
-
-        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.DONE, button -> {
-            binding.setChatMessage(messageWidget.getText());
-            binding.setSettingDisplayName(nameWidget.getText());
-            ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
-            assert client != null;
-            client.setScreen(parent);
-        }).build());
+        directionalLayoutWidget.add(deleteButton);
+        directionalLayoutWidget.add(doneButton);
     }
 
     public void initButtons() {
@@ -72,6 +61,23 @@ public class ChatKeyScreen extends SettingsScreen {
 
         top.add(new TextWidget(200, 20, KEYBIND_NAME_TEXT, textRenderer).alignLeft());
         bottom.add(new TextWidget(200, 20, MESSAGE_TEXT_FORMATTED, textRenderer).alignLeft());
+
+        doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
+            binding.setChatMessage(messageWidget.getText());
+            binding.setSettingDisplayName(nameWidget.getText());
+            ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
+            assert client != null;
+            client.setScreen(parent);
+        }).build();
+
+        deleteButton = ButtonWidget.builder(TextUtils.getText("delete"), button -> {
+            assert client != null;
+            client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+                        ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
+                        client.setScreen(parent);
+                    }, false),
+                    Text.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getText())));
+        }).build();
 
         nameWidget = new TextFieldWidget(textRenderer, 150, 20, KEYBIND_NAME_TEXT);
         nameWidget.setChangedListener(s -> updateChildren());
@@ -127,5 +133,20 @@ public class ChatKeyScreen extends SettingsScreen {
             //doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_DELETE) {
+            deleteButton.onPress();
+            return true;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+            doneButton.onPress();
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }

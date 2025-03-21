@@ -106,6 +106,7 @@
   "text.not-enough-keybinds.tooltip.executes_command": "Executes command %s",
   "text.not-enough-keybinds.tooltip.sends_message": "Sends Chat message \"%s\"",
   "text.not-enough-keybinds.tooltip.coming_soon": "Coming soon!",
+  "text.not-enough-keybinds.tooltip.key_global": "This binding is not affected by presets",
 
   "text.not-enough-keybinds.tooltip.settings": "Configure Keybind...",
   "text.not-enough-keybinds.tooltip.fast_building": "Place a block every tick",
@@ -126,6 +127,9 @@
 
   "key.not-enough-keybinds.next_preset": "Next Preset",
   "key.not-enough-keybinds.previous_preset": "Previous Preset",
+  "key.not-enough-keybinds.previous_preset_global": "Previous Preset Global",
+  "key.not-enough-keybinds.next_preset_global": "Next Preset Global",
+
 
 
   "key.not-enough-keybinds.always_place_item": "Air Place",
