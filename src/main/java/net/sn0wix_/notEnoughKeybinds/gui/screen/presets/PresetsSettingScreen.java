@@ -137,6 +137,11 @@ public class PresetsSettingScreen extends SettingsScreen {
         updateScreen();
     }
 
+    @Override
+    public void clearAndInit() {
+        super.clearAndInit();
+    }
+
     public void updateScreen() {
         writeButton.active = presetsList.getSelectedOrNull() != null;
         deleteButton.active = presetsList.getSelectedOrNull() != null;
@@ -153,7 +158,7 @@ public class PresetsSettingScreen extends SettingsScreen {
             this.clearAndInit();
             return true;
         }
-
+        
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }

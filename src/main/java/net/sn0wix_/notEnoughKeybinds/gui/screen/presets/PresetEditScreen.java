@@ -1,8 +1,8 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.screen.ScreenTexts;
@@ -12,6 +12,7 @@ import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
+import org.lwjgl.glfw.GLFW;
 
 public class PresetEditScreen extends SettingsScreen {
     public static final Text NAME_TEXT = Text.translatable(TextUtils.getTranslationKey("name")).formatted(Formatting.GRAY);
@@ -21,11 +22,13 @@ public class PresetEditScreen extends SettingsScreen {
     public final PresetLoader.KeybindPreset preset;
     public TextFieldWidget nameWidget;
     public TextFieldWidget descriptionWidget;
-    public ButtonWidget backButton;
+    public ButtonWidget doneButton;
 
     public String name;
     public String description;
     public boolean newPreset;
+
+    public DirectionalLayoutWidget body = DirectionalLayoutWidget.vertical().spacing(20);
 
 
     public PresetEditScreen(Screen parent, PresetLoader.KeybindPreset preset, boolean newPreset) {
@@ -36,39 +39,57 @@ public class PresetEditScreen extends SettingsScreen {
         this.newPreset = newPreset;
     }
 
-    /*@Override
-    public void init(int x, int x2, int y, TextRenderer textRenderer) {
-        backButton = ButtonWidget.builder(ScreenTexts.BACK, button -> client.setScreen(parent)
-        ).dimensions(x + 240, this.height - 29, 70, 20).build();
-        addDrawableChild(backButton);
+    @Override
+    protected void initBody() {
+        initButtons();
+        threePartsLayout.addBody(body);
+    }
 
-        addDoneButtonFooter(button -> {
+    @Override
+    public void initFooter() {
+        DirectionalLayoutWidget directionalLayoutWidget = this.threePartsLayout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
+        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.BACK, button -> client.setScreen(parent)
+        ).build());
+
+        directionalLayoutWidget.add(doneButton);
+    }
+
+    public void initButtons() {
+        doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
             preset.setName(nameWidget.getText());
             preset.setDescription(descriptionWidget.getText());
             PresetLoader.writePreset(preset, preset.getContent().isEmpty() ? Utils.bindingsToList(true) : preset.getContent());
             PresetLoader.reload(false);
 
+            Utils.showToastNotification(TextUtils.getText("preset.create.toast", preset.getName()));
+
+            if (parent instanceof PresetsSettingScreen presetsSettingScreen) {
+                presetsSettingScreen.clearAndInit();
+            }
+
             assert client != null;
             client.setScreen(parent);
-        }, 0, 0, 230, 20);
+        }).build();
 
-        nameWidget = new TextFieldWidget(textRenderer, x, y, 310, 20, NAME_TEXT);
+        DirectionalLayoutWidget top = DirectionalLayoutWidget.vertical().spacing(2);
+        DirectionalLayoutWidget bottom = DirectionalLayoutWidget.vertical().spacing(2);
+
+        top.add(new TextWidget(200, 20, NAME_TEXT, textRenderer).alignLeft());
+        nameWidget = new TextFieldWidget(textRenderer, 310, 20, NAME_TEXT);
         nameWidget.setChangedListener(s -> updateChildren());
         nameWidget.setMaxLength(Integer.MAX_VALUE);
         nameWidget.setText(name);
-        addDrawableChild(nameWidget);
+        top.add(nameWidget);
 
 
-        addDrawableChild(new TextWidget(x, y - 20, 200, 20, NAME_TEXT, textRenderer).alignLeft());
-        y += 30;
-        addDrawableChild(new TextWidget(x, y, 200, 20, DESCRIPTION_TEXT, textRenderer).alignLeft());
-
-
-        descriptionWidget = new TextFieldWidget(textRenderer, x, y + 20, 310, 20, DESCRIPTION_TEXT);
+        bottom.add(new TextWidget(200, 20, DESCRIPTION_TEXT, textRenderer).alignLeft());
+        descriptionWidget = new TextFieldWidget(textRenderer, 310, 20, DESCRIPTION_TEXT);
         descriptionWidget.setMaxLength(Integer.MAX_VALUE);
         descriptionWidget.setText(description);
+        bottom.add(descriptionWidget);
 
-        addDrawableChild(descriptionWidget);
+        body.add(top);
+        body.add(bottom);
 
         setInitialFocus(nameWidget);
         updateChildren();
@@ -81,5 +102,15 @@ public class PresetEditScreen extends SettingsScreen {
             doneButton.active = !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
-    }*/
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_DELETE) {
+            client.setScreen(parent);
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
 }

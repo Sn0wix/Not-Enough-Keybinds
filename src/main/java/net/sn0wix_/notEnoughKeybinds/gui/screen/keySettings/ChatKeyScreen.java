@@ -1,6 +1,5 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
