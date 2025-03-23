@@ -106,14 +106,16 @@ public class PresetEditScreen extends SettingsScreen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_DELETE) {
-            client.setScreen(parent);
-            return true;
-        }
+        if (getFocused() == null || getFocused() == descriptionWidget || getFocused() == nameWidget) {
+            if (keyCode == GLFW.GLFW_KEY_DELETE) {
+                client.setScreen(parent);
+                return true;
+            }
 
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
-            doneButton.onPress();
-            return true;
+            if (keyCode == GLFW.GLFW_KEY_ENTER) {
+                doneButton.onPress();
+                return true;
+            }
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

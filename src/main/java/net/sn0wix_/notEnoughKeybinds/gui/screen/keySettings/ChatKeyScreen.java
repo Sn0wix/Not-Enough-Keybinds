@@ -65,7 +65,10 @@ public class ChatKeyScreen extends SettingsScreen {
         doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
             binding.setChatMessage(messageWidget.getText());
             binding.setSettingDisplayName(nameWidget.getText());
-            ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding);
+
+            if (!ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding)) {
+                Utils.showToastNotification(TextUtils.getText("chat_binding.create", binding.getSettingsDisplayName()));
+            }
             assert client != null;
             client.setScreen(parent);
         }).build();
@@ -75,6 +78,7 @@ public class ChatKeyScreen extends SettingsScreen {
             client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
                         ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
                         client.setScreen(parent);
+                        Utils.showToastNotification(TextUtils.getText("chat_binding.delete", binding.getSettingsDisplayName()));
                     }, false),
                     Text.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getText())));
         }).build();
@@ -130,21 +134,23 @@ public class ChatKeyScreen extends SettingsScreen {
         try {
             message = messageWidget.getText();
             name = nameWidget.getText();
-            //doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
+            doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_DELETE) {
-            deleteButton.onPress();
-            return true;
-        }
+        if (getFocused() == null || getFocused() == nameWidget || getFocused() == messageWidget) {
+            if (keyCode == GLFW.GLFW_KEY_DELETE) {
+                deleteButton.onPress();
+                return true;
+            }
 
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
-            doneButton.onPress();
-            return true;
+            if (keyCode == GLFW.GLFW_KEY_ENTER) {
+                doneButton.onPress();
+                return true;
+            }
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

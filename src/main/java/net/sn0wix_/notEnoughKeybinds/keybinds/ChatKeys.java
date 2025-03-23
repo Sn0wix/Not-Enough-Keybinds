@@ -64,11 +64,13 @@ public class ChatKeys extends NotEKKeyBindings {
             update();
         }
 
-        public void addKeyIf(ChatKeyBinding keyBinding) {
-            chatKeys.removeIf((binding) -> binding.getTranslationKey().equals(keyBinding.getTranslationKey()));
+        public boolean addKeyIf(ChatKeyBinding keyBinding) {
+            boolean bl = chatKeys.removeIf((binding) -> binding.getTranslationKey().equals(keyBinding.getTranslationKey()));
             chatKeys.add(keyBinding);
             NotEnoughKeybinds.CHAT_KEYS_CONFIG.addKeyIf(keyBinding);
             update();
+
+            return bl;
         }
 
         public void update() {

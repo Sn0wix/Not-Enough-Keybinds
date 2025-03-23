@@ -24,9 +24,9 @@ public class PresetsSettingScreen extends SettingsScreen {
     public ButtonWidget writeButton;
     public ButtonWidget createNewButton;
     public ButtonWidget backButton;
+    public TextWidget currentPresetText;
 
     private PresetsListWidget presetsList;
-    public Text currentPreset;
 
     public PresetsSettingScreen(Screen parent) {
         super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("presets")),
@@ -47,7 +47,7 @@ public class PresetsSettingScreen extends SettingsScreen {
         headerText.setWidth(200);
         headerText.alignCenter();
 
-        TextWidget currentPresetText = new TextWidget(Text.of(PresetLoader.getCurrentPresetName()), textRenderer);
+        currentPresetText = new TextWidget(Text.of(PresetLoader.getCurrentPresetName()), textRenderer);
         currentPresetText.setTextColor(Colors.GRAY);
         currentPresetText.setWidth(200);
         currentPresetText.alignCenter();
@@ -101,7 +101,7 @@ public class PresetsSettingScreen extends SettingsScreen {
 
         this.loadButton = ButtonWidget.builder(TextUtils.getText("load_preset"), button -> {
             if (presetsList.getSelectedOrNull() != null) {
-                PresetLoader.loadPreset(presetsList.getFocused().getPreset());
+                PresetLoader.loadPreset(presetsList.getSelectedOrNull().getPreset());
             }
 
             updateScreen();
@@ -149,6 +149,7 @@ public class PresetsSettingScreen extends SettingsScreen {
         updateScreen();
     }
 
+    //overwriting protected to public
     @Override
     public void clearAndInit() {
         super.clearAndInit();
@@ -160,7 +161,9 @@ public class PresetsSettingScreen extends SettingsScreen {
         editButton.active = presetsList.getSelectedOrNull() != null;
         loadButton.active = presetsList.getSelectedOrNull() != null;
 
-        currentPreset = Text.literal(TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName());
+        if (currentPresetText != null) {
+            currentPresetText.setMessage(Text.of(PresetLoader.getCurrentPresetName()));
+        }
     }
 
     @Override
@@ -169,15 +172,21 @@ public class PresetsSettingScreen extends SettingsScreen {
             PresetLoader.reload(true);
             this.clearAndInit();
             return true;
-        } else if (keyCode == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
-            deleteButton.onPress();
-            return true;
-        } else if (keyCode == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
-            loadButton.onPress();
-            return true;
-        } else if (keyCode == GLFW.GLFW_KEY_KP_ADD) {
-            createNewButton.onPress();
-            return true;
+        }
+
+        if (getFocused() != null && getFocused() == presetsList) {
+            if (keyCode == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
+                deleteButton.onPress();
+                return true;
+            } else if (keyCode == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
+                loadButton.onPress();
+                return true;
+            } else if (keyCode == GLFW.GLFW_KEY_KP_ADD) {
+                createNewButton.onPress();
+                return true;
+            }
+        } else if (keyCode == GLFW.GLFW_KEY_ENTER && getFocused() instanceof ButtonWidget buttonWidget) {
+            buttonWidget.onPress();
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

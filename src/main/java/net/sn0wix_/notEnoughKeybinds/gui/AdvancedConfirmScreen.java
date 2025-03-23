@@ -16,13 +16,16 @@ public class AdvancedConfirmScreen extends ConfirmScreen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+        if (getFocused() == null && keyCode == GLFW.GLFW_KEY_ENTER) {
             this.callback.accept(true);
             return true;
         }
 
-        if (keyCode == GLFW.GLFW_KEY_DELETE || keyCode == GLFW.GLFW_KEY_BACKSPACE) {
+        if (keyCode == GLFW.GLFW_KEY_BACKSPACE) {
             this.callback.accept(false);
+            return true;
+        } else if (keyCode == GLFW.GLFW_KEY_DELETE) {
+            this.callback.accept(true);
             return true;
         }
 

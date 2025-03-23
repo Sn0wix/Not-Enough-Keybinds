@@ -72,6 +72,8 @@
   "text.not-enough-keybinds.firework.use": "Use: %s",
   "text.not-enough-keybinds.firework.select": "Select: %s",
   "text.not-enough-keybinds.swap_old": "Swap back old item: %s",
+  "text.not-enough-keybinds.chat_binding.delete": "Chat Key \"%s\" was deleted",
+  "text.not-enough-keybinds.chat_binding.create": "Created Chat Key \"%s\"",
 
   "text.not-enough-keybinds.resetAllKeys": "Are you sure you want to reset all keybinds?",
   "text.not-enough-keybinds.confirm.0": "Yes, I'm sure",
