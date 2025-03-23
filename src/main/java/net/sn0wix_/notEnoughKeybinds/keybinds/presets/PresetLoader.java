@@ -91,6 +91,11 @@ public class PresetLoader {
      * Load presents only after options were initialized
      */
     public static void loadPreset(KeybindPreset preset) {
+        if (preset == null) {
+            NotEnoughKeybinds.LOGGER.warn("Preset can not be null!");
+            return;
+        }
+
         preset.content.forEach(line -> {
             String translation = line.split(":")[0];
             String value = Utils.getValue(line);

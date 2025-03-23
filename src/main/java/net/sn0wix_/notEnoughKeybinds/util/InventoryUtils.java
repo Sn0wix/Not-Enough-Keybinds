@@ -3,17 +3,20 @@ package net.sn0wix_.notEnoughKeybinds.util;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.FireworksComponent;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
+import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 
 import java.util.Arrays;
@@ -54,10 +57,10 @@ public class InventoryUtils {
         assert client.interactionManager != null;
         client.interactionManager.clickSlot(handler.syncId, convertSlotIds(clickedSlot), hotbarSlot, SlotActionType.SWAP, client.player);
 
-        //Maybe more legit?
-        //client.setScreen(new InventoryScreen(client.player));
-        //client.player.currentScreenHandler.setCursorStack(client.player.getInventory().getStack(clickedSlot).copy());
-        //client.setScreen(null);
+        /*Maybe more legit?
+        client.setScreen(new InventoryScreen(client.player));
+        client.player.currentScreenHandler.setCursorStack(client.player.getInventory().getStack(clickedSlot).copy());
+        client.setScreen(null);*/
     }
 
     public static void equipChestplate(MinecraftClient client, int slot) {
@@ -81,13 +84,15 @@ public class InventoryUtils {
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.getStack(i);
 
-            /*UPDATE if (stack.isOf(item)) {
-                int unbreakingLevel = EnchantmentHelper.getLevel(Enchantments.UNBREAKING, stack);
-                int calculatedMendingScore = EnchantmentHelper.getLevel(Enchantments.MENDING, stack) > 0 ? mendingScore : 0;
+            if (stack.isOf(item)) {
+                Registry<Enchantment> registryManager = MinecraftClient.getInstance().world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+
+                int unbreakingLevel = EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.UNBREAKING), stack);
+                int calculatedMendingScore = EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.MENDING), stack) > 0 ? mendingScore : 0;
                 int damageScore = (stack.getMaxDamage() - stack.getDamage()) * (unbreakingLevel + 1);
 
                 map.put(damageScore + calculatedMendingScore, i);
-            }*/
+            }
         }
 
         if (!map.isEmpty()) {
@@ -145,18 +150,18 @@ public class InventoryUtils {
     public static int getSlotWithElytra(MinecraftClient client) {
         return NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra ?
                 InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.ELYTRA, 216)
-                : client.player.getInventory().getSlotWithStack(Items.ELYTRA.getDefaultStack());
+                : InventoryUtils.getSlotWithItem(Items.ELYTRA, client.player.getInventory());
 
     }
 
     public static int getShieldSwapSlot(MinecraftClient client) {
         return NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.chooseBestShield ?
                 InventoryUtils.getBestBreakableItemSlot(client.player.getInventory(), Items.SHIELD, NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapMendingPoints)
-                : client.player.getInventory().getSlotWithStack(Items.SHIELD.getDefaultStack());
+                : InventoryUtils.getSlotWithItem(Items.SHIELD, client.player.getInventory());
     }
 
     public static int getTotemSwapSlot(MinecraftClient client, int lastShieldSlot) {
-        return lastShieldSlot > -1 ? lastShieldSlot : client.player.getInventory().getSlotWithStack(Items.TOTEM_OF_UNDYING.getDefaultStack());
+        return lastShieldSlot > -1 ? lastShieldSlot : InventoryUtils.getSlotWithItem(Items.TOTEM_OF_UNDYING, client.player.getInventory());
     }
 
     //snagged from https://github.com/YumeGod/TheresaModules/blob/6f8fd374924ba8c7c4c2dd45153231b204e5eb73/player/AutoArmor.java
@@ -169,10 +174,9 @@ public class InventoryUtils {
             if (!inventory.getStack(i).isEmpty()) {
                 final ItemStack stack = inventory.getStack(i);
 
-                /*UPDATE if ((EnchantmentHelper.hasBindingCurse(stack) && !acceptBinding) || (EnchantmentHelper.hasVanishingCurse(stack) && !acceptVanishing))
+                if ((EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.PREVENT_ARMOR_CHANGE) && !acceptBinding) ||
+                        (EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && !acceptVanishing))
                     continue;
-
-                 */
 
                 if (stack.getItem() instanceof ArmorItem armorItem) {
                     if (armorItem.getType().equals(ArmorItem.Type.CHESTPLATE)) {
@@ -196,13 +200,15 @@ public class InventoryUtils {
 
     public static float getFinalArmorStrength(ItemStack itemStack) {
         float rating = getArmorRating(itemStack);
-        /*UPDATErating += EnchantmentHelper.getLevel(Enchantments.PROTECTION, itemStack) * 1.25F;
-        rating += EnchantmentHelper.getLevel(Enchantments.FIRE_ASPECT, itemStack) * 1.20F;
-        rating += EnchantmentHelper.getLevel(Enchantments.BLAST_PROTECTION, itemStack) * 1.20F;
-        rating += EnchantmentHelper.getLevel(Enchantments.PROTECTION, itemStack) * 1.20F;
-        rating += EnchantmentHelper.getLevel(Enchantments.FEATHER_FALLING, itemStack) * 0.33F;
-        rating += EnchantmentHelper.getLevel(Enchantments.THORNS, itemStack) * 0.10F;
-        rating += EnchantmentHelper.getLevel(Enchantments.UNBREAKING, itemStack) * 0.05F;*/
+        Registry<Enchantment> registryManager = MinecraftClient.getInstance().world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.PROTECTION), itemStack) * 1.25F;
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.FIRE_ASPECT), itemStack) * 1.20F;
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.BLAST_PROTECTION), itemStack) * 1.20F;
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.PROTECTION), itemStack) * 1.20F;
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.FEATHER_FALLING), itemStack) * 0.33F;
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.THORNS), itemStack) * 0.10F;
+        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.UNBREAKING), itemStack) * 0.05F;
         return rating;
     }
 
@@ -238,5 +244,15 @@ public class InventoryUtils {
         }
 
         return slot;
+    }
+
+    public static int getSlotWithItem(Item item, PlayerInventory inventory) {
+        for (int i = 0; i < inventory.main.size(); i++) {
+            if (!inventory.main.get(i).isEmpty() && inventory.main.get(i).isOf(item)) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

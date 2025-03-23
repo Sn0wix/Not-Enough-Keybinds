@@ -211,7 +211,7 @@ public class InventoryKeys extends NotEKKeyBindings {
             }
         }
 
-        int pearlSlot = client.player.getInventory().getSlotWithStack(Items.ENDER_PEARL.getDefaultStack());
+        int pearlSlot = InventoryUtils.getSlotWithItem(Items.ENDER_PEARL, client.player.getInventory());
 
         if (pearlSlot > -1) {
             InventoryUtils.quickUseItem(client, pearlSlot);

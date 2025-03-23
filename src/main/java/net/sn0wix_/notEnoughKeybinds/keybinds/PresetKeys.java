@@ -9,6 +9,8 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
+import java.util.NoSuchElementException;
+
 public class PresetKeys extends NotEKKeyBindings {
     public static final String PRESET_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".presets";
 
@@ -44,7 +46,12 @@ public class PresetKeys extends NotEKKeyBindings {
         public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
             try {
                 if (PresetLoader.getCurrentPreset() == null) {
-                    PresetLoader.loadPreset(PresetLoader.getPresets().getFirst());
+                    try {
+                        PresetLoader.loadPreset(PresetLoader.getPresets().getFirst());
+                    } catch (NoSuchElementException e) {
+                        NotEnoughKeybinds.LOGGER.info("Cannot load the next or previous preset because none exist!");
+                    }
+
                     return;
                 }
 
