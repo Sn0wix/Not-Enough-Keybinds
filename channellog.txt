@@ -1,2 +1,0 @@
-Fixed:
-- preset keys loading with presets
