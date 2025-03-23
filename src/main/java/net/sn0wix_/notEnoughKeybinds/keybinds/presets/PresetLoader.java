@@ -16,7 +16,6 @@ import net.sn0wix_.notEnoughKeybinds.util.Utils;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -92,18 +91,9 @@ public class PresetLoader {
      * Load presents only after options were initialized
      */
     public static void loadPreset(KeybindPreset preset) {
-        System.out.println("==========================================================");
-        System.out.println(preset.content);
-        System.out.println("----------------------------------------------------");
-        for (KeyBinding binding : MinecraftClient.getInstance().options.allKeys) {
-            System.out.println(binding.getTranslationKey());
-        }
         preset.content.forEach(line -> {
             String translation = line.split(":")[0];
             String value = Utils.getValue(line);
-            System.out.println("_____________________________________________________________");
-            System.out.println("Translation: " + translation);
-            System.out.println("Value: " + value);
 
             if (translation.isEmpty() || value.isEmpty()) {
                 NotEnoughKeybinds.LOGGER.error("Incorrect keybinding entry in preset" + preset.name + ": " + translation + ":" + value);
@@ -114,23 +104,20 @@ public class PresetLoader {
                 for (int i = 0; i < options.allKeys.length; i++) {
                     KeyBinding binding = options.allKeys[i];
 
-                    if (binding.getTranslationKey().trim().equals(translation.trim()) && !binding.equals(PresetKeys.NEXT_PRESET_GLOBAL) && !binding.equals(PresetKeys.PREVIOUS_PRESET_GLOBAL)) { //check, if the keys are not global preset keys
+                    if (binding.getTranslationKey().equals(translation) && !binding.getTranslationKey().equals(PresetKeys.NEXT_PRESET_GLOBAL.getTranslationKey()) && !binding.getTranslationKey().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getTranslationKey())) { //check, if the keys are not global preset keys
                         binding.setBoundKey(InputUtil.fromTranslationKey(value));
                         found = true;
-                        System.out.println("found in allKeys");
                         break;
                     }
                 }
 
                 if (!found) {
-                    System.out.println("NOT FOUND");
                     //check if the keys is saved in another file than options.txt
                     if (translation.contains("key." + NotEnoughKeybinds.MOD_ID)) {
                         Stream.of(ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
                             for (INotEKKeybinding keybinding : iNotEKKeybindings) {
                                 if (keybinding.getTranslationKey().equals(translation)) {
                                     keybinding.setBoundKey(InputUtil.fromTranslationKey(value));
-                                    System.out.println("found in others");
                                     break;
                                 }
                             }
