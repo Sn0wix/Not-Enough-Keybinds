@@ -29,6 +29,6 @@ public abstract class ModSettingsButtonMixin extends ElementListWidget<ControlsL
     private void injectTail(KeybindsScreen parent, MinecraftClient client, CallbackInfo ci) {
         this.addEntryToTop(new PresetsButton(((ControlsListWidget)(Object)this), client.textRenderer));
         this.addEntryToTop(new ModKeybindsButton(((ControlsListWidget)(Object)this)));
-        this.setScrollAmount(0);
+        this.setScrollY(0);
     }
 }

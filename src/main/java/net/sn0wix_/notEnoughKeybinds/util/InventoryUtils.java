@@ -4,13 +4,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FireworksComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
@@ -85,10 +89,10 @@ public class InventoryUtils {
             ItemStack stack = inventory.getStack(i);
 
             if (stack.isOf(item)) {
-                Registry<Enchantment> registryManager = MinecraftClient.getInstance().world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+                Registry<Enchantment> registryManager = MinecraftClient.getInstance().world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
 
-                int unbreakingLevel = EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.UNBREAKING), stack);
-                int calculatedMendingScore = EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.MENDING), stack) > 0 ? mendingScore : 0;
+                int unbreakingLevel = EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.UNBREAKING), stack);
+                int calculatedMendingScore = EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.MENDING), stack) > 0 ? mendingScore : 0;
                 int damageScore = (stack.getMaxDamage() - stack.getDamage()) * (unbreakingLevel + 1);
 
                 map.put(damageScore + calculatedMendingScore, i);
@@ -119,10 +123,12 @@ public class InventoryUtils {
     }
 
 
+    /**
+     * {//@link MinecraftClient#doItemUse()}
+     */
     public static void interactItem(Hand hand, MinecraftClient client) throws NullPointerException {
-        ActionResult actionResult3 = client.interactionManager.interactItem(client.player, hand);
-        if (actionResult3.isAccepted()) {
-            if (actionResult3.shouldSwingHand()) {
+        if (client.interactionManager.interactItem(client.player, hand) instanceof ActionResult.Success swingSource) {
+            if (swingSource.swingSource() == ActionResult.SwingSource.CLIENT) {
                 client.player.swingHand(hand);
             }
         }
@@ -135,11 +141,10 @@ public class InventoryUtils {
             slot = getBestChestplateSlot(client.player.getInventory(), NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding);
         } else {
             for (int i = 0; i < client.player.getInventory().size(); i++) {
-                if (client.player.getInventory().getStack(i).getItem() instanceof ArmorItem armorItem) {
-                    if (armorItem.getType().equals(ArmorItem.Type.CHESTPLATE)) {
-                        slot = i;
-                        break;
-                    }
+                //TODO test
+                if (EquipmentSlot.CHEST.equals(client.player.getInventory().getStack(i).get(DataComponentTypes.EQUIPPABLE).slot())) {
+                    slot = i;
+                    break;
                 }
             }
         }
@@ -178,8 +183,10 @@ public class InventoryUtils {
                         (EnchantmentHelper.hasAnyEnchantmentsWith(stack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && !acceptVanishing))
                     continue;
 
-                if (stack.getItem() instanceof ArmorItem armorItem) {
-                    if (armorItem.getType().equals(ArmorItem.Type.CHESTPLATE)) {
+
+                try {
+                    //TODO test
+                    if (EquipmentSlot.CHEST.equals(stack.get(DataComponentTypes.EQUIPPABLE).slot())) {
                         float armorStrength = getFinalArmorStrength(stack);
 
                         if (armorStrength > bestArmorStrength) {
@@ -192,7 +199,10 @@ public class InventoryUtils {
                             bestArmorSlot = i;
                         }
                     }
+                }catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
+
             }
         }
         return bestArmorSlot;
@@ -200,15 +210,15 @@ public class InventoryUtils {
 
     public static float getFinalArmorStrength(ItemStack itemStack) {
         float rating = getArmorRating(itemStack);
-        Registry<Enchantment> registryManager = MinecraftClient.getInstance().world.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+        Registry<Enchantment> registryManager = MinecraftClient.getInstance().world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
 
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.PROTECTION), itemStack) * 1.25F;
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.FIRE_ASPECT), itemStack) * 1.20F;
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.BLAST_PROTECTION), itemStack) * 1.20F;
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.PROTECTION), itemStack) * 1.20F;
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.FEATHER_FALLING), itemStack) * 0.33F;
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.THORNS), itemStack) * 0.10F;
-        rating += EnchantmentHelper.getLevel(registryManager.entryOf(Enchantments.UNBREAKING), itemStack) * 0.05F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.PROTECTION), itemStack) * 1.25F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.FIRE_ASPECT), itemStack) * 1.20F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.BLAST_PROTECTION), itemStack) * 1.20F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.PROTECTION), itemStack) * 1.20F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.FEATHER_FALLING), itemStack) * 0.33F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.THORNS), itemStack) * 0.10F;
+        rating += EnchantmentHelper.getLevel(registryManager.getOrThrow(Enchantments.UNBREAKING), itemStack) * 0.05F;
         return rating;
     }
 

@@ -38,7 +38,7 @@ public abstract class SettingsScreen extends Screen {
         this.initFooter();
         this.threePartsLayout.forEachChild(this::addDrawableChild);
 
-        this.initTabNavigation();
+        this.refreshWidgetPositions();
     }
 
     protected void initBody() {}
@@ -53,7 +53,7 @@ public abstract class SettingsScreen extends Screen {
 
 
     @Override
-    protected void initTabNavigation() {
+    public void refreshWidgetPositions() {
         this.threePartsLayout.refreshPositions();
     }
 

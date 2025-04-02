@@ -20,7 +20,7 @@ public class SkinLayersKeys extends NotEKKeyBindings {
 
     public static final NotEKKeyBinding TOGGLE_SECOND_SKIN_LAYER = registerModKeyBinding(new NotEKKeyBinding("toggle_second_skin_layer", SKIN_LAYERS_CATEGORY, (client, keyBinding) -> {
         for (PlayerModelPart modelPart : PlayerModelPart.values()) {
-            client.options.togglePlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
+            client.options.setPlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
         }
     }));
 
@@ -39,7 +39,7 @@ public class SkinLayersKeys extends NotEKKeyBindings {
 
         @Override
         public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
-            client.options.togglePlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
+            client.options.setPlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
         }
     }
 }

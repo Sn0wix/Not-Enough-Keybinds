@@ -10,6 +10,8 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
@@ -33,7 +35,7 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
         button.setPosition(x, y);
         button.render(context, mouseX, mouseY, tickDelta);
 
-        context.drawTexture(NotEnoughKeybinds.ICON, x + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, y, 0, 0, 0, 18, 18, 18, 18);
+        context.drawTexture(RenderLayer::getGuiTextured, NotEnoughKeybinds.ICON, x + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, y, 0, 0, 0, 18, 18, 18, 18);
     }
 
     @Override

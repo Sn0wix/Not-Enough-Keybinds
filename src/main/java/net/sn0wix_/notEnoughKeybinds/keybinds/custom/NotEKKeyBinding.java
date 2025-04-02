@@ -44,7 +44,7 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
 
     @Override
     public void setAndSaveKeyBinding(InputUtil.Key key) {
-        MinecraftClient.getInstance().options.setKeyCode(this, key);
+        this.setBoundKey(key);
     }
 
     public void tick(MinecraftClient client) {

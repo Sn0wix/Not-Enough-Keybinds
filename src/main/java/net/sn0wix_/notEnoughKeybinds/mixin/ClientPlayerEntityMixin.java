@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin {
     //Auto elytra detection
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z", ordinal = 0, shift = At.Shift.AFTER))
+    /*@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z", ordinal = 0, shift = At.Shift.AFTER))
     private void injectTickMovement(CallbackInfo ci) {
         if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect
                 && checkFallFlying(((ClientPlayerEntity) (Object) this))
@@ -53,5 +53,5 @@ public abstract class ClientPlayerEntityMixin {
     @Unique
     public boolean checkFallFlying(ClientPlayerEntity clientPlayerEntity) {
         return !clientPlayerEntity.isOnGround() && !clientPlayerEntity.isFallFlying() && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.hasStatusEffect(StatusEffects.LEVITATION);
-    }
+    }*/
 }

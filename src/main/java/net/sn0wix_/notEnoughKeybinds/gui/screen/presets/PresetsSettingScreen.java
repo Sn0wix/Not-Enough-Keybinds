@@ -88,8 +88,8 @@ public class PresetsSettingScreen extends SettingsScreen {
     }
 
     @Override
-    protected void initTabNavigation() {
-        super.initTabNavigation();
+    public void refreshWidgetPositions() {
+        super.refreshWidgetPositions();
 
         if (this.presetsList != null) {
             this.presetsList.position(this.width, this.threePartsLayout);

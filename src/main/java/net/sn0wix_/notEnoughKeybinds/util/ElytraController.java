@@ -61,7 +61,7 @@ public class ElytraController {
 
         //player landed with auto-detect on
         try {
-            if (!MinecraftClient.getInstance().player.isFallFlying() && previousFallFlying && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect) {
+            if (!MinecraftClient.getInstance().player.isGliding() && previousFallFlying && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect) {
                 String swapFirstBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst;
                 boolean swapSecondBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond;
 
@@ -75,7 +75,7 @@ public class ElytraController {
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst = swapFirstBefore;
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond = swapSecondBefore;
             }
-            previousFallFlying = MinecraftClient.getInstance().player.isFallFlying();
+            previousFallFlying = MinecraftClient.getInstance().player.isGliding();
         }catch (NullPointerException ignored) {}
 
         //Enter flight mode logic
@@ -83,7 +83,7 @@ public class ElytraController {
             ticksToStartFlying--;
 
             try {
-                if (MinecraftClient.getInstance().player.isFallFlying()) {
+                if (MinecraftClient.getInstance().player.isGliding()) {
                     postFlight.run();
                     ticksToStartFlying = Integer.MIN_VALUE;
                 }

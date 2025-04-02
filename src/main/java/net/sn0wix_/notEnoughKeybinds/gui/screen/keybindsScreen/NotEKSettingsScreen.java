@@ -31,7 +31,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
     @Override
     protected void init() {
         controlsList = new ControlsListWidget(this, this.client);
-        controlsList.setScrollAmount(scrollAmount);
+        controlsList.setScrollY(scrollAmount);
         super.init();
     }
 
@@ -43,14 +43,14 @@ public class NotEKSettingsScreen extends SettingsScreen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        scrollAmount = controlsList.getScrollAmount();
+        scrollAmount = controlsList.getScrollY();
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.selectedKeyBinding != null && selectedKeyBinding.getBinding() != null) {
             assert this.client != null;
-            this.client.options.setKeyCode(selectedKeyBinding.getBinding(), InputUtil.Type.MOUSE.createFromCode(button));
+            selectedKeyBinding.getBinding().setBoundKey(InputUtil.Type.MOUSE.createFromCode(button));
             this.selectedKeyBinding = null;
             this.controlsList.update();
             return true;
@@ -78,9 +78,9 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    protected void initTabNavigation() {
+    public void refreshWidgetPositions() {
         this.controlsList.position(this.width, this.threePartsLayout);
-        super.initTabNavigation();
+        super.refreshWidgetPositions();
     }
 
     @Override
