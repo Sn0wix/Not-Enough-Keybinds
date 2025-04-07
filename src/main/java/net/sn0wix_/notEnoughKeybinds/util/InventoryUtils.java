@@ -2,8 +2,10 @@ package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
+import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FireworksComponent;
 import net.minecraft.enchantment.Enchantment;
@@ -224,9 +226,13 @@ public class InventoryUtils {
 
     public static float getArmorRating(ItemStack itemStack) {
         float rating = 0;
+        AttributeModifiersComponent componentType = itemStack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        System.out.println(componentType.modifiers());
 
-        if (itemStack.getItem() instanceof ArmorItem armor) {
-            RegistryEntry<ArmorMaterial> material = armor.getMaterial();
+        //TODO fix
+        /*if (componentType != null) {
+            componentType.
+
             if (material.equals(ArmorMaterials.LEATHER)) {
                 rating = 1;
             } else if (material.equals(ArmorMaterials.GOLD)) {
@@ -240,7 +246,7 @@ public class InventoryUtils {
             } else if (material.equals(ArmorMaterials.NETHERITE)) {
                 rating = 6;
             }
-        }
+        }*/
         return rating;
     }
 
