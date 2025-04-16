@@ -30,7 +30,9 @@ public class TexturedButtonWidget extends ButtonWidget {
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         super.renderWidget(context, mouseX, mouseY, delta);
         if (TEXTURE != null) {
-            context.drawTexture(RenderLayer::getGuiTextured,TEXTURE, this.getX() + (this.width - spriteWidth) / 2, this.getY() + (this.height - spriteHeight) / 2, 0, 0, 0, spriteWidth, spriteHeight, textureWidth, textureHeight);
+            context.drawTexture(RenderLayer::getGuiTextured, TEXTURE, this.getX() + (this.width - spriteWidth) / 2,
+                    this.getY() + (this.height - spriteHeight) / 2, 0, 0,
+                    spriteWidth, spriteHeight, textureWidth, textureHeight);
         }
     }
 }
