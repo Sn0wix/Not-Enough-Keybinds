@@ -11,6 +11,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.EquipElytraSettings;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.EquipElytraBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.ElytraController;
@@ -24,7 +25,7 @@ public class InventoryKeys extends NotEKKeyBindings {
     public static int lastSwitchedTotemShieldSlot = -1;
 
 
-    public static final NotEKKeyBinding EQUIP_ELYTRA = registerModKeyBinding(new NotEKKeyBinding("equip_elytra", INVENTORY_CATEGORY, (client, keyBinding) -> {
+    public static final NotEKKeyBinding EQUIP_ELYTRA = registerModKeyBinding(new EquipElytraBinding("equip_elytra", INVENTORY_CATEGORY, (client, keyBinding) -> {
         assert client.player != null;
         AtomicInteger itemSlot = new AtomicInteger(-1);
         boolean elytra = false;
@@ -123,35 +124,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                 }
             }
         }
-    }) {
-        @Override
-        public Screen getSettingsScreen(Screen parent) {
-            return new EquipElytraSettings(parent);
-        }
-
-        @Override
-        public Text getTooltip() {
-            return TextUtils.getText("switch_elytra_chestplate", true);
-        }
-
-        @Override
-        public void setAndSaveKeyBinding(InputUtil.Key key) {
-            if (MinecraftClient.getInstance().options.jumpKey.matchesKey(key.getCode(), 0)) {
-                NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = true;
-                super.setAndSaveKeyBinding(InputUtil.UNKNOWN_KEY);
-            } else {
-                NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = false;
-                super.setAndSaveKeyBinding(key);
-            }
-
-            EquipElytraConfig.saveConfig();
-        }
-
-        @Override
-        public Text getBoundKeyLocalizedText() {
-            return NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect ? TextUtils.getText("elytra_auto_detect") : super.getBoundKeyLocalizedText();
-        }
-    });
+    }));
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
         assert client.player != null;

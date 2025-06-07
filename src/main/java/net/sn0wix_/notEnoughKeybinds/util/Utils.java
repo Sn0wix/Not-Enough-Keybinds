@@ -119,12 +119,10 @@ public class Utils {
         Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
             if (bindings instanceof INotEKKeybinding[] newBindings) {
                 for (INotEKKeybinding binding : newBindings) {
-                    System.out.println("2added " + binding.getTranslationKey() + " - " + binding.getBoundKeyTranslationKey());
                     bindingsList.add(binding.getTranslationKey() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
                 }
             } else if (bindings instanceof KeyBinding[] newBindings) {
                 for (KeyBinding binding : newBindings) {
-                    System.out.println("added " + binding.getTranslationKey() + " - " + binding.getBoundKeyTranslationKey());
                     bindingsList.add(binding.getTranslationKey() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
                 }
             }

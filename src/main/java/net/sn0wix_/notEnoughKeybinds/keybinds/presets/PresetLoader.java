@@ -6,9 +6,11 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.config.NotEKSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
+import net.sn0wix_.notEnoughKeybinds.keybinds.InventoryKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.PresetKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
@@ -106,10 +108,22 @@ public class PresetLoader {
                 GameOptions options = MinecraftClient.getInstance().options;
                 boolean found = false;
 
+                //Equip elytra autodetect
+                if (translation.equals(InventoryKeys.EQUIP_ELYTRA.getTranslationKey())) {
+                    NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = value.equals("auto-detect");
+                    EquipElytraConfig.saveConfig();
+                    if (value.equals("auto-detect")) {
+                        found = true;
+                        value = "key.keyboard.unknown";
+                    }
+                }
+
                 for (int i = 0; i < options.allKeys.length; i++) {
                     KeyBinding binding = options.allKeys[i];
 
-                    if (binding.getTranslationKey().equals(translation) && !binding.getTranslationKey().equals(PresetKeys.NEXT_PRESET_GLOBAL.getTranslationKey()) && !binding.getTranslationKey().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getTranslationKey())) { //check, if the keys are not global preset keys
+                    if (binding.getTranslationKey().equals(translation) &&
+                            !binding.getTranslationKey().equals(PresetKeys.NEXT_PRESET_GLOBAL.getTranslationKey()) &&
+                            !binding.getTranslationKey().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getTranslationKey())) {
                         binding.setBoundKey(InputUtil.fromTranslationKey(value));
                         found = true;
                         break;
@@ -119,10 +133,11 @@ public class PresetLoader {
                 if (!found) {
                     //check if the keys is saved in another file than options.txt
                     if (translation.contains("key." + NotEnoughKeybinds.MOD_ID)) {
+                        String finalValue = value;
                         Stream.of(ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
                             for (INotEKKeybinding keybinding : iNotEKKeybindings) {
                                 if (keybinding.getTranslationKey().equals(translation)) {
-                                    keybinding.setBoundKey(InputUtil.fromTranslationKey(value));
+                                    keybinding.setBoundKey(InputUtil.fromTranslationKey(finalValue));
                                     break;
                                 }
                             }

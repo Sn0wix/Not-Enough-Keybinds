@@ -1,0 +1,1 @@
+Fixed elytra auto detect not working with presets
