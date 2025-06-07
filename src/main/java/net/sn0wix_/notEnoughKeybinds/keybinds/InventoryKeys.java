@@ -56,7 +56,10 @@ public class InventoryKeys extends NotEKKeyBindings {
                     break;
                 } else if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond) {
                     string = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getOppositeSwap();
+                    continue;
                 }
+
+                break;
             }
         }
 

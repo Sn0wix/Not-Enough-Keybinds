@@ -2,31 +2,29 @@ package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.component.type.FireworksComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
-import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.registry.*;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InventoryUtils {
     public static int getFireworkSlot(PlayerInventory inventory, boolean longestDuration, boolean canExplode) {
@@ -143,10 +141,12 @@ public class InventoryUtils {
             slot = getBestChestplateSlot(client.player.getInventory(), NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding);
         } else {
             for (int i = 0; i < client.player.getInventory().size(); i++) {
-                //TODO test
-                if (EquipmentSlot.CHEST.equals(client.player.getInventory().getStack(i).get(DataComponentTypes.EQUIPPABLE).slot())) {
-                    slot = i;
-                    break;
+                try {
+                    if (isChestplate(client.player.getInventory().getStack(i))) {
+                        slot = i;
+                        break;
+                    }
+                } catch (NullPointerException ignored) {
                 }
             }
         }
@@ -187,8 +187,7 @@ public class InventoryUtils {
 
 
                 try {
-                    //TODO test
-                    if (EquipmentSlot.CHEST.equals(stack.get(DataComponentTypes.EQUIPPABLE).slot())) {
+                    if (isChestplate(stack)) {
                         float armorStrength = getFinalArmorStrength(stack);
 
                         if (armorStrength > bestArmorStrength) {
@@ -201,7 +200,7 @@ public class InventoryUtils {
                             bestArmorSlot = i;
                         }
                     }
-                }catch (NullPointerException e) {
+                } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
 
@@ -226,27 +225,27 @@ public class InventoryUtils {
 
     public static float getArmorRating(ItemStack itemStack) {
         float rating = 0;
-        AttributeModifiersComponent componentType = itemStack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS);
-        System.out.println(componentType.modifiers());
 
-        //TODO fix
-        /*if (componentType != null) {
-            componentType.
+        try {
+            Optional<TagKey<Item>> tagKey = itemStack.get(DataComponentTypes.REPAIRABLE).items().getTagKey();
 
-            if (material.equals(ArmorMaterials.LEATHER)) {
-                rating = 1;
-            } else if (material.equals(ArmorMaterials.GOLD)) {
-                rating = 2;
-            } else if (material.equals(ArmorMaterials.CHAIN)) {
-                rating = 3;
-            } else if (material.equals(ArmorMaterials.IRON)) {
-                rating = 4;
-            } else if (material.equals(ArmorMaterials.DIAMOND)) {
-                rating = 5;
-            } else if (material.equals(ArmorMaterials.NETHERITE)) {
-                rating = 6;
+            if (tagKey.isPresent()) {
+                if (tagKey.get().id().equals(ArmorMaterials.LEATHER.repairIngredient().id())){
+                    rating = 1;
+                } else if (tagKey.get().id().equals(ArmorMaterials.GOLD.repairIngredient().id())) {
+                    rating = 2;
+                } else if (tagKey.get().id().equals(ArmorMaterials.CHAIN.repairIngredient().id())) {
+                    rating = 3;
+                } else if (tagKey.get().id().equals(ArmorMaterials.IRON.repairIngredient().id())) {
+                    rating = 4;
+                } else if (tagKey.get().id().equals(ArmorMaterials.DIAMOND.repairIngredient().id())) {
+                    rating = 5;
+                } else if (tagKey.get().id().equals(ArmorMaterials.NETHERITE.repairIngredient().id())) {
+                    rating = 6;
+                }
             }
-        }*/
+        }catch (NullPointerException ignored) {}
+
         return rating;
     }
 
@@ -270,5 +269,20 @@ public class InventoryUtils {
         }
 
         return -1;
+    }
+
+    public static boolean isChestplate(ItemStack itemStack) {
+        AtomicBoolean bl = new AtomicBoolean(false);
+
+        try {
+            itemStack.get(DataComponentTypes.ATTRIBUTE_MODIFIERS).modifiers().forEach(modifier -> {
+                if (modifier.modifier().id().equals(Identifier.ofVanilla("armor.chestplate"))) {
+                    bl.set(true);
+                }
+            });
+        } catch (NullPointerException ignored) {
+        }
+
+        return bl.get();
     }
 }

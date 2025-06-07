@@ -18,7 +18,6 @@ public abstract class KeyboardInputMixin {
     @Final
     private GameOptions settings;
 
-    //TODO test
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/input/KeyboardInput;getMovementMultiplier(ZZ)F", shift = At.Shift.BEFORE, ordinal = 0))
     public void injectJumping(CallbackInfo ci) {
         if (ElytraController.shouldStimulateJump() || this.settings.jumpKey.isPressed()) {

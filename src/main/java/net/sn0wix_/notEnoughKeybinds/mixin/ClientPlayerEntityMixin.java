@@ -16,10 +16,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Iterator;
+
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin {
     //Auto elytra detection
-    /*@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isOf(Lnet/minecraft/item/Item;)Z", ordinal = 0, shift = At.Shift.AFTER))
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;checkGliding()Z", shift = At.Shift.AFTER))
     private void injectTickMovement(CallbackInfo ci) {
         if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect
                 && checkFallFlying(((ClientPlayerEntity) (Object) this))
@@ -43,7 +45,7 @@ public abstract class ClientPlayerEntityMixin {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode = enterFlightBefore;
 
             ElytraController.nextTick(() -> {
-                ((ClientPlayerEntity) (Object) this).startFallFlying();
+                ((ClientPlayerEntity) (Object) this).startGliding();
                 ((ClientPlayerEntity) (Object) this).networkHandler.sendPacket(new ClientCommandC2SPacket(((ClientPlayerEntity) (Object) this), ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             });
         }
@@ -52,6 +54,7 @@ public abstract class ClientPlayerEntityMixin {
 
     @Unique
     public boolean checkFallFlying(ClientPlayerEntity clientPlayerEntity) {
-        return !clientPlayerEntity.isOnGround() && !clientPlayerEntity.isFallFlying() && !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.hasStatusEffect(StatusEffects.LEVITATION);
-    }*/
+        //return clientPlayerEntity.checkGliding();
+        return !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.isGliding() && !clientPlayerEntity.getAbilities().flying && !clientPlayerEntity.isOnGround() && !clientPlayerEntity.hasVehicle() && !clientPlayerEntity.hasStatusEffect(StatusEffects.LEVITATION);
+    }
 }
