@@ -1,6 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -20,7 +21,7 @@ public class SkinLayersKeys extends NotEKKeyBindings {
 
     public static final NotEKKeyBinding TOGGLE_SECOND_SKIN_LAYER = registerModKeyBinding(new NotEKKeyBinding("toggle_second_skin_layer", SKIN_LAYERS_CATEGORY, (client, keyBinding) -> {
         for (PlayerModelPart modelPart : PlayerModelPart.values()) {
-            client.options.setPlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
+            enableModelPart(client, modelPart);
         }
     }));
 
@@ -39,7 +40,12 @@ public class SkinLayersKeys extends NotEKKeyBindings {
 
         @Override
         public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
-            client.options.setPlayerModelPart(modelPart, !client.options.isPlayerModelPartEnabled(modelPart));
+            enableModelPart(client, modelPart);
         }
+    }
+
+    public static void enableModelPart(MinecraftClient client, PlayerModelPart playerModelPart) {
+        client.options.setPlayerModelPart(playerModelPart, !client.options.isPlayerModelPartEnabled(playerModelPart));
+        client.options.write();
     }
 }
