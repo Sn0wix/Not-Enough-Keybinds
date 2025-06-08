@@ -43,6 +43,10 @@ public interface INotEKKeybinding {
         return Text.translatable(getTranslationKey());
     }
 
+    default String getBoundKeyTranslation() {
+        return this.getBoundKeyTranslationKey();
+    }
+
 
     @FunctionalInterface
     interface KeybindingTicker {

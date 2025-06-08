@@ -39,7 +39,7 @@ public class F3DebugKeys extends NotEKKeyBindings {
     public static HashMap<String, String> getMap() {
         HashMap<String, String> map = new HashMap<>(14);
         for (int i = 0; i < F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
-            map.put(F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getTranslationKey(), F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyTranslationKey());
+            map.put(F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getTranslationKey(), F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyTranslation());
         }
 
         return map;

@@ -41,7 +41,7 @@ public class ChatKeysConfig {
 
     public void addKeyIf(ChatKeyBinding binding) {
         chatKeys.remove(binding.getTranslationKey());
-        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), InputUtil.fromTranslationKey(binding.getBoundKeyTranslationKey())));
+        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), InputUtil.fromTranslationKey(binding.getBoundKeyTranslation())));
         saveConfig();
     }
 

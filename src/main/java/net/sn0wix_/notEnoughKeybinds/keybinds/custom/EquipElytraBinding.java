@@ -44,7 +44,7 @@ public class EquipElytraBinding extends NotEKKeyBinding {
     }
 
     @Override
-    public String getBoundKeyTranslationKey() {
+    public String getBoundKeyTranslation() {
         if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect) {
             return "auto-detect";
         }
