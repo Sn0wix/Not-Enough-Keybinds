@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -32,9 +31,9 @@ public class InventoryKeys extends NotEKKeyBindings {
         boolean elytra = false;
         boolean swapFirstOrSecond = false;
 
-        if (client.player.getInventory().getStack(EquipmentSlot.CHEST.getOffsetEntitySlotId(PlayerInventory.MAIN_SIZE)).isOf(Items.ELYTRA)) {
+        if (client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isOf(Items.ELYTRA)) {
             itemSlot.set(InventoryUtils.getSlotWithChestplate(client));
-        } else if (!client.player.getInventory().getStack(EquipmentSlot.CHEST.getOffsetEntitySlotId(PlayerInventory.MAIN_SIZE)).isEmpty()) {
+        } else if (!client.player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()).isEmpty()) {
             itemSlot.set(InventoryUtils.getSlotWithElytra(client));
             elytra = true;
         }
@@ -78,14 +77,14 @@ public class InventoryKeys extends NotEKKeyBindings {
                             //hotbar
                             InventoryUtils.switchInvHotbarSlot(client, NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot, itemSlot.get());
                             if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket)
-                                client.player.getInventory().setSelectedSlot(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot);
+                                client.player.getInventory().selectedSlot = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot;
 
                             swapBackSlot = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot;
                         }
                         case 2 -> {
                             //current slotIn
                             InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, itemSlot.get());
-                            swapBackSlot = client.player.getInventory().getSelectedSlot();
+                            swapBackSlot = client.player.getInventory().selectedSlot;
                         }
                         case 3 -> {
                             //offhand

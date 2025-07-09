@@ -52,16 +52,14 @@ public class InventoryUtils {
     }
 
     public static void switchInvHandSlot(MinecraftClient client, Hand hand, int clickedSlot) {
-        switchInvHotbarSlot(client, hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().getSelectedSlot(), clickedSlot);
+        switchInvHotbarSlot(client, hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot, clickedSlot);
     }
 
     public static void switchInvHotbarSlot(MinecraftClient client, int hotbarSlot, int clickedSlot) {
-        if (hotbarSlot > -1 && clickedSlot > -1) {
-            assert client.player != null;
-            ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
-            assert client.interactionManager != null;
-            client.interactionManager.clickSlot(handler.syncId, convertSlotIds(clickedSlot), hotbarSlot, SlotActionType.SWAP, client.player);
-        }
+        assert client.player != null;
+        ScreenHandler handler = new InventoryScreen(client.player).getScreenHandler();
+        assert client.interactionManager != null;
+        client.interactionManager.clickSlot(handler.syncId, convertSlotIds(clickedSlot), hotbarSlot, SlotActionType.SWAP, client.player);
 
         /*Maybe more legit?
         client.setScreen(new InventoryScreen(client.player));
@@ -117,10 +115,10 @@ public class InventoryUtils {
             InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, slot);
 
         } else {
-            int slotBefore = client.player.getInventory().getSelectedSlot();
-            client.player.getInventory().setSelectedSlot(slot);
+            int slotBefore = client.player.getInventory().selectedSlot;
+            client.player.getInventory().selectedSlot = slot;
             InventoryUtils.interactItem(Hand.MAIN_HAND, client);
-            client.player.getInventory().setSelectedSlot(slotBefore);
+            client.player.getInventory().selectedSlot = slotBefore;
         }
     }
 
@@ -232,7 +230,7 @@ public class InventoryUtils {
             Optional<TagKey<Item>> tagKey = itemStack.get(DataComponentTypes.REPAIRABLE).items().getTagKey();
 
             if (tagKey.isPresent()) {
-                if (tagKey.get().id().equals(ArmorMaterials.LEATHER.repairIngredient().id())) {
+                if (tagKey.get().id().equals(ArmorMaterials.LEATHER.repairIngredient().id())){
                     rating = 1;
                 } else if (tagKey.get().id().equals(ArmorMaterials.GOLD.repairIngredient().id())) {
                     rating = 2;
@@ -246,8 +244,7 @@ public class InventoryUtils {
                     rating = 6;
                 }
             }
-        } catch (NullPointerException ignored) {
-        }
+        }catch (NullPointerException ignored) {}
 
         return rating;
     }
@@ -265,8 +262,8 @@ public class InventoryUtils {
     }
 
     public static int getSlotWithItem(Item item, PlayerInventory inventory) {
-        for (int i = 0; i < inventory.getMainStacks().size(); i++) {
-            if (!inventory.getMainStacks().get(i).isEmpty() && inventory.getMainStacks().get(i).isOf(item)) {
+        for (int i = 0; i < inventory.main.size(); i++) {
+            if (!inventory.main.get(i).isEmpty() && inventory.main.get(i).isOf(item)) {
                 return i;
             }
         }

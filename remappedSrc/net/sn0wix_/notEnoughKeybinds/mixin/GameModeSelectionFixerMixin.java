@@ -1,10 +1,14 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
 import net.minecraft.client.gui.screen.GameModeSwitcherScreen;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(GameModeSwitcherScreen.class)

@@ -35,7 +35,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                         if (actionResult2.isAccepted()) {
                             if (actionResult2 instanceof ActionResult.Success success && success.swingSource() == ActionResult.SwingSource.CLIENT) {
                                 client.player.swingHand(hand);
-                                if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.interactionManager.getCurrentGameMode().isCreative())) {
+                                if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.interactionManager.hasCreativeInventory())) {
                                     client.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
                                 }
                             }
@@ -96,7 +96,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                         itemUseCooldown = 4;
                         if (actionResult2 instanceof ActionResult.Success success && success.swingSource() == ActionResult.SwingSource.CLIENT) {
                             client.player.swingHand(hand);
-                            if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.interactionManager.getCurrentGameMode().isCreative())) {
+                            if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.interactionManager.hasCreativeInventory())) {
                                 client.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
                             }
                         }
