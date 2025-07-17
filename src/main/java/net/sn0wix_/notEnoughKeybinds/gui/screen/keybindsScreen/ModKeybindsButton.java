@@ -3,6 +3,7 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -10,8 +11,6 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
@@ -35,7 +34,7 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
         button.setPosition(x, y);
         button.render(context, mouseX, mouseY, tickDelta);
 
-        context.drawTexture(RenderLayer::getGuiTextured, NotEnoughKeybinds.ICON, x + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, y, 0, 0, 0, 18, 18, 18, 18);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, NotEnoughKeybinds.ICON, x + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, y, 0, 0, 0, 18, 18, 18, 18);
     }
 
     @Override

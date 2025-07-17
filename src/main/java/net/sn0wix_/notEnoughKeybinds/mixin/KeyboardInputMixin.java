@@ -3,7 +3,6 @@ package net.sn0wix_.notEnoughKeybinds.mixin;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.util.PlayerInput;
 import net.sn0wix_.notEnoughKeybinds.util.ElytraController;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

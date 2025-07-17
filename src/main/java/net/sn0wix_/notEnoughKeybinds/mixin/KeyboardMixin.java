@@ -93,14 +93,14 @@ public abstract class KeyboardMixin {
         return code;
     }
 
-    @ModifyArg(method = "processF3", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;addMessage(Lnet/minecraft/text/Text;)V"))
+    @ModifyArg(method = "processF3", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;sendMessage(Lnet/minecraft/text/Text;)V"))
     public Text fixHelpMessage(Text message) {
         return Utils.correctF3DebugMessage(message);
     }
 
 
-    @ModifyArg(method = "pollDebugCrash", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;debugLog(Ljava/lang/String;[Ljava/lang/Object;)V"), index = 1)
-    public Object[] fixF3CMessage(Object[] args) {
-        return Utils.addArgToEnd(args, F3DebugKeys.COPY_LOCATION.boundKey.getLocalizedText());
+    @ModifyArg(method = "debugLog(Lnet/minecraft/text/Text;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;getDebugMessage(Lnet/minecraft/util/Formatting;Lnet/minecraft/text/Text;)Lnet/minecraft/text/Text;"), index = 1)
+    public Text fixF3CMessage(Text message) {
+        return message.getContent().toString().contains("debug.crash.message") ? Text.translatable("debug.crash.message", F3DebugKeys.COPY_LOCATION.boundKey.getLocalizedText()) : message;
     }
 }
