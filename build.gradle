@@ -99,3 +99,7 @@ publishing {
         // retrieving dependencies.
     }
 }
+
+tasks.named("remapJar") {
+    archiveFileName = project.archives_base_name + "-" + project.mod_version + "+mc" + project.mc_compatibility_version + ".jar"
+}
