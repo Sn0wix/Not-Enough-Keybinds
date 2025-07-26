@@ -117,6 +117,7 @@
   "text.not-enough-keybinds.tooltip.switch_totem_shield": "Switch between Totem of Undying and Shield",
   "text.not-enough-keybinds.tooltip.switch_elytra_chestplate": "Switch between Elytra and Chestplate",
   "text.not-enough-keybinds.tooltip.throw_ender_pearl": "Throw an Ender Pearl, if you have one in your inventory",
+  "text.not-enough-keybinds.tooltip.throw_wind_charge": "Throw a Wind Charge, if you have one in your inventory",
   "text.not-enough-keybinds.tooltip.write_preset": "Write your current bindings to the preset",
   "text.not-enough-keybinds.tooltip.create_preset": "Create new preset with default bindings",
 
@@ -124,6 +125,7 @@
   "debug.not-enough-keybinds.press_next": "[ %s ]",
 
   "key.not-enough-keybinds.throw_ender_pearl": "Throw Ender Pearl",
+  "key.not-enough-keybinds.throw_wind_charge": "Throw Wind Charge",
   "key.not-enough-keybinds.switch_totem_shield": "Swap Totem and Shield",
   "key.not-enough-keybinds.equip_elytra": "Swap Elytra",
 

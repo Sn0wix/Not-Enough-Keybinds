@@ -200,8 +200,28 @@ public class InventoryKeys extends NotEKKeyBindings {
         }
     });
 
+    public static final NotEKKeyBinding THROW_WIND_CHARGE = registerModKeyBinding(new NotEKKeyBinding("throw_wind_charge", INVENTORY_CATEGORY, (client, keyBinding) -> {
+        for (Hand hand : Hand.values()) {
+            if (client.player.getStackInHand(hand).isOf(Items.WIND_CHARGE)) {
+                InventoryUtils.interactItem(hand, client);
+                return;
+            }
+        }
+
+        int pearlSlot = InventoryUtils.getSlotWithItem(Items.WIND_CHARGE, client.player.getInventory());
+
+        if (pearlSlot > -1) {
+            InventoryUtils.quickUseItem(client, pearlSlot);
+        }
+    }) {
+        @Override
+        public Text getTooltip() {
+            return TextUtils.getText("throw_wind_charge", true);
+        }
+    });
+
     @Override
     public KeybindCategory getCategory() {
-        return new KeybindCategory(INVENTORY_CATEGORY, 0, THROW_ENDER_PEARL, SWITCH_TOTEM_SHIELD, EQUIP_ELYTRA);
+        return new KeybindCategory(INVENTORY_CATEGORY, 0, THROW_ENDER_PEARL, THROW_WIND_CHARGE, SWITCH_TOTEM_SHIELD, EQUIP_ELYTRA);
     }
 }
