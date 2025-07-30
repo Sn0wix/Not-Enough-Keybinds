@@ -52,7 +52,7 @@ public class InventoryUtils {
     }
 
     public static void switchInvHandSlot(MinecraftClient client, Hand hand, int clickedSlot) {
-        switchInvHotbarSlot(client, hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().selectedSlot, clickedSlot);
+        switchInvHotbarSlot(client, hand.equals(Hand.OFF_HAND) ? 40 : client.player.getInventory().getSelectedSlot(), clickedSlot);
     }
 
     public static void switchInvHotbarSlot(MinecraftClient client, int hotbarSlot, int clickedSlot) {
@@ -117,7 +117,7 @@ public class InventoryUtils {
             InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, slot);
 
         } else {
-            int slotBefore = client.player.getInventory().selectedSlot;
+            int slotBefore = client.player.getInventory().getSelectedSlot();
             client.player.getInventory().setSelectedSlot(slot);
             InventoryUtils.interactItem(Hand.MAIN_HAND, client);
             client.player.getInventory().setSelectedSlot(slotBefore);
@@ -265,8 +265,8 @@ public class InventoryUtils {
     }
 
     public static int getSlotWithItem(Item item, PlayerInventory inventory) {
-        for (int i = 0; i < inventory.main.size(); i++) {
-            if (!inventory.main.get(i).isEmpty() && inventory.main.get(i).isOf(item)) {
+        for (int i = 0; i < inventory.getMainStacks().size(); i++) {
+            if (!inventory.getMainStacks().get(i).isEmpty() && inventory.getMainStacks().get(i).isOf(item)) {
                 return i;
             }
         }
