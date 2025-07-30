@@ -34,7 +34,7 @@ public class SoundKeys extends NotEKKeyBindings {
             i++;
         }
 
-        return new KeybindCategory(SOUND_KEYS_CATEGORY, 10, bindings);
+        return new KeybindCategory(SOUND_KEYS_CATEGORY, 128, bindings);
     }
 
 

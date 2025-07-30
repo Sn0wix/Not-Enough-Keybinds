@@ -85,7 +85,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                         case 2 -> {
                             //current slotIn
                             InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, itemSlot.get());
-                            swapBackSlot = client.player.getInventory().getSelectedSlot();
+                            swapBackSlot = client.player.getInventory().selectedSlot;
                         }
                         case 3 -> {
                             //offhand

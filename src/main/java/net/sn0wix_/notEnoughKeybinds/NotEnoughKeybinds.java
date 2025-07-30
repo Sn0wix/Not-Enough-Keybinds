@@ -26,6 +26,12 @@ public class NotEnoughKeybinds implements ClientModInitializer {
     public static final EquipElytraConfig EQUIP_ELYTRA_CONFIG = EquipElytraConfig.getConfig();
     public static final NotEKSettings GENERAL_CONFIG = NotEKSettings.getConfig();
 
+    /**TODO
+     swap totem shield delay (do not swap if the same item is in swapped)
+     1.21.4 port newest version
+     pie chart bug?
+     fast place - delay (in ticks) - configurable
+     */
 
     @Override
     public void onInitializeClient() {
