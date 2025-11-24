@@ -2,8 +2,10 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
@@ -25,7 +27,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
 
     public NotEKSettingsScreen(Screen parent) {
         super(parent, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
-        threePartsLayout = new BasicLayoutWidget(33,this);
+        threePartsLayout = new BasicLayoutWidget(33, this);
     }
 
     @Override
@@ -47,25 +49,25 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         if (this.selectedKeyBinding != null && selectedKeyBinding.getBinding() != null) {
             assert this.client != null;
-            selectedKeyBinding.getBinding().setBoundKey(InputUtil.Type.MOUSE.createFromCode(button));
+            selectedKeyBinding.getBinding().setBoundKey(InputUtil.Type.MOUSE.createFromCode(click.button()));
             this.selectedKeyBinding = null;
             this.controlsList.update();
             return true;
         } else {
-            return super.mouseClicked(mouseX, mouseY, button);
+            return super.mouseClicked(click, doubled);
         }
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput input) {
         if (this.selectedKeyBinding != null) {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            if (input.key() == GLFW.GLFW_KEY_ESCAPE) {
                 selectedKeyBinding.setAndSaveKeyBinding(InputUtil.UNKNOWN_KEY);
             } else {
-                selectedKeyBinding.setAndSaveKeyBinding(InputUtil.fromKeyCode(keyCode, scanCode));
+                selectedKeyBinding.setAndSaveKeyBinding(InputUtil.fromKeyCode(input));
             }
 
             this.selectedKeyBinding = null;
@@ -73,7 +75,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
             this.controlsList.update();
             return true;
         } else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            return super.keyPressed(input);
         }
     }
 

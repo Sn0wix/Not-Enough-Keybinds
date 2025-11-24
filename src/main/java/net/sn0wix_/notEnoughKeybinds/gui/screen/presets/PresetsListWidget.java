@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.text.Text;
@@ -44,10 +45,11 @@ public class PresetsListWidget extends AlwaysSelectedEntryListWidget<PresetsList
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            context.drawText(textRenderer, TextUtils.trimText(preset.getName(), textRenderer, entryWidth - 6), x + 3, y + 1, Colors.WHITE, false);
-            context.drawText(textRenderer, TextUtils.trimText(preset.getDescription(), textRenderer, entryWidth), x + 3, y + 9 + 3, Colors.LIGHT_GRAY, false);
-            context.drawText(textRenderer, TextUtils.trimText(preset.getFileName(), textRenderer, entryWidth), x + 3, y + 9 + 9 + 3, Formatting.DARK_GRAY.getColorValue(), false);
+        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+            context.drawText(textRenderer, TextUtils.trimText(preset.getName(), textRenderer, getContentWidth() - 6), getContentX() + 3, getContentY() + 1, Colors.WHITE, false);
+            context.drawText(textRenderer, TextUtils.trimText(preset.getDescription(), textRenderer, getContentWidth()), getContentX() + 3, getContentY() + 9 + 3, Colors.LIGHT_GRAY, false);
+            context.drawText(textRenderer, TextUtils.trimText(preset.getFileName(), textRenderer, getContentWidth()), getContentX() + 3, getContentY() + 9 + 9 + 3, Formatting.DARK_GRAY.getColorValue(), false);
+
         }
 
         public PresetLoader.KeybindPreset getPreset() {
@@ -55,7 +57,7 @@ public class PresetsListWidget extends AlwaysSelectedEntryListWidget<PresetsList
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        public boolean mouseClicked(Click click, boolean doubled) {
             PresetsListWidget.this.setSelected(this);
             return true;
         }

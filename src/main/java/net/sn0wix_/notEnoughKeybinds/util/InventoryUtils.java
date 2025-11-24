@@ -226,14 +226,14 @@ public class InventoryUtils {
     }
 
     public static float getArmorRating(ItemStack itemStack) {
-        float rating = 0;
+        float rating = 1;
 
         try {
             Optional<TagKey<Item>> tagKey = itemStack.get(DataComponentTypes.REPAIRABLE).items().getTagKey();
 
             if (tagKey.isPresent()) {
-                if (tagKey.get().id().equals(ArmorMaterials.LEATHER.repairIngredient().id())) {
-                    rating = 1;
+                 if (tagKey.get().id().equals(ArmorMaterials.COPPER.repairIngredient().id())) {
+                    rating = 2;
                 } else if (tagKey.get().id().equals(ArmorMaterials.GOLD.repairIngredient().id())) {
                     rating = 2;
                 } else if (tagKey.get().id().equals(ArmorMaterials.CHAIN.repairIngredient().id())) {

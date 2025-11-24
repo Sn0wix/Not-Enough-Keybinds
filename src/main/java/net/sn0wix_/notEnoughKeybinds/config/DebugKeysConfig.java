@@ -31,7 +31,7 @@ public class DebugKeysConfig {
 
         for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
             F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].setBoundKey(
-                    config.getKey(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getTranslationKey()));
+                    config.getKey(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getId()));
         }
 
         return config;

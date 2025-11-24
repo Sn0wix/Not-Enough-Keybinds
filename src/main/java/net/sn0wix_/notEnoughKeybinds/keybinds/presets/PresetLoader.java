@@ -109,7 +109,7 @@ public class PresetLoader {
                 boolean found = false;
 
                 //Equip elytra autodetect
-                if (translation.equals(InventoryKeys.EQUIP_ELYTRA.getTranslationKey())) {
+                if (translation.equals(InventoryKeys.EQUIP_ELYTRA.getId())) {
                     NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = value.equals("auto-detect");
                     EquipElytraConfig.saveConfig();
                     if (value.equals("auto-detect")) {
@@ -121,9 +121,9 @@ public class PresetLoader {
                 for (int i = 0; i < options.allKeys.length; i++) {
                     KeyBinding binding = options.allKeys[i];
 
-                    if (binding.getTranslationKey().equals(translation) &&
-                            !binding.getTranslationKey().equals(PresetKeys.NEXT_PRESET_GLOBAL.getTranslationKey()) &&
-                            !binding.getTranslationKey().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getTranslationKey())) {
+                    if (binding.getId().equals(translation) &&
+                            !binding.getId().equals(PresetKeys.NEXT_PRESET_GLOBAL.getId()) &&
+                            !binding.getId().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getId())) {
                         binding.setBoundKey(InputUtil.fromTranslationKey(value));
                         found = true;
                         break;
@@ -134,9 +134,9 @@ public class PresetLoader {
                     //check if the keys is saved in another file than options.txt
                     if (translation.contains("key." + NotEnoughKeybinds.MOD_ID)) {
                         String finalValue = value;
-                        Stream.of(ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
+                        Stream.of(ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
                             for (INotEKKeybinding keybinding : iNotEKKeybindings) {
-                                if (keybinding.getTranslationKey().equals(translation)) {
+                                if (keybinding.getId().equals(translation)) {
                                     keybinding.setBoundKey(InputUtil.fromTranslationKey(finalValue));
                                     break;
                                 }

@@ -32,8 +32,12 @@ public class NotEnoughKeybinds implements ClientModInitializer {
         NotEKKeyBindings.registerModKeybinds();
 
         ClientTickEvents.END_CLIENT_TICK.register(new ClientEndTickEvent());
-        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ChatKeys.CHAT_KEYS_CATEGORY.initializeKeys());
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ChatKeys.CHAT_KEYS_MOD_CATEGORY.initializeKeys());
 
         PresetLoader.init();
+    }
+
+    public static Identifier getIdentifier(String path) {
+        return Identifier.of(MOD_ID, path);
     }
 }

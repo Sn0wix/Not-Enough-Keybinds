@@ -5,6 +5,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -74,7 +75,7 @@ public class PresetEditScreen extends SettingsScreen {
         DirectionalLayoutWidget top = DirectionalLayoutWidget.vertical().spacing(2);
         DirectionalLayoutWidget bottom = DirectionalLayoutWidget.vertical().spacing(2);
 
-        top.add(new TextWidget(200, 20, NAME_TEXT, textRenderer).alignLeft());
+        top.add(new TextWidget(200, 20, NAME_TEXT, textRenderer));
         nameWidget = new TextFieldWidget(textRenderer, 310, 20, NAME_TEXT);
         nameWidget.setChangedListener(s -> updateChildren());
         nameWidget.setMaxLength(Integer.MAX_VALUE);
@@ -82,7 +83,7 @@ public class PresetEditScreen extends SettingsScreen {
         top.add(nameWidget);
 
 
-        bottom.add(new TextWidget(200, 20, DESCRIPTION_TEXT, textRenderer).alignLeft());
+        bottom.add(new TextWidget(200, 20, DESCRIPTION_TEXT, textRenderer));
         descriptionWidget = new TextFieldWidget(textRenderer, 310, 20, DESCRIPTION_TEXT);
         descriptionWidget.setMaxLength(Integer.MAX_VALUE);
         descriptionWidget.setText(description);
@@ -105,19 +106,19 @@ public class PresetEditScreen extends SettingsScreen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput input) {
         if (getFocused() == null || getFocused() == descriptionWidget || getFocused() == nameWidget) {
-            if (keyCode == GLFW.GLFW_KEY_DELETE) {
+            if (input.getKeycode() == GLFW.GLFW_KEY_DELETE) {
                 client.setScreen(parent);
                 return true;
             }
 
-            if (keyCode == GLFW.GLFW_KEY_ENTER) {
-                doneButton.onPress();
+            if (input.getKeycode() == GLFW.GLFW_KEY_ENTER) {
+                doneButton.onPress(input);
                 return true;
             }
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 }

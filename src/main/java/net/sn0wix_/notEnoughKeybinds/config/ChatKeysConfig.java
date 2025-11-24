@@ -5,6 +5,7 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -30,18 +31,18 @@ public class ChatKeysConfig {
 
 
     public void addKey(ChatKeyBinding binding) {
-        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
+        chatKeys.put(binding.getId(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), binding.getDefaultKey()));
         saveConfig();
     }
 
     public void removeKey(ChatKeyBinding binding) {
-        chatKeys.remove(binding.getTranslationKey());
+        chatKeys.remove(binding.getId());
         saveConfig();
     }
 
     public void addKeyIf(ChatKeyBinding binding) {
-        chatKeys.remove(binding.getTranslationKey());
-        chatKeys.put(binding.getTranslationKey(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), InputUtil.fromTranslationKey(binding.getBoundKeyTranslation())));
+        chatKeys.remove(binding.getId());
+        chatKeys.put(binding.getId(), new ChatKeyValues(binding.getChatMessage(), binding.getSettingsDisplayName().getString(), InputUtil.fromTranslationKey(binding.getBoundKeyTranslation())));
         saveConfig();
     }
 
@@ -83,7 +84,7 @@ public class ChatKeysConfig {
         }
 
         public InputUtil.Key getKey() {
-            return keyCode == -1 ? InputUtil.UNKNOWN_KEY : InputUtil.fromKeyCode(keyCode, GLFW.glfwGetKeyScancode(keyCode));
+            return keyCode == -1 ? InputUtil.UNKNOWN_KEY : InputUtil.fromKeyCode(new KeyInput(keyCode, GLFW.glfwGetKeyScancode(keyCode), 0));
         }
 
         public String getMessage() {

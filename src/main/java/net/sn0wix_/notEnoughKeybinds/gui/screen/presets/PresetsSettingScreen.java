@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
@@ -45,12 +46,10 @@ public class PresetsSettingScreen extends SettingsScreen {
         DirectionalLayoutWidget header = DirectionalLayoutWidget.vertical().spacing(7);
         TextWidget headerText = new TextWidget(title, textRenderer);
         headerText.setWidth(200);
-        headerText.alignCenter();
 
         currentPresetText = new TextWidget(Text.of(PresetLoader.getCurrentPresetName()), textRenderer);
         currentPresetText.setTextColor(Colors.GRAY);
         currentPresetText.setWidth(200);
-        currentPresetText.alignCenter();
 
         header.add(headerText);
         header.add(currentPresetText);
@@ -167,28 +166,28 @@ public class PresetsSettingScreen extends SettingsScreen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_F5) {
+    public boolean keyPressed(KeyInput input) {
+        if (input.getKeycode() == GLFW.GLFW_KEY_F5) {
             PresetLoader.reload(true);
             this.clearAndInit();
             return true;
         }
 
         if (getFocused() != null && getFocused() == presetsList) {
-            if (keyCode == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
-                deleteButton.onPress();
+            if (input.getKeycode() == GLFW.GLFW_KEY_DELETE && presetsList.getSelectedOrNull() != null) {
+                deleteButton.onPress(input);
                 return true;
-            } else if (keyCode == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
-                loadButton.onPress();
+            } else if (input.getKeycode() == GLFW.GLFW_KEY_ENTER && presetsList.getSelectedOrNull() != null) {
+                loadButton.onPress(input);
                 return true;
-            } else if (keyCode == GLFW.GLFW_KEY_KP_ADD) {
-                createNewButton.onPress();
+            } else if (input.getKeycode() == GLFW.GLFW_KEY_KP_ADD) {
+                createNewButton.onPress(input);
                 return true;
             }
-        } else if (keyCode == GLFW.GLFW_KEY_ENTER && getFocused() instanceof ButtonWidget buttonWidget) {
-            buttonWidget.onPress();
+        } else if (input.getKeycode() == GLFW.GLFW_KEY_ENTER && getFocused() instanceof ButtonWidget buttonWidget) {
+            buttonWidget.onPress(input);
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 }

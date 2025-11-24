@@ -110,21 +110,21 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             assert ControlsListWidget.this.client.currentScreen != null;
             context.drawText(
                     ControlsListWidget.this.client.textRenderer,
                     this.text,
                     ControlsListWidget.this.width / 2 - this.textWidth / 2,
-                    y + entryHeight - 9 - 1,
+                    getContentY() + getContentHeight() - 9 - 1,
                     Colors.WHITE,
                     false
             );
 
             resetCategoryButton.setWidth(client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6);
             resetCategoryButton.setX((ControlsListWidget.this.width / 2) - maxKeyNameLength - 2);
-            resetCategoryButton.setY(y + 2);
-            resetCategoryButton.render(context, mouseX, mouseY, tickDelta);
+            resetCategoryButton.setY(getContentY() + 2);
+            resetCategoryButton.render(context, mouseX, mouseY, deltaTicks);
         }
 
         @Nullable
@@ -172,7 +172,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             int resetButtonPos = ControlsListWidget.this.getScrollbarX() - 50 - 10;
             int editButtonPos = resetButtonPos - 5 - 75;
 
@@ -185,10 +185,9 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
 
             button.setDimensionsAndPosition(
                     width,
-                    20, resetButtonPos - 5 - width, y + 2);
-            button.render(context, mouseX, mouseY, tickDelta);
+                    20, resetButtonPos - 5 - width, getContentY() + 2);
+            button.render(context, mouseX, mouseY, deltaTicks);
         }
-
 
         @Override
         public List<? extends Element> children() {
@@ -251,24 +250,24 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
         }
 
         @Override
-        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             int resetButtonPos = ControlsListWidget.this.getScrollbarX() - this.resetButton.getWidth() - 10;
-            int j = y - 2;
+            int j = getContentY() - 2;
             int startPos = getWidth() / 2 - maxKeyNameLength;
             this.resetButton.setPosition(resetButtonPos, j);
-            this.resetButton.render(context, mouseX, mouseY, tickDelta);
+            this.resetButton.render(context, mouseX, mouseY, deltaTicks);
             int editButtonPos = resetButtonPos - 5 - this.editButton.getWidth();
             this.editButton.setPosition(editButtonPos, j);
-            this.editButton.render(context, mouseX, mouseY, tickDelta);
-            context.drawTextWithShadow(ControlsListWidget.this.client.textRenderer, this.bindingName, startPos, y + entryHeight / 2 - 9 / 2, Colors.WHITE);
+            this.editButton.render(context, mouseX, mouseY, deltaTicks);
+            context.drawTextWithShadow(ControlsListWidget.this.client.textRenderer, this.bindingName, startPos, getContentY() + getContentHeight() / 2 - 9 / 2, Colors.WHITE);
             if (this.duplicate) {
                 int m = this.editButton.getX() - 6;
-                context.fill(m, y - 1, m + 3, y + entryHeight, -65536);
+                context.fill(m, getContentY() - 1, m + 3, getContentY() + getContentHeight(), -65536);
             }
 
             this.settingsButton.setX(startPos - 25);
-            this.settingsButton.setY(y);
-            this.settingsButton.render(context, mouseX, mouseY, tickDelta);
+            this.settingsButton.setY(getContentY());
+            this.settingsButton.render(context, mouseX, mouseY, deltaTicks);
         }
 
         @Override
@@ -295,7 +294,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
                         }
 
                         this.duplicate = true;
-                        mutableText.append(Text.translatable(keyBinding.getTranslationKey()));
+                        mutableText.append(Text.translatable(keyBinding.getId()));
                     }
                 }
             }

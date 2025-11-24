@@ -11,7 +11,9 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.screen.narration.NarrationPart;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
 
@@ -22,7 +24,7 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
     public final ButtonWidget button;
 
     public ModKeybindsButton(ControlsListWidget widget) {
-        widget.super(Text.empty());
+        widget.super(new KeyBinding.Category(Identifier.of("")));
 
         button = ButtonWidget.builder(Text.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
                 MinecraftClient.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
@@ -30,11 +32,11 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        button.setPosition(x, y);
-        button.render(context, mouseX, mouseY, tickDelta);
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        button.setPosition(getContentX(), getContentY());
+        button.render(context, mouseX, mouseY, deltaTicks);
 
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, NotEnoughKeybinds.ICON, x + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, y, 0, 0, 0, 18, 18, 18, 18);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, NotEnoughKeybinds.ICON, getContentX() + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, getContentY(), 0, 0, 0, 18, 18, 18, 18);
     }
 
     @Override

@@ -46,8 +46,8 @@ public class EquipElytraSettings extends SettingsScreen implements INotEKLayoutT
     }
 
     public void initButtons() {
-        leftWidget.add(new TextWidget(TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
-        rightWidget.add(new TextWidget(TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer).alignLeft());
+        leftWidget.add(new TextWidget(TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer));
+        rightWidget.add(new TextWidget(TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer));
 
         //Elytra
         swapFirstButton = ButtonWidget.builder(Text.empty(), button -> {

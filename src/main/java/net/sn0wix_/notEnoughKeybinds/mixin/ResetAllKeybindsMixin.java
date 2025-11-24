@@ -34,8 +34,8 @@ public abstract class ResetAllKeybindsMixin {
                 keybinding.setBoundKey(keybinding.getDefaultKey());
             }
 
-            for (int i = 0; i < ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings().length; i++) {
-                INotEKKeybinding keybinding = ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings()[i];
+            for (int i = 0; i < ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings().length; i++) {
+                INotEKKeybinding keybinding = ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings()[i];
                 keybinding.setBoundKey(keybinding.getDefaultKey());
             }
 

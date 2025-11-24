@@ -7,12 +7,12 @@ public class F3ShortcutKeybinding extends NotEKKeyBinding {
     private final int codeToEmulate;
 
     public F3ShortcutKeybinding(String translationKey, int code, int codeToEmulate) {
-        super(translationKey, code, F3ShortcutsKeys.F3_SHORTCUTS_CATEGORY_STRING, null);
+        super(translationKey, code, F3ShortcutsKeys.F3_SHORTCUTS_CATEGORY, null);
         this.codeToEmulate = codeToEmulate;
     }
 
     public F3ShortcutKeybinding(String translationKey, InputUtil.Type type, int code, int codeToEmulate) {
-        super(translationKey, type, code, F3ShortcutsKeys.F3_SHORTCUTS_CATEGORY_STRING, null);
+        super(translationKey, type, code, F3ShortcutsKeys.F3_SHORTCUTS_CATEGORY, null);
         this.codeToEmulate = codeToEmulate;
     }
 

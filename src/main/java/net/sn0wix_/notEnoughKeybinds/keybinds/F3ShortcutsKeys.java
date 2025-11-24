@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
+import net.minecraft.client.option.KeyBinding;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3ShortcutKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class F3ShortcutsKeys extends NotEKKeyBindings {
-    public static final String F3_SHORTCUTS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_shortcuts";
+    public static final String F3_SHORTCUTS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_shortcuts";
 
     public static final NotEKKeyBinding TOGGLE_HITBOXES = registerModKeyBinding(new F3ShortcutKeybinding("toggle_hitboxes", 66));
     public static final NotEKKeyBinding TOGGLE_CHUNK_GRID = registerModKeyBinding(new F3ShortcutKeybinding("toggle_chunk_grid", 71));
@@ -20,19 +21,20 @@ public class F3ShortcutsKeys extends NotEKKeyBindings {
     public static final NotEKKeyBinding RELOAD_ALL_CHUNKS = registerModKeyBinding(new F3ShortcutKeybinding("reload_all_chunks", 65));
     public static final NotEKKeyBinding RELOAD_RESOURCE_PACKS = registerModKeyBinding(new F3ShortcutKeybinding("reload_resource_packs", 84));
 
-    public static final KeybindCategory F3_SHORTCUTS_CATEGORY = new KeybindCategory(F3_SHORTCUTS_CATEGORY_STRING, 96, TOGGLE_HITBOXES, TOGGLE_CHUNK_GRID, TOGGLE_ADVANCED_TOOLTIPS, CLEAR_CHAT_HISTORY, TOGGLE_SPECTATOR_MODE, TOGGLE_AUTO_PAUSE, RELOAD_ALL_CHUNKS, RELOAD_RESOURCE_PACKS);
+    public static final KeyBinding.Category F3_SHORTCUTS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(F3_SHORTCUTS_CATEGORY_KEY));
+    public static final KeybindCategory F3_SHORTCUTS_MOD_CATEGORY = new KeybindCategory(F3_SHORTCUTS_CATEGORY_KEY, 96, TOGGLE_HITBOXES, TOGGLE_CHUNK_GRID, TOGGLE_ADVANCED_TOOLTIPS, CLEAR_CHAT_HISTORY, TOGGLE_SPECTATOR_MODE, TOGGLE_AUTO_PAUSE, RELOAD_ALL_CHUNKS, RELOAD_RESOURCE_PACKS);
 
 
     @Override
-    public KeybindCategory getCategory() {
-        return F3_SHORTCUTS_CATEGORY;
+    public KeybindCategory getModCategory() {
+        return F3_SHORTCUTS_MOD_CATEGORY;
     }
 
     public static List<F3ShortcutKeybinding> getF3ShortcutKeys() {
-        ArrayList<F3ShortcutKeybinding> list = new ArrayList<>(F3_SHORTCUTS_CATEGORY.getKeyBindings().length);
+        ArrayList<F3ShortcutKeybinding> list = new ArrayList<>(F3_SHORTCUTS_MOD_CATEGORY.getKeyBindings().length);
 
-        for (int i = 0; i < F3_SHORTCUTS_CATEGORY.getKeyBindings().length; i++) {
-            if (F3_SHORTCUTS_CATEGORY.getKeyBindings()[i] instanceof F3ShortcutKeybinding keybinding) {
+        for (int i = 0; i < F3_SHORTCUTS_MOD_CATEGORY.getKeyBindings().length; i++) {
+            if (F3_SHORTCUTS_MOD_CATEGORY.getKeyBindings()[i] instanceof F3ShortcutKeybinding keybinding) {
                 list.add(keybinding);
             }
         }

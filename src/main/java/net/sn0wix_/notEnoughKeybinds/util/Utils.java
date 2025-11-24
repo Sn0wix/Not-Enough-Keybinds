@@ -2,8 +2,10 @@ package net.sn0wix_.notEnoughKeybinds.util;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.AdvancedConfirmScreen;
@@ -48,11 +50,11 @@ public class Utils {
         return finalBindings;
     }
 
-    public static List<Integer> checkF3Shortcuts(int key, int scanCode) {
+    public static List<Integer> checkF3Shortcuts(KeyInput input) {
         ArrayList<Integer> codes = new ArrayList<>();
 
         F3ShortcutsKeys.getF3ShortcutKeys().forEach(f3ShortcutKeybinding -> {
-            if (f3ShortcutKeybinding.matchesKey(key, scanCode)) {
+            if (f3ShortcutKeybinding.matchesKey(input)) {
                 codes.add(f3ShortcutKeybinding.getCodeToEmulate());
             }
         });
@@ -116,14 +118,14 @@ public class Utils {
     public static List<String> bindingsToList(boolean defaultBindings) {
         ArrayList<String> bindingsList = new ArrayList<>();
 
-        Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
+        Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
             if (bindings instanceof INotEKKeybinding[] newBindings) {
                 for (INotEKKeybinding binding : newBindings) {
-                    bindingsList.add(binding.getTranslationKey() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslation()));
+                    bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslation()));
                 }
             } else if (bindings instanceof KeyBinding[] newBindings) {
                 for (KeyBinding binding : newBindings) {
-                    bindingsList.add(binding.getTranslationKey() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
+                    bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
                 }
             }
         });

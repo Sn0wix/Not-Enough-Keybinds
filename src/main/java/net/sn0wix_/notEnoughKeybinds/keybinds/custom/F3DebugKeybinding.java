@@ -1,7 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
-import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
@@ -11,6 +11,8 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKeybinding> {
     public final String translationKey;
     public final String category;
@@ -19,9 +21,9 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
 
     public F3DebugKeybinding(String translationKey, int code) {
         this.translationKey = NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey;
-        this.boundKey = InputUtil.fromKeyCode(code, 0);
+        this.boundKey = InputUtil.fromKeyCode(new KeyInput(code, 0, 0));
         this.defaultKey = this.boundKey;
-        this.category = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY_STRING;
+        this.category = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY_KEY;
     }
 
     @Override
@@ -44,10 +46,11 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
     }
 
     @Override
-    public boolean matchesKey(int keyCode, int scanCode) {
-        return keyCode == InputUtil.UNKNOWN_KEY.getCode()
-                ? this.boundKey.getCategory() == InputUtil.Type.SCANCODE && this.boundKey.getCode() == scanCode
-                : this.boundKey.getCategory() == InputUtil.Type.KEYSYM && this.boundKey.getCode() == keyCode;
+    public boolean matchesKey(KeyInput key) {
+        if (key.key() == InputUtil.UNKNOWN_KEY.getCode()) {
+            return this.boundKey.getCategory() == InputUtil.Type.SCANCODE && this.boundKey.getCode() == key.scancode();
+        }
+        return this.boundKey.getCategory() == InputUtil.Type.KEYSYM && this.boundKey.getCode() == key.key();
     }
 
     @Override
@@ -59,7 +62,7 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
     public void setBoundKey(InputUtil.Key boundKey) {
         this.boundKey = boundKey;
         if (NotEnoughKeybinds.DEBUG_KEYS_CONFIG != null) {
-            NotEnoughKeybinds.DEBUG_KEYS_CONFIG.saveBoundKey(getTranslationKey(), boundKey.getTranslationKey());
+            NotEnoughKeybinds.DEBUG_KEYS_CONFIG.saveBoundKey(getId(), boundKey.getTranslationKey());
         }
     }
 
@@ -79,18 +82,27 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
     }
 
     @Override
-    public String getTranslationKey() {
+    public String getId() {
         return translationKey;
     }
 
     @Override
-    public String getCategory() {
-        return category;
+    public KeyBinding.Category getCategory() {
+        return null;
     }
-
 
     @Override
     public int compareTo(@NotNull F3DebugKeybinding keyBinding) {
-        return this.category.equals(keyBinding.category) ? I18n.translate(this.translationKey).compareTo(I18n.translate(keyBinding.translationKey)) : (KeyBindingAccessor.fabric_getCategoryMap().get(this.category)).compareTo(KeyBindingAccessor.fabric_getCategoryMap().get(keyBinding.category));
+        if (Objects.equals(this.category, keyBinding.category)) {
+            return I18n.translate(this.translationKey).compareTo(I18n.translate(keyBinding.translationKey));
+        }
+        return 0; //Integer.compare(KeyBinding.Category.CATEGORIES.indexOf(this.category), KeyBinding.Category.CATEGORIES.indexOf(keyBinding.category));
     }
+
+    /*@Override
+    public int compareTo(@NotNull F3DebugKeybinding keyBinding) {
+        return this.category.equals(keyBinding.category) ?
+                I18n.translate(this.translationKey).compareTo(I18n.translate(keyBinding.translationKey))
+                : (KeyBindingAccessor.fabric_getCategoryMap().get(this.category)).compareTo(KeyBindingAccessor.fabric_getCategoryMap().get(keyBinding.category));
+    }*/
 }

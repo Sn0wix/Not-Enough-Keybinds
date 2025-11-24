@@ -16,9 +16,9 @@
 	"icon": "assets/not-enough-keybinds/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"client": [
-			"net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds"
-		],
+      "client": [
+        "net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds"
+      ],
 		"modmenu": [
 			"net.sn0wix_.notEnoughKeybinds.compat.ModMenu"
 		]
@@ -28,7 +28,7 @@
 	],
 	"depends": {
 		"fabricloader": "*",
-		"minecraft": ">=1.21.6",
+		"minecraft": ">=1.21.9",
 		"java": ">=21",
 		"fabric-api": "*",
 		"yet_another_config_lib_v3": "*"

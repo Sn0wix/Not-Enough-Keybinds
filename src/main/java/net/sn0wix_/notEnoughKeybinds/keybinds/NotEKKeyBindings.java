@@ -19,18 +19,18 @@ public abstract class NotEKKeyBindings {
 
 
     //why this isn't a thing in vanilla
-    public static final KeyBinding TOGGLE_HIDE_HUD = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "toggle_hide_hud", InputUtil.GLFW_KEY_F1, KeyBinding.MISC_CATEGORY));
+    public static final KeyBinding TOGGLE_HIDE_HUD = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "toggle_hide_hud", InputUtil.GLFW_KEY_F1, KeyBinding.Category.MISC));
 
 
     public static void registerModKeybinds() {
-        registerKeyCategory(new BuildingKeys().getCategory());
-        registerKeyCategory(new F3ShortcutsKeys().getCategory());
-        registerKeyCategory(new InventoryKeys().getCategory());
-        registerKeyCategory(new SkinLayersKeys().getCategory());
-        registerKeyCategory(new F3DebugKeys().getCategory());
-        registerKeyCategory(new ChatKeys().getCategory());
-        registerKeyCategory(new SoundKeys().getCategory());
-        registerKeyCategory(new PresetKeys().getCategory());
+        registerKeyCategory(new BuildingKeys().getModCategory());
+        registerKeyCategory(new F3ShortcutsKeys().getModCategory());
+        registerKeyCategory(new InventoryKeys().getModCategory());
+        registerKeyCategory(new SkinLayersKeys().getModCategory());
+        registerKeyCategory(new F3DebugKeys().getModCategory());
+        registerKeyCategory(new ChatKeys().getModCategory());
+        registerKeyCategory(new SoundKeys().getModCategory());
+        registerKeyCategory(new PresetKeys().getModCategory());
     }
 
     public static KeybindCategory getCategoryByTranslation(String translationKey) {
@@ -44,7 +44,7 @@ public abstract class NotEKKeyBindings {
     }
 
     //registering stuff
-    public abstract KeybindCategory getCategory();
+    public abstract KeybindCategory getModCategory();
 
     public static void registerKeyCategory(KeybindCategory category) {
         KEYBINDING_CATEGORIES.add(category);

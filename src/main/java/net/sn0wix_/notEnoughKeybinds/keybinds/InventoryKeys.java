@@ -1,16 +1,13 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
-import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.EquipElytraSettings;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.EquipElytraBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -22,7 +19,10 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryKeys extends NotEKKeyBindings {
-    public static final String INVENTORY_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
+    public static final String INVENTORY_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
+    public static final KeyBinding.Category INVENTORY_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(INVENTORY_CATEGORY_KEY));
+
+
     public static int lastSwitchedTotemShieldSlot = -1;
 
 
@@ -200,8 +200,29 @@ public class InventoryKeys extends NotEKKeyBindings {
         }
     });
 
+
+    public static final NotEKKeyBinding THROW_WIND_CHARGE = registerModKeyBinding(new NotEKKeyBinding("throw_wind_charge", INVENTORY_CATEGORY, (client, keyBinding) -> {
+        for (Hand hand : Hand.values()) {
+            if (client.player.getStackInHand(hand).isOf(Items.WIND_CHARGE)) {
+                InventoryUtils.interactItem(hand, client);
+                return;
+            }
+        }
+        int chargeSlot = InventoryUtils.getSlotWithItem(Items.WIND_CHARGE, client.player.getInventory());
+
+        if (chargeSlot > -1) {
+            InventoryUtils.quickUseItem(client, chargeSlot);
+        }
+    }) {
+        @Override
+        public Text getTooltip() {
+            return TextUtils.getText("throw_wind_charge", true);
+        }
+    });
+
+
     @Override
-    public KeybindCategory getCategory() {
-        return new KeybindCategory(INVENTORY_CATEGORY, 0, THROW_ENDER_PEARL, SWITCH_TOTEM_SHIELD, EQUIP_ELYTRA);
+    public KeybindCategory getModCategory() {
+        return new KeybindCategory(INVENTORY_CATEGORY_KEY, 0, THROW_WIND_CHARGE,THROW_ENDER_PEARL, SWITCH_TOTEM_SHIELD, EQUIP_ELYTRA);
     }
 }

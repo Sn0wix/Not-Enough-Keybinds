@@ -2,6 +2,7 @@ package net.sn0wix_.notEnoughKeybinds.gui;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.CharInput;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,14 +21,14 @@ public class IntFieldWidget extends TextFieldWidget {
     }
 
     @Override
-    public boolean charTyped(char chr, int modifiers) {
+    public boolean charTyped(CharInput input) {
         try {
-            Integer.parseInt(String.valueOf(chr));
+            Integer.parseInt(input.asString());
         } catch (NumberFormatException e) {
             return false;
         }
 
-        return super.charTyped(chr, modifiers);
+        return super.charTyped(input);
     }
 
     @Override

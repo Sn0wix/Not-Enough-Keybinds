@@ -1,6 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -10,7 +11,9 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class SoundKeys extends NotEKKeyBindings {
-    public static final String SOUND_KEYS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".sound";
+    public static final String SOUND_KEYS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".sound";
+    public static final KeyBinding.Category SOUND_KEYS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(SOUND_KEYS_CATEGORY_KEY));
+
 
     public static final NotEKKeyBinding TOGGLE_SUBTITLES = registerModKeyBinding(new NotEKKeyBinding("toggle_subtitles", SOUND_KEYS_CATEGORY, (client, keyBinding) -> {
         client.options.getShowSubtitles().setValue(!client.options.getShowSubtitles().getValue());
@@ -21,7 +24,7 @@ public class SoundKeys extends NotEKKeyBindings {
 
 
     @Override
-    public KeybindCategory getCategory() {
+    public KeybindCategory getModCategory() {
         INotEKKeybinding[] bindings = new INotEKKeybinding[SoundCategory.values().length + 3];
         bindings[0] = TOGGLE_SUBTITLES;
         bindings[1] = INCREASE_MASTER_VOLUME;
@@ -34,14 +37,14 @@ public class SoundKeys extends NotEKKeyBindings {
             i++;
         }
 
-        return new KeybindCategory(SOUND_KEYS_CATEGORY, 10, bindings);
+        return new KeybindCategory(SOUND_KEYS_CATEGORY_KEY, 10, bindings);
     }
 
 
     public static class SoundKeybinding extends NotEKKeyBinding {
         public SoundCategory category;
 
-        public SoundKeybinding(String translationKey, String category, SoundCategory soundCategory) {
+        public SoundKeybinding(String translationKey, Category category, SoundCategory soundCategory) {
             super(translationKey, category, new ToggleCategoryBindingTicker(soundCategory));
             this.category = soundCategory;
         }

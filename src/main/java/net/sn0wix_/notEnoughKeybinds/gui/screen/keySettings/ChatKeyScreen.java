@@ -5,6 +5,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -59,14 +60,14 @@ public class ChatKeyScreen extends SettingsScreen {
         DirectionalLayoutWidget top = DirectionalLayoutWidget.vertical().spacing(2);
         DirectionalLayoutWidget bottom = DirectionalLayoutWidget.vertical().spacing(2);
 
-        top.add(new TextWidget(200, 20, KEYBIND_NAME_TEXT, textRenderer).alignLeft());
-        bottom.add(new TextWidget(200, 20, MESSAGE_TEXT_FORMATTED, textRenderer).alignLeft());
+        top.add(new TextWidget(200, 20, KEYBIND_NAME_TEXT, textRenderer));
+        bottom.add(new TextWidget(200, 20, MESSAGE_TEXT_FORMATTED, textRenderer));
 
         doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
             binding.setChatMessage(messageWidget.getText());
             binding.setSettingDisplayName(nameWidget.getText());
 
-            if (!ChatKeys.CHAT_KEYS_CATEGORY.addKeyIf(binding)) {
+            if (!ChatKeys.CHAT_KEYS_MOD_CATEGORY.addKeyIf(binding)) {
                 Utils.showToastNotification(TextUtils.getText("chat_binding.create", binding.getSettingsDisplayName()));
             }
             assert client != null;
@@ -76,7 +77,7 @@ public class ChatKeyScreen extends SettingsScreen {
         deleteButton = ButtonWidget.builder(TextUtils.getText("delete"), button -> {
             assert client != null;
             client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
-                        ChatKeys.CHAT_KEYS_CATEGORY.removeKey(binding);
+                        ChatKeys.CHAT_KEYS_MOD_CATEGORY.removeKey(binding);
                         client.setScreen(parent);
                         Utils.showToastNotification(TextUtils.getText("chat_binding.delete", binding.getSettingsDisplayName()));
                     }, false),
@@ -140,19 +141,19 @@ public class ChatKeyScreen extends SettingsScreen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput input) {
         if (getFocused() == null || getFocused() == nameWidget || getFocused() == messageWidget) {
-            if (keyCode == GLFW.GLFW_KEY_DELETE) {
-                deleteButton.onPress();
+            if (input.getKeycode() == GLFW.GLFW_KEY_DELETE) {
+                deleteButton.onPress(input);
                 return true;
             }
 
-            if (keyCode == GLFW.GLFW_KEY_ENTER) {
-                doneButton.onPress();
+            if (input.getKeycode() == GLFW.GLFW_KEY_ENTER) {
+                doneButton.onPress(input);
                 return true;
             }
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 }

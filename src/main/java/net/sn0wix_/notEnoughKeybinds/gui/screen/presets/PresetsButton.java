@@ -7,8 +7,10 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.option.ControlsListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
@@ -20,7 +22,7 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
     public final TextRenderer textRenderer;
 
     public PresetsButton(ControlsListWidget widget, TextRenderer renderer) {
-        widget.super(Text.empty());
+        widget.super(new KeyBinding.Category(Identifier.of("")));
         this.textRenderer = renderer;
 
         presetSettings = ButtonWidget.builder(TextUtils.getText("presets"), button1 ->
@@ -29,11 +31,13 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
     }
 
     @Override
-    public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
         String textToRender = TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName();
 
+        int x = getContentX();
+
         //location of the presets button
-        int buttonPos = x + entryWidth / 2 - 340 / 2 + 340 - presetSettings.getWidth();
+        int buttonPos = x + getContentWidth() / 2 - 340 / 2 + 340 - presetSettings.getWidth();
         int textLength = textRenderer.getWidth(textToRender) + 20;
         int padding = 5;
 
@@ -57,11 +61,12 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
         } catch (IndexOutOfBoundsException ignored) {
         }
 
-        context.drawText(textRenderer, textToRender, x, y + entryHeight / 2 - 9 / 2, Colors.GRAY, true);
+        context.drawText(textRenderer, textToRender, x, getContentY() + getContentHeight() / 2 - 9 / 2, Colors.GRAY, true);
 
-        presetSettings.setPosition(buttonPos, y);
-        presetSettings.render(context, mouseX, mouseY, tickDelta);
+        presetSettings.setPosition(buttonPos, getContentY());
+        presetSettings.render(context, mouseX, mouseY, deltaTicks);
     }
+
 
     @Override
     public List<? extends Element> children() {

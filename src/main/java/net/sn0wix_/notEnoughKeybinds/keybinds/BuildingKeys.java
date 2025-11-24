@@ -1,6 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -15,7 +16,10 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class BuildingKeys extends NotEKKeyBindings {
     private static int itemUseCooldown = 0;
-    public static final String BUILDING_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
+    public static final String BUILDING_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".building";
+    public static final KeyBinding.Category BUILDING_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(BUILDING_CATEGORY_KEY));
+
+
 
     public static final NotEKKeyBinding FAST_BUILDING = registerModKeyBinding(new NotEKKeyBinding("fast_building", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
@@ -124,7 +128,7 @@ public class BuildingKeys extends NotEKKeyBindings {
     });
 
     @Override
-    public KeybindCategory getCategory() {
-        return new KeybindCategory(BUILDING_CATEGORY, 5, ALWAYS_PLACE_ITEM, FAST_BUILDING, FAST_BLOCK_BREAKING);
+    public KeybindCategory getModCategory() {
+        return new KeybindCategory(BUILDING_CATEGORY_KEY, 5, ALWAYS_PLACE_ITEM, FAST_BUILDING, FAST_BLOCK_BREAKING);
     }
 }

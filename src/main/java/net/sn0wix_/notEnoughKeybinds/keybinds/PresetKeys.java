@@ -1,6 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
@@ -12,7 +13,8 @@ import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import java.util.NoSuchElementException;
 
 public class PresetKeys extends NotEKKeyBindings {
-    public static final String PRESET_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".presets";
+    public static final String PRESET_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".presets";
+    public static final KeyBinding.Category PRESET_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(PRESET_CATEGORY_KEY));
 
     public static final NotEKKeyBinding NEXT_PRESET = registerModKeyBinding(new NotEKKeyBinding("next_preset", PRESET_CATEGORY, new PresetBinding(true)));
     public static final NotEKKeyBinding PREVIOUS_PRESET = registerModKeyBinding(new NotEKKeyBinding("previous_preset", PRESET_CATEGORY, new PresetBinding(false)));
@@ -31,8 +33,8 @@ public class PresetKeys extends NotEKKeyBindings {
     });
 
     @Override
-    public KeybindCategory getCategory() {
-        return new KeybindCategory(PRESET_CATEGORY, 3, false, NEXT_PRESET_GLOBAL, PREVIOUS_PRESET_GLOBAL, NEXT_PRESET, PREVIOUS_PRESET);
+    public KeybindCategory getModCategory() {
+        return new KeybindCategory(PRESET_CATEGORY_KEY, 3, false, NEXT_PRESET_GLOBAL, PREVIOUS_PRESET_GLOBAL, NEXT_PRESET, PREVIOUS_PRESET);
     }
 
     public static class PresetBinding implements INotEKKeybinding.KeybindingTicker {

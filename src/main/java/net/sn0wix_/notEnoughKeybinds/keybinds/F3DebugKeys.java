@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 //TODO fix profiling message
 public class F3DebugKeys extends NotEKKeyBindings {
-    public static final String F3_DEBUG_KEYS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_debug_keys";
+    public static final String F3_DEBUG_KEYS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_debug_keys";
 
     public static final F3DebugKeybinding RELOAD_CHUNKS = new F3DebugKeybinding("reload_chunks", GLFW.GLFW_KEY_A);
     public static final F3DebugKeybinding SHOW_HITBOXES = new F3DebugKeybinding("show_hitboxes", GLFW.GLFW_KEY_B);
@@ -28,18 +28,18 @@ public class F3DebugKeys extends NotEKKeyBindings {
     public static final F3DebugKeybinding GAMEMODES = new F3DebugKeybinding("gamemodes", GLFW.GLFW_KEY_F4);
 
 
-    public static final KeybindCategory F3_DEBUG_KEYS_CATEGORY = new KeybindCategory(F3_DEBUG_KEYS_CATEGORY_STRING, 69, RELOAD_CHUNKS, SHOW_HITBOXES, COPY_LOCATION, CLEAR_CHAT, CHUNK_BOUNDARIES, ADVANCED_TOOLTIPS,
+    public static final KeybindCategory F3_DEBUG_KEYS_CATEGORY = new KeybindCategory(F3_DEBUG_KEYS_CATEGORY_KEY, 69, RELOAD_CHUNKS, SHOW_HITBOXES, COPY_LOCATION, CLEAR_CHAT, CHUNK_BOUNDARIES, ADVANCED_TOOLTIPS,
             INSPECT, PROFILING, CREATIVE_SPECTATOR, PAUSE_FOCUS, HELP, DUMP_DYNAMIC_TEXTURES, RELOAD_RESOURCEPACKS, GAMEMODES);
 
     @Override
-    public KeybindCategory getCategory() {
+    public KeybindCategory getModCategory() {
         return F3_DEBUG_KEYS_CATEGORY;
     }
 
     public static HashMap<String, String> getMap() {
         HashMap<String, String> map = new HashMap<>(14);
         for (int i = 0; i < F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
-            map.put(F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getTranslationKey(), F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyTranslation());
+            map.put(F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getId(), F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyTranslation());
         }
 
         return map;

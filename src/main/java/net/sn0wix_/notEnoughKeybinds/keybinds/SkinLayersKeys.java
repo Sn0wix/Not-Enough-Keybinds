@@ -1,7 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -9,7 +9,9 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 
 public class SkinLayersKeys extends NotEKKeyBindings {
-    public static final String SKIN_LAYERS_CATEGORY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";
+    public static final String SKIN_LAYERS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";
+    public static final KeyBinding.Category SKIN_LAYERS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(SKIN_LAYERS_CATEGORY_KEY));
+
 
     public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_CAPE = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_cape", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.CAPE)));
     public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_HAT = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_hat", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.HAT)));
@@ -26,8 +28,8 @@ public class SkinLayersKeys extends NotEKKeyBindings {
     }));
 
     @Override
-    public KeybindCategory getCategory() {
-        return new KeybindCategory(SKIN_LAYERS_CATEGORY, 30, TOGGLE_SKIN_LAYER_CAPE, TOGGLE_SKIN_LAYER_HAT, TOGGLE_SKIN_LAYER_JACKET, TOGGLE_SKIN_LAYER_LEFT_SLEEVE, TOGGLE_SKIN_LAYER_RIGHT_SLEEVE, TOGGLE_SKIN_LAYER_LEFT_PANTS_LEG, TOGGLE_SKIN_LAYER_RIGHT_PANTS_LEG, TOGGLE_SECOND_SKIN_LAYER);
+    public KeybindCategory getModCategory() {
+        return new KeybindCategory(SKIN_LAYERS_CATEGORY_KEY, 30, TOGGLE_SKIN_LAYER_CAPE, TOGGLE_SKIN_LAYER_HAT, TOGGLE_SKIN_LAYER_JACKET, TOGGLE_SKIN_LAYER_LEFT_SLEEVE, TOGGLE_SKIN_LAYER_RIGHT_SLEEVE, TOGGLE_SKIN_LAYER_LEFT_PANTS_LEG, TOGGLE_SKIN_LAYER_RIGHT_PANTS_LEG, TOGGLE_SECOND_SKIN_LAYER);
     }
 
 

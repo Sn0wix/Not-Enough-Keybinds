@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ChatKeys extends NotEKKeyBindings {
-    public static final String CHAT_KEYS_CATEGORY_STRING = "key.category." + NotEnoughKeybinds.MOD_ID + ".chat_keys";
-    public static final ChatKeysCategory CHAT_KEYS_CATEGORY = new ChatKeysCategory(CHAT_KEYS_CATEGORY_STRING, 1);
+    public static final String CHAT_KEYS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".chat_keys";
+    public static final ChatKeysCategory CHAT_KEYS_MOD_CATEGORY = new ChatKeysCategory(CHAT_KEYS_CATEGORY_KEY, 1);
+    public static final KeyBinding.Category CHAT_KEYS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(CHAT_KEYS_CATEGORY_KEY));
+
 
 
     @Override
-    public KeybindCategory getCategory() {
-        return CHAT_KEYS_CATEGORY;
+    public KeybindCategory getModCategory() {
+        return CHAT_KEYS_MOD_CATEGORY;
     }
 
     public static class ChatKeysCategory extends KeybindCategory {
@@ -65,7 +67,7 @@ public class ChatKeys extends NotEKKeyBindings {
         }
 
         public boolean addKeyIf(ChatKeyBinding keyBinding) {
-            boolean bl = chatKeys.removeIf((binding) -> binding.getTranslationKey().equals(keyBinding.getTranslationKey()));
+            boolean bl = chatKeys.removeIf((binding) -> binding.getId().equals(keyBinding.getId()));
             chatKeys.add(keyBinding);
             NotEnoughKeybinds.CHAT_KEYS_CONFIG.addKeyIf(keyBinding);
             update();

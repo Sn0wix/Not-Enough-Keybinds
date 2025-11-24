@@ -2,6 +2,7 @@ package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -15,9 +16,9 @@ public interface INotEKKeybinding {
 
     InputUtil.Key getDefaultKey();
 
-    String getTranslationKey();
+    String getId();
 
-    String getCategory();
+    KeyBinding.Category getCategory();
 
     Text getBoundKeyLocalizedText();
 
@@ -35,12 +36,12 @@ public interface INotEKKeybinding {
 
     void tick(MinecraftClient client);
 
-    boolean matchesKey(int key, int i);
+    boolean matchesKey(KeyInput key);
 
     void setAndSaveKeyBinding(InputUtil.Key key);
 
     default Text getSettingsDisplayName() {
-        return Text.translatable(getTranslationKey());
+        return Text.translatable(getId());
     }
 
     default String getBoundKeyTranslation() {

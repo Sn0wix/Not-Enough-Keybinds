@@ -17,14 +17,14 @@ public class ChatKeyBinding extends NotEKKeyBinding {
     private String displayName;
 
     public ChatKeyBinding(String translationKey, String displayName, String chatMessage) {
-        super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY_STRING, new ChatKeysTicker());
+        super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY, new ChatKeysTicker());
         this.chatMessage = chatMessage;
         this.displayName = displayName;
     }
 
     public ChatKeyBinding(String translationKey, String displayName, String chatMessage, InputUtil.Key boundKey) {
         //this keybinding was loaded from the config file with the prefix, so we don't add the prefix for the second time
-        super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY_STRING, new ChatKeysTicker(), false);
+        super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY, new ChatKeysTicker(), false);
         this.chatMessage = chatMessage;
         this.displayName = displayName;
         setBoundKey(boundKey);
@@ -50,7 +50,7 @@ public class ChatKeyBinding extends NotEKKeyBinding {
     @Override
     public void setAndSaveKeyBinding(InputUtil.Key key) {
         super.setAndSaveKeyBinding(key);
-        NotEnoughKeybinds.CHAT_KEYS_CONFIG.updateKey(getTranslationKey(), key);
+        NotEnoughKeybinds.CHAT_KEYS_CONFIG.updateKey(this.getId(), key);
     }
 
     @Override
