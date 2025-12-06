@@ -1,13 +1,10 @@
-[![Curseforge](https://img.shields.io/curseforge/dt/1073514?logo=curseforge&label=Curseforge&color=%23e04e13)](https://www.curseforge.com/minecraft/mc-mods/not-enough-keybinds)
-[![Modrinth](https://img.shields.io/modrinth/dt/G8YAzc8W?logo=modrinth&label=Modrinth)](https://modrinth.com/mod/not-enough-keybinds)
-
 Vanilla minecraft has some basic keybinds, but it's not enough (for some people at least)!
 NotEnoughKeybinds mod adds lots of somewhat useful keybindings and a decent keybinding preset system.
 
 # Inventory Management
 
-- ## Throw Ender Pearl
-  If you have an ender pearl on your inventory, you can throw it using this binding.
+- ## Throw Ender Pearl & Wind Charge
+  If you have an ender pearl or a wind charge on your inventory, you can throw it using this binding.
 
   ![throw_ender_pearl_demo](https://github.com/Sn0wix/Not-Enough-Keybinds/blob/master/media/throw_ender_pearl.gif?raw=true)
 - ## Swap Totem of Undying and Shield
