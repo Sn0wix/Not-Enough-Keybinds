@@ -44,11 +44,10 @@ public class PresetsSettingScreen extends SettingsScreen {
     @Override
     public void initHeader() {
         DirectionalLayoutWidget header = DirectionalLayoutWidget.vertical().spacing(7);
-        TextWidget headerText = new TextWidget(title, textRenderer);
+        TextWidget headerText = new TextWidget(title.copy().withColor(Colors.GRAY), textRenderer);
         headerText.setWidth(200);
 
         currentPresetText = new TextWidget(Text.of(PresetLoader.getCurrentPresetName()), textRenderer);
-        currentPresetText.setTextColor(Colors.GRAY);
         currentPresetText.setWidth(200);
 
         header.add(headerText);

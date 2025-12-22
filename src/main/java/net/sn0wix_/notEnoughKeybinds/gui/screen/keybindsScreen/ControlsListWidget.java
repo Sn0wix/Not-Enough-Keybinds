@@ -26,7 +26,6 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
@@ -176,11 +175,9 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             int resetButtonPos = ControlsListWidget.this.getScrollbarX() - 50 - 10;
             int editButtonPos = resetButtonPos - 5 - 75;
 
-
             int resetCategoryButtonWidth = client.textRenderer.getWidth(TextUtils.getText("reset_category")) + 6;
             int resetCategoryButtonPos = (ControlsListWidget.this.width / 2) - maxKeyNameLength - 2;
 
-            //Math.abs(((ControlsListWidget.this.width / 2) - maxKeyNameLength - 2) - 2 * (resetCategoryButtonWidth + resetCategoryButtonPos + 10))
             int width = resetButtonPos - resetCategoryButtonWidth - resetCategoryButtonPos - 10;
 
             button.setDimensionsAndPosition(
@@ -288,7 +285,7 @@ public class ControlsListWidget extends ElementListWidget<ControlsListWidget.Ent
             MutableText mutableText = Text.empty();
             if (!this.binding.isUnbound()) {
                 for (KeyBinding keyBinding : MinecraftClient.getInstance().options.allKeys) {
-                    if (!(binding instanceof F3DebugKeybinding) && keyBinding != this.binding.getBinding() && this.binding.getBinding().equals(keyBinding)) {
+                    if (keyBinding != this.binding.getBinding() && this.binding.getBinding().equals(keyBinding)) {
                         if (this.duplicate) {
                             mutableText.append(", ");
                         }

@@ -1,8 +1,10 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
+import com.google.gson.Gson;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.toast.SystemToast;
 import net.minecraft.client.util.InputUtil;
@@ -11,13 +13,11 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.AdvancedConfirmScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -62,22 +62,6 @@ public class Utils {
         return codes;
     }
 
-
-    public static Text correctF3DebugMessage(Text message) {
-        String translatedMessage = message.getString();
-        String f3String = "F3 + ";
-        for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
-            String newKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyLocalizedText().getString().replace(f3String, "");
-            String oldKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getDefaultKey().getLocalizedText().getString();
-
-            if (translatedMessage.contains(f3String + oldKey)) {
-                translatedMessage = translatedMessage.replace(f3String + oldKey, f3String + newKey);
-            }
-        }
-
-        return Text.of(translatedMessage);
-    }
-
     public static Object[] addArgToEnd(Object[] args, Object addedArg) {
         Object[] newArgs = new Object[args.length + 1];
         System.arraycopy(args, 0, newArgs, 0, args.length);
@@ -118,7 +102,7 @@ public class Utils {
     public static List<String> bindingsToList(boolean defaultBindings) {
         ArrayList<String> bindingsList = new ArrayList<>();
 
-        Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
+        Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
             if (bindings instanceof INotEKKeybinding[] newBindings) {
                 for (INotEKKeybinding binding : newBindings) {
                     bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslation()));
@@ -139,5 +123,44 @@ public class Utils {
 
     public static void showToastNotification(Text description, long displayDuration) {
         MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(displayDuration), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
+    }
+
+
+    public static void rebindOldModDebugKeys() throws FileNotFoundException {
+        File configFile = new File("config/" + NotEnoughKeybinds.MOD_ID + "/debug_keys.json");
+
+        if (configFile.exists()) {
+            DebugKeysConfigDummy debugKeysConfig = new Gson().fromJson(new FileReader(configFile), DebugKeysConfigDummy.class);
+
+            debugKeysConfig.debugKeybindings.forEach((key, entry) -> {
+                GameOptions options = MinecraftClient.getInstance().options;
+                KeyBinding debugBinding = switch (key) {
+                    case "key.not-enough-keybinds.show_hitboxes" -> options.debugShowHitboxesKey;
+                    case "key.not-enough-keybinds.advanced_tooltips" -> options.debugShowAdvancedTooltipsKey;
+                    case "key.not-enough-keybinds.creative_spectator" -> options.debugSpectateKey;
+                    case "key.not-enough-keybinds.reload_chunks" -> options.debugReloadChunkKey;
+                    case "key.not-enough-keybinds.chunk_boundaries" -> options.debugShowChunkBordersKey;
+                    case "key.not-enough-keybinds.gamemodes" -> options.debugSwitchGameModeKey;
+                    case "key.not-enough-keybinds.clear_chat" -> options.debugClearChatKey;
+                    case "key.not-enough-keybinds.profiling" -> options.debugProfilingKey;
+                    case "key.not-enough-keybinds.pause_focus" -> options.debugFocusPauseKey;
+                    case "key.not-enough-keybinds.copy_location" -> options.debugCopyLocationKey;
+                    case "key.not-enough-keybinds.dump_dynamic_textures" -> options.debugDumpDynamicTexturesKey;
+                    case "key.not-enough-keybinds.inspect" -> options.debugCopyRecreateCommandKey;
+                    case "key.not-enough-keybinds.reload_resourcepacks" -> options.debugReloadResourcePacksKey;
+                    default -> null;
+                };
+
+                if (debugBinding != null) {
+                    debugBinding.setBoundKey(InputUtil.fromTranslationKey(entry));
+                }
+            });
+
+            configFile.deleteOnExit();
+        }
+    }
+
+    public static class DebugKeysConfigDummy {
+        public HashMap<String, String> debugKeybindings = new HashMap<>(14);
     }
 }

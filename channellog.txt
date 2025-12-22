@@ -1,0 +1,1 @@
+removed: F1 binding, F3 debug keys

@@ -9,7 +9,6 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.config.NotEKSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.InventoryKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.PresetKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
@@ -77,7 +76,7 @@ public class PresetLoader {
             NotEKSettings.saveConfig();
         }
 
-        NotEnoughKeybinds.LOGGER.info("Presets initialized");
+        NotEnoughKeybinds.LOGGER.info("Keybind presets initialized");
     }
 
     public static void reload(boolean showToastNotification) {
@@ -134,12 +133,9 @@ public class PresetLoader {
                     //check if the keys is saved in another file than options.txt
                     if (translation.contains("key." + NotEnoughKeybinds.MOD_ID)) {
                         String finalValue = value;
-                        Stream.of(ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
-                            for (INotEKKeybinding keybinding : iNotEKKeybindings) {
-                                if (keybinding.getId().equals(translation)) {
-                                    keybinding.setBoundKey(InputUtil.fromTranslationKey(finalValue));
-                                    break;
-                                }
+                        Stream.of(ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
+                            if (iNotEKKeybindings.getId().equals(translation)) {
+                                iNotEKKeybindings.setBoundKey(InputUtil.fromTranslationKey(finalValue));
                             }
                         });
                     }

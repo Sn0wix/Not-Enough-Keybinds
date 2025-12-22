@@ -3,7 +3,6 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -15,9 +14,11 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
@@ -26,18 +27,17 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
     public ModKeybindsButton(ControlsListWidget widget) {
         widget.super(new KeyBinding.Category(Identifier.of("")));
 
-        button = ButtonWidget.builder(Text.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
+        button = new TexturedButtonWidget(0, 0, 340, 20, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
                 MinecraftClient.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
-        ).size(340, 20).build();
+        , Supplier::get, NotEnoughKeybinds.ICON, 18, 18, 18, 18);
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        button.setWidth(getContentWidth() + 2);
         button.setPosition(getContentX(), getContentY());
         button.render(context, mouseX, mouseY, deltaTicks);
-
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, NotEnoughKeybinds.ICON, getContentX() + 340 / 2 - MinecraftClient.getInstance().textRenderer.getWidth(button.getMessage()) / 2 - 20, getContentY(), 0, 0, 0, 18, 18, 18, 18);
-    }
+   }
 
     @Override
     public List<? extends Element> children() {
