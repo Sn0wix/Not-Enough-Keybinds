@@ -7,6 +7,7 @@
   "key.category.not-enough-keybinds.chat_keys": "Chat/Command Keys",
   "key.category.not-enough-keybinds.sound": "Music & Sound Keys",
   "key.category.not-enough-keybinds.presets": "Presets Hotkeys",
+  "key.category.not-enough-keybinds.misc": "Miscellaneous",
 
 
   "settings.not-enough-keybinds": "NotEnoughKeybinds Settings",
@@ -128,6 +129,8 @@
   "key.not-enough-keybinds.switch_totem_shield": "Swap Totem and Shield",
   "key.not-enough-keybinds.equip_elytra": "Swap Elytra",
   "key.not-enough-keybinds.throw_wind_charge": "Throw Wind Charge",
+
+  "key.not-enough-keybinds.disconnect": "Disconnect",
 
   "key.not-enough-keybinds.next_preset": "Next Preset",
   "key.not-enough-keybinds.previous_preset": "Previous Preset",
