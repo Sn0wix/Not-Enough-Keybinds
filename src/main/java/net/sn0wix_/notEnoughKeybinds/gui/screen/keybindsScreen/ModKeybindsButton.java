@@ -33,6 +33,7 @@ public class ModKeybindsButton extends ControlsListWidget.CategoryEntry {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+        button.setWidth(getContentWidth() + 2);
         button.setPosition(getContentX(), getContentY());
         button.render(context, mouseX, mouseY, deltaTicks);
 
