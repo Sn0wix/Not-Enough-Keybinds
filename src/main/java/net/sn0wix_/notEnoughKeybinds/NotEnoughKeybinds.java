@@ -42,4 +42,8 @@ public class NotEnoughKeybinds implements ClientModInitializer {
 
         PresetLoader.init();
     }
+
+    public static Identifier getIdentifier(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
 }
