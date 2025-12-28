@@ -31,6 +31,7 @@ public abstract class NotEKKeyBindings {
         registerKeyCategory(new ChatKeys().getModCategory());
         registerKeyCategory(new SoundKeys().getModCategory());
         registerKeyCategory(new PresetKeys().getModCategory());
+        registerKeyCategory(new MiscKeys().getModCategory());
     }
 
     public static KeybindCategory getCategoryByTranslation(String translationKey) {
