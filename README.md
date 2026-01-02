@@ -1,6 +1,8 @@
 Vanilla minecraft has some basic keybinds, but it's not enough (for some people at least)!
 NotEnoughKeybinds mod adds lots of somewhat useful keybindings and a decent keybinding preset system.
 
+Do you prefer a **PvP friendly version**? Download [Just Enough Keybinds](https://modrinth.com/mod/just-enough-keybinds) instead!
+
 # Inventory Management
 
 - ## Throw Ender Pearl & Wind Charge
@@ -42,7 +44,7 @@ The most useful binding from this category is called **Air Place** Yes, you can 
 
 - ### Toggle Second Skin Layer(s)
 - ### Rebind F3 debug key
-  Debug keys like F3 + B are no longer hard coded.
+  Debug keys like F3 + B are no longer hard coded (this feature is no longer needed for mc 1.21.11+).
 - ### Music & Sound keys
   Toggle sounds by clicking a button.
 - ### F3 Debug keys shortcuts
@@ -50,7 +52,8 @@ The most useful binding from this category is called **Air Place** Yes, you can 
 - ### Reset all keys confirm screen
   No more accidental keybind resetting.
 - ### Toggle in-game HUD
-  Adds the ability to rebind F1, which should be in vanilla game by default.
+  Adds the ability to rebind F1 (also not needed for 1.21.11+)
+- ### Diconnect Keybind
 
 
 _This mod may be viewed as an unfair advantage by some servers. Use it at your own risk._
