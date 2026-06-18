@@ -98,7 +98,7 @@ public abstract class KeyboardMixin {
         return code;
     }
 
-    @ModifyArg(method = "handleDebugKeys", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;showDebugChat(Lnet/minecraft/network/chat/Component;)V"))
+    @ModifyArg(method = "handleDebugKeys", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;showDebugChat(Lnet/minecraft/network/chat/Component;)V"), require = 0)
     public Component fixHelpMessage(Component message) {
         return Utils.correctF3DebugMessage(message);
     }
