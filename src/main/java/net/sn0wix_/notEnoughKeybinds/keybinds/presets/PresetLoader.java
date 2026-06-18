@@ -1,10 +1,9 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.presets;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.config.NotEKSettings;
@@ -15,7 +14,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.PresetKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
-
+import com.mojang.blaze3d.platform.InputConstants;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,11 +104,11 @@ public class PresetLoader {
             if (translation.isEmpty() || value.isEmpty()) {
                 NotEnoughKeybinds.LOGGER.error("Incorrect keybinding entry in preset" + preset.name + ": " + translation + ":" + value);
             } else {
-                GameOptions options = MinecraftClient.getInstance().options;
+                Options options = Minecraft.getInstance().options;
                 boolean found = false;
 
                 //Equip elytra autodetect
-                if (translation.equals(InventoryKeys.EQUIP_ELYTRA.getId())) {
+                if (translation.equals(InventoryKeys.EQUIP_ELYTRA.getName())) {
                     NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect = value.equals("auto-detect");
                     EquipElytraConfig.saveConfig();
                     if (value.equals("auto-detect")) {
@@ -118,13 +117,13 @@ public class PresetLoader {
                     }
                 }
 
-                for (int i = 0; i < options.allKeys.length; i++) {
-                    KeyBinding binding = options.allKeys[i];
+                for (int i = 0; i < options.keyMappings.length; i++) {
+                    KeyMapping binding = options.keyMappings[i];
 
-                    if (binding.getId().equals(translation) &&
-                            !binding.getId().equals(PresetKeys.NEXT_PRESET_GLOBAL.getId()) &&
-                            !binding.getId().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getId())) {
-                        binding.setBoundKey(InputUtil.fromTranslationKey(value));
+                    if (binding.getName().equals(translation) &&
+                            !binding.getName().equals(PresetKeys.NEXT_PRESET_GLOBAL.getName()) &&
+                            !binding.getName().equals(PresetKeys.PREVIOUS_PRESET_GLOBAL.getName())) {
+                        binding.setKey(InputConstants.getKey(value));
                         found = true;
                         break;
                     }
@@ -137,7 +136,7 @@ public class PresetLoader {
                         Stream.of(ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(iNotEKKeybindings -> {
                             for (INotEKKeybinding keybinding : iNotEKKeybindings) {
                                 if (keybinding.getId().equals(translation)) {
-                                    keybinding.setBoundKey(InputUtil.fromTranslationKey(finalValue));
+                                    keybinding.setBoundKey(InputConstants.getKey(finalValue));
                                     break;
                                 }
                             }
@@ -147,12 +146,12 @@ public class PresetLoader {
             }
         });
 
-        KeyBinding.updateKeysByCode();
-        KeyBinding.unpressAll();
-        KeyBinding.updatePressedStates();
+        KeyMapping.resetMapping();
+        KeyMapping.releaseAll();
+        KeyMapping.setAll();
 
         setCurrentPreset(preset);
-        Utils.showToastNotification(Text.translatable(TextUtils.getTranslationKey("preset.load"), preset.getName()));
+        Utils.showToastNotification(Component.translatable(TextUtils.getTranslationKey("preset.load"), preset.getName()));
         NotEnoughKeybinds.LOGGER.info("Preset " + preset.getName() + " was loaded!");
     }
 

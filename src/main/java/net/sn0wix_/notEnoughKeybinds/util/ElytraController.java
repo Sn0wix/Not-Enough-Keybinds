@@ -1,9 +1,9 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.InventoryKeys;
 
@@ -25,7 +25,7 @@ public class ElytraController {
     }
 
     public static boolean shouldSwapBack(ItemStack stack) {
-        return stack.isOf(swapBackItem);
+        return stack.is(swapBackItem);
     }
 
     public static int getSwapBackItemSlot() {
@@ -61,7 +61,7 @@ public class ElytraController {
 
         //player landed with auto-detect on
         try {
-            if (!MinecraftClient.getInstance().player.isGliding() && previousFallFlying && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect) {
+            if (!Minecraft.getInstance().player.isFallFlying() && previousFallFlying && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect) {
                 String swapFirstBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst;
                 boolean swapSecondBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond;
 
@@ -69,13 +69,13 @@ public class ElytraController {
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst = "chestplate";
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond = false;
 
-                InventoryKeys.EQUIP_ELYTRA.onWasPressed(MinecraftClient.getInstance());
+                InventoryKeys.EQUIP_ELYTRA.onWasPressed(Minecraft.getInstance());
 
                 //setting back the old parameters
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst = swapFirstBefore;
                 NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond = swapSecondBefore;
             }
-            previousFallFlying = MinecraftClient.getInstance().player.isGliding();
+            previousFallFlying = Minecraft.getInstance().player.isFallFlying();
         }catch (NullPointerException ignored) {}
 
         //Enter flight mode logic
@@ -83,7 +83,7 @@ public class ElytraController {
             ticksToStartFlying--;
 
             try {
-                if (MinecraftClient.getInstance().player.isGliding()) {
+                if (Minecraft.getInstance().player.isFallFlying()) {
                     postFlight.run();
                     ticksToStartFlying = Integer.MIN_VALUE;
                 }
@@ -113,7 +113,7 @@ public class ElytraController {
         nextTick = runnable;
     }
 
-    public static int getTicksToStartFlying(MinecraftClient client) throws NullPointerException {
+    public static int getTicksToStartFlying(Minecraft client) throws NullPointerException {
         return NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect ? 1 : client.player.isCreative() ? 8 : 3;
     }
 }

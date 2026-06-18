@@ -1,22 +1,21 @@
 package net.sn0wix_.notEnoughKeybinds.gui;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-
 import java.util.function.Consumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 
-public record ParentScreenBlConsumer(Screen parent, Consumer<MinecraftClient> consumer, boolean setParentIf) implements BooleanConsumer {
+public record ParentScreenBlConsumer(Screen parent, Consumer<Minecraft> consumer, boolean setParentIf) implements BooleanConsumer {
     @Override
     public void accept(boolean t) {
         if (t) {
-            consumer.accept(MinecraftClient.getInstance());
+            consumer.accept(Minecraft.getInstance());
 
             if (setParentIf) {
-                MinecraftClient.getInstance().setScreen(parent);
+                Minecraft.getInstance().setScreen(parent);
             }
         } else {
-            MinecraftClient.getInstance().setScreen(parent);
+            Minecraft.getInstance().setScreen(parent);
         }
     }
 }

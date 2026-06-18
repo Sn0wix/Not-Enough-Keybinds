@@ -1,8 +1,8 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.entity.player.PlayerModelPart;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.PlayerModelPart;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
@@ -10,7 +10,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 
 public class SkinLayersKeys extends NotEKKeyBindings {
     public static final String SKIN_LAYERS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";
-    public static final KeyBinding.Category SKIN_LAYERS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(SKIN_LAYERS_CATEGORY_KEY));
+    public static final KeyMapping.Category SKIN_LAYERS_CATEGORY = KeyMapping.Category.register(NotEnoughKeybinds.getIdentifier(SKIN_LAYERS_CATEGORY_KEY));
 
 
     public static final NotEKKeyBinding TOGGLE_SKIN_LAYER_CAPE = registerModKeyBinding(new NotEKKeyBinding("toggle_skin_layer_cape", SKIN_LAYERS_CATEGORY, new SkinLayerKeybinding(PlayerModelPart.CAPE)));
@@ -41,13 +41,13 @@ public class SkinLayersKeys extends NotEKKeyBindings {
         }
 
         @Override
-        public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
+        public void onWasPressed(Minecraft client, NotEKKeyBinding keyBinding) {
             enableModelPart(client, modelPart);
         }
     }
 
-    public static void enableModelPart(MinecraftClient client, PlayerModelPart playerModelPart) {
-        client.options.setPlayerModelPart(playerModelPart, !client.options.isPlayerModelPartEnabled(playerModelPart));
-        client.options.write();
+    public static void enableModelPart(Minecraft client, PlayerModelPart playerModelPart) {
+        client.options.setModelPart(playerModelPart, !client.options.isModelPartEnabled(playerModelPart));
+        client.options.save();
     }
 }

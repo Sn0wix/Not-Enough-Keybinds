@@ -1,11 +1,11 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Items;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.InventoryKeys;
 import net.sn0wix_.notEnoughKeybinds.util.ElytraController;
@@ -16,15 +16,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ClientPlayerEntity.class)
+@Mixin(LocalPlayer.class)
 public abstract class ClientPlayerEntityMixin {
     //Auto elytra detection
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;checkGliding()Z", shift = At.Shift.AFTER))
+    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;tryToStartFallFlying()Z", shift = At.Shift.AFTER))
     private void injectTickMovement(CallbackInfo ci) {
         if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect
-                && checkFallFlying(((ClientPlayerEntity) (Object) this))
-                && !((ClientPlayerEntity) (Object) this).getEquippedStack(EquipmentSlot.CHEST).isOf(Items.ELYTRA)
-                && InventoryUtils.getSlotWithItem(Items.ELYTRA, ((ClientPlayerEntity) (Object) this).getInventory()) > -1) {
+                && checkFallFlying(((LocalPlayer) (Object) this))
+                && !((LocalPlayer) (Object) this).getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
+                && InventoryUtils.getSlotWithItem(Items.ELYTRA, ((LocalPlayer) (Object) this).getInventory()) > -1) {
 
             String swapFirstBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst;
             boolean swapSecondBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond;
@@ -35,7 +35,7 @@ public abstract class ClientPlayerEntityMixin {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond = false;
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode = true;
 
-            InventoryKeys.EQUIP_ELYTRA.onWasPressed(MinecraftClient.getInstance());
+            InventoryKeys.EQUIP_ELYTRA.onWasPressed(Minecraft.getInstance());
 
             //setting back the old parameters
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst = swapFirstBefore;
@@ -43,16 +43,16 @@ public abstract class ClientPlayerEntityMixin {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode = enterFlightBefore;
 
             ElytraController.nextTick(() -> {
-                ((ClientPlayerEntity) (Object) this).startGliding();
-                ((ClientPlayerEntity) (Object) this).networkHandler.sendPacket(new ClientCommandC2SPacket(((ClientPlayerEntity) (Object) this), ClientCommandC2SPacket.Mode.START_FALL_FLYING));
+                ((LocalPlayer) (Object) this).startFallFlying();
+                ((LocalPlayer) (Object) this).connection.send(new ServerboundPlayerCommandPacket(((LocalPlayer) (Object) this), ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
             });
         }
     }
 
 
     @Unique
-    public boolean checkFallFlying(ClientPlayerEntity clientPlayerEntity) {
+    public boolean checkFallFlying(LocalPlayer clientPlayerEntity) {
         //return clientPlayerEntity.checkGliding();
-        return !clientPlayerEntity.isTouchingWater() && !clientPlayerEntity.isGliding() && !clientPlayerEntity.getAbilities().flying && !clientPlayerEntity.isOnGround() && !clientPlayerEntity.hasVehicle() && !clientPlayerEntity.hasStatusEffect(StatusEffects.LEVITATION);
+        return !clientPlayerEntity.isInWater() && !clientPlayerEntity.isFallFlying() && !clientPlayerEntity.getAbilities().flying && !clientPlayerEntity.onGround() && !clientPlayerEntity.isPassenger() && !clientPlayerEntity.hasEffect(MobEffects.LEVITATION);
     }
 }

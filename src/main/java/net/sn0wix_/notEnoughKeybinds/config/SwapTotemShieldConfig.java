@@ -5,14 +5,14 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Items;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class SwapTotemShieldConfig {
     public static ConfigClassHandler<SwapTotemShieldConfig> HANDLER = ConfigClassHandler.createBuilder(SwapTotemShieldConfig.class)
-            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "swap_totem_shield"))
+            .id(Identifier.fromNamespaceAndPath(NotEnoughKeybinds.MOD_ID, "swap_totem_shield"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("swap_totem_shield.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
@@ -71,9 +71,9 @@ public class SwapTotemShieldConfig {
 
         if (!value.equals("off")) {
             if (value.equals("shield")) {
-                swapValue = Items.SHIELD.getTranslationKey();
+                swapValue = Items.SHIELD.getDescriptionId();
             } else if (value.equals("totem")) {
-                swapValue = Items.TOTEM_OF_UNDYING.getTranslationKey();
+                swapValue = Items.TOTEM_OF_UNDYING.getDescriptionId();
             }
         }
 

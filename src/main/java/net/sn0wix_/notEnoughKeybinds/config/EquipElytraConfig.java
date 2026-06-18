@@ -5,15 +5,15 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class EquipElytraConfig {
     public static ConfigClassHandler<EquipElytraConfig> HANDLER = ConfigClassHandler.createBuilder(EquipElytraConfig.class)
-            .id(Identifier.of(NotEnoughKeybinds.MOD_ID, "equip_elytra"))
+            .id(Identifier.fromNamespaceAndPath(NotEnoughKeybinds.MOD_ID, "equip_elytra"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve(NotEnoughKeybinds.MOD_ID).resolve("equip_elytra.json"))
                     .appendGsonBuilder(GsonBuilder::setPrettyPrinting)
@@ -73,11 +73,11 @@ public class EquipElytraConfig {
     }
 
     public void cycleSlot() {
-        if (PlayerInventory.isValidHotbarIndex(fireworkSwapSlot)) {
+        if (Inventory.isHotbarSlot(fireworkSwapSlot)) {
             fireworkSwapSlot++;
         }
 
-        if (!PlayerInventory.isValidHotbarIndex(fireworkSwapSlot)) {
+        if (!Inventory.isHotbarSlot(fireworkSwapSlot)) {
             fireworkSwapSlot = 0;
         }
     }
@@ -113,7 +113,7 @@ public class EquipElytraConfig {
 
         if (!value.equals("off")) {
             if (value.equals("elytra")) {
-                swapValue = Items.ELYTRA.getTranslationKey();
+                swapValue = Items.ELYTRA.getDescriptionId();
             } else if (value.equals("chestplate")) {
                 swapValue = TextUtils.getTranslationKey("chestplate");
             }

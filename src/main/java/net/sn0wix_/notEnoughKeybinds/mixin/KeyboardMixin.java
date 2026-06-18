@@ -1,9 +1,9 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
-import net.minecraft.client.Keyboard;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyboardHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.NotEKSettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
@@ -23,40 +23,40 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-@Mixin(Keyboard.class)
+@Mixin(KeyboardHandler.class)
 public abstract class KeyboardMixin {
     @Shadow
     @Final
-    private MinecraftClient client;
+    private Minecraft minecraft;
 
     @Shadow
-    protected abstract boolean processF3(KeyInput keyInput);
+    protected abstract boolean handleDebugKeys(KeyEvent keyInput);
 
 
     //missing F1 keybind
-    @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/DebugHud;shouldShowRenderingChart()Z", shift = At.Shift.BEFORE))
-    private void injectOnKey(long window, int action, KeyInput input, CallbackInfo ci) {
-        if (input.key() == GLFW.GLFW_KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(new KeyInput(input.key(), GLFW.glfwGetKeyScancode(input.key()),0 ))) {
-            this.client.options.hudHidden = !this.client.options.hudHidden;
+    @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;showProfilerChart()Z", shift = At.Shift.BEFORE))
+    private void injectOnKey(long window, int action, KeyEvent input, CallbackInfo ci) {
+        if (input.key() == GLFW.GLFW_KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), GLFW.glfwGetKeyScancode(input.key()),0 ))) {
+            this.minecraft.options.hideGui = !this.minecraft.options.hideGui;
         }
-        if (input.key() != GLFW.GLFW_KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matchesKey(new KeyInput(input.key(), GLFW.glfwGetKeyScancode(input.key()), 0))) {
-            this.client.options.hudHidden = !this.client.options.hudHidden;
+        if (input.key() != GLFW.GLFW_KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), GLFW.glfwGetKeyScancode(input.key()), 0))) {
+            this.minecraft.options.hideGui = !this.minecraft.options.hideGui;
         }
     }
 
     //f3 shortcuts
-    @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;setKeyPressed(Lnet/minecraft/client/util/InputUtil$Key;Z)V", ordinal = 1, shift = At.Shift.BEFORE))
-    private void injectShortcuts(long window, int action, KeyInput input, CallbackInfo ci) {
+    @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;set(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V", ordinal = 1, shift = At.Shift.BEFORE))
+    private void injectShortcuts(long window, int action, KeyEvent input, CallbackInfo ci) {
         List<Integer> codes = Utils.checkF3Shortcuts(input);
 
-        if (client.player != null && !codes.isEmpty() && !(client.currentScreen instanceof NotEKSettingsScreen)) {
-            codes.forEach(scanCode -> this.processF3(new KeyInput(scanCode, input.scancode(), 0))); //Will only codes work?
+        if (minecraft.player != null && !codes.isEmpty() && !(minecraft.screen instanceof NotEKSettingsScreen)) {
+            codes.forEach(scanCode -> this.handleDebugKeys(new KeyEvent(scanCode, input.scancode(), 0))); //Will only codes work?
         }
     }
 
     //f3 debug keys
-    @ModifyArg(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;processF3(Lnet/minecraft/client/input/KeyInput;)Z"))
-    private KeyInput injectProcessF3(KeyInput input) {
+    @ModifyArg(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;handleDebugKeys(Lnet/minecraft/client/input/KeyEvent;)Z"))
+    private KeyEvent injectProcessF3(KeyEvent input) {
         int key;
 
         Iterator<INotEKKeybinding> iterator = Arrays.stream(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).iterator();
@@ -66,20 +66,20 @@ public abstract class KeyboardMixin {
             INotEKKeybinding keyBinding = iterator.next();
 
             if (keyBinding.matchesKey(input)) {
-                pressedF3Keys.add(keyBinding.getDefaultKey().getCode());
+                pressedF3Keys.add(keyBinding.getDefaultKey().getValue());
             }
         }
 
-        KeyInput finalInput = new KeyInput(0, 0, 0);
+        KeyEvent finalInput = new KeyEvent(0, 0, 0);
 
         while (!pressedF3Keys.isEmpty()) {
             key = pressedF3Keys.getFirst();
             pressedF3Keys.removeFirst();
 
-            finalInput = new KeyInput(key, input.scancode(), 0);
+            finalInput = new KeyEvent(key, input.scancode(), 0);
 
             if (!pressedF3Keys.isEmpty()) {
-                this.processF3(finalInput);
+                this.handleDebugKeys(finalInput);
             }
 
             pressedF3Keys.trimToSize();
@@ -89,23 +89,23 @@ public abstract class KeyboardMixin {
     }
 
 
-    @ModifyArg(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/InputUtil;isKeyPressed(Lnet/minecraft/client/util/Window;I)Z"), index = 1)
+    @ModifyArg(method = "keyPress", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(Lcom/mojang/blaze3d/platform/Window;I)Z"), index = 1)
     public int fixF3C(int code) {
         if (code == GLFW.GLFW_KEY_C) {
-            code = F3DebugKeys.COPY_LOCATION.boundKey.getCode();
+            code = F3DebugKeys.COPY_LOCATION.boundKey.getValue();
         }
 
         return code;
     }
 
-    @ModifyArg(method = "processF3", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;sendMessage(Lnet/minecraft/text/Text;)V"))
-    public Text fixHelpMessage(Text message) {
+    @ModifyArg(method = "handleDebugKeys", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;showDebugChat(Lnet/minecraft/network/chat/Component;)V"))
+    public Component fixHelpMessage(Component message) {
         return Utils.correctF3DebugMessage(message);
     }
 
 
-    @ModifyArg(method = "debugLog(Lnet/minecraft/text/Text;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Keyboard;getDebugMessage(Lnet/minecraft/util/Formatting;Lnet/minecraft/text/Text;)Lnet/minecraft/text/Text;"), index = 1)
-    public Text fixF3CMessage(Text message) {
-        return message.getContent().toString().contains("debug.crash.message") ? Text.translatable("debug.crash.message", F3DebugKeys.COPY_LOCATION.boundKey.getLocalizedText()) : message;
+    @ModifyArg(method = "debugFeedbackComponent(Lnet/minecraft/network/chat/Component;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;decorateDebugComponent(Lnet/minecraft/ChatFormatting;Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/Component;"), index = 1)
+    public Component fixF3CMessage(Component message) {
+        return message.getContents().toString().contains("debug.crash.message") ? Component.translatable("debug.crash.message", F3DebugKeys.COPY_LOCATION.boundKey.getDisplayName()) : message;
     }
 }

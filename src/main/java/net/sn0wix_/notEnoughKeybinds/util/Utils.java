@@ -1,12 +1,11 @@
 package net.sn0wix_.notEnoughKeybinds.util;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.toast.SystemToast;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.AdvancedConfirmScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
@@ -23,17 +22,17 @@ import java.util.stream.Stream;
 
 public class Utils {
 
-    public static Screen getModConfirmScreen(ParentScreenBlConsumer consumer, Text text) {
-        return new AdvancedConfirmScreen(consumer, Text.empty(), text,
-                Text.translatable("text.not-enough-keybinds.confirm." + new Random().nextInt(4)),
-                Text.translatable("text.not-enough-keybinds.cancel." + new Random().nextInt(4)));
+    public static Screen getModConfirmScreen(ParentScreenBlConsumer consumer, Component text) {
+        return new AdvancedConfirmScreen(consumer, Component.empty(), text,
+                Component.translatable("text.not-enough-keybinds.confirm." + new Random().nextInt(4)),
+                Component.translatable("text.not-enough-keybinds.cancel." + new Random().nextInt(4)));
     }
 
 
-    public static KeyBinding[] filterModKeybindings(KeyBinding[] keyBindings) {
-        ArrayList<KeyBinding> newBindings = new ArrayList<>();
+    public static KeyMapping[] filterModKeybindings(KeyMapping[] keyBindings) {
+        ArrayList<KeyMapping> newBindings = new ArrayList<>();
 
-        for (KeyBinding keyBinding : keyBindings) {
+        for (KeyMapping keyBinding : keyBindings) {
             if (keyBinding instanceof NotEKKeyBinding) {
                 continue;
             }
@@ -41,7 +40,7 @@ public class Utils {
             newBindings.add(keyBinding);
         }
 
-        KeyBinding[] finalBindings = new KeyBinding[newBindings.size()];
+        KeyMapping[] finalBindings = new KeyMapping[newBindings.size()];
 
         for (int i = 0; i < newBindings.size(); i++) {
             finalBindings[i] = newBindings.get(i);
@@ -50,11 +49,11 @@ public class Utils {
         return finalBindings;
     }
 
-    public static List<Integer> checkF3Shortcuts(KeyInput input) {
+    public static List<Integer> checkF3Shortcuts(KeyEvent input) {
         ArrayList<Integer> codes = new ArrayList<>();
 
         F3ShortcutsKeys.getF3ShortcutKeys().forEach(f3ShortcutKeybinding -> {
-            if (f3ShortcutKeybinding.matchesKey(input)) {
+            if (f3ShortcutKeybinding.matches(input)) {
                 codes.add(f3ShortcutKeybinding.getCodeToEmulate());
             }
         });
@@ -63,19 +62,19 @@ public class Utils {
     }
 
 
-    public static Text correctF3DebugMessage(Text message) {
+    public static Component correctF3DebugMessage(Component message) {
         String translatedMessage = message.getString();
         String f3String = "F3 + ";
         for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
             String newKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyLocalizedText().getString().replace(f3String, "");
-            String oldKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getDefaultKey().getLocalizedText().getString();
+            String oldKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getDefaultKey().getDisplayName().getString();
 
             if (translatedMessage.contains(f3String + oldKey)) {
                 translatedMessage = translatedMessage.replace(f3String + oldKey, f3String + newKey);
             }
         }
 
-        return Text.of(translatedMessage);
+        return Component.nullToEmpty(translatedMessage);
     }
 
     public static Object[] addArgToEnd(Object[] args, Object addedArg) {
@@ -118,14 +117,14 @@ public class Utils {
     public static List<String> bindingsToList(boolean defaultBindings) {
         ArrayList<String> bindingsList = new ArrayList<>();
 
-        Stream.of(MinecraftClient.getInstance().options.allKeys, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
+        Stream.of(Minecraft.getInstance().options.keyMappings, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
             if (bindings instanceof INotEKKeybinding[] newBindings) {
                 for (INotEKKeybinding binding : newBindings) {
-                    bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslation()));
+                    bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getName() : binding.getBoundKeyTranslation()));
                 }
-            } else if (bindings instanceof KeyBinding[] newBindings) {
-                for (KeyBinding binding : newBindings) {
-                    bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getTranslationKey() : binding.getBoundKeyTranslationKey()));
+            } else if (bindings instanceof KeyMapping[] newBindings) {
+                for (KeyMapping binding : newBindings) {
+                    bindingsList.add(binding.getName() + ":" + (defaultBindings ? binding.getDefaultKey().getName() : binding.saveString()));
                 }
             }
         });
@@ -133,11 +132,11 @@ public class Utils {
         return bindingsList;
     }
 
-    public static void showToastNotification(Text description) {
-        MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(2769), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
+    public static void showToastNotification(Component description) {
+        Minecraft.getInstance().getToastManager().addToast(new SystemToast(new SystemToast.SystemToastId(2769), Component.literal(NotEnoughKeybinds.MOD_NAME), description));
     }
 
-    public static void showToastNotification(Text description, long displayDuration) {
-        MinecraftClient.getInstance().getToastManager().add(new SystemToast(new SystemToast.Type(displayDuration), Text.literal(NotEnoughKeybinds.MOD_NAME), description));
+    public static void showToastNotification(Component description, long displayDuration) {
+        Minecraft.getInstance().getToastManager().addToast(new SystemToast(new SystemToast.SystemToastId(displayDuration), Component.literal(NotEnoughKeybinds.MOD_NAME), description));
     }
 }

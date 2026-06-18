@@ -1,14 +1,14 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
@@ -16,24 +16,24 @@ import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.lwjgl.glfw.GLFW;
 
 public class PresetEditScreen extends SettingsScreen {
-    public static final Text NAME_TEXT = Text.translatable(TextUtils.getTranslationKey("name")).formatted(Formatting.GRAY);
-    public static final Text DESCRIPTION_TEXT = Text.translatable(TextUtils.getTranslationKey("description")).formatted(Formatting.GRAY);
+    public static final Component NAME_TEXT = Component.translatable(TextUtils.getTranslationKey("name")).withStyle(ChatFormatting.GRAY);
+    public static final Component DESCRIPTION_TEXT = Component.translatable(TextUtils.getTranslationKey("description")).withStyle(ChatFormatting.GRAY);
 
 
     public final PresetLoader.KeybindPreset preset;
-    public TextFieldWidget nameWidget;
-    public TextFieldWidget descriptionWidget;
-    public ButtonWidget doneButton;
+    public EditBox nameWidget;
+    public EditBox descriptionWidget;
+    public Button doneButton;
 
     public String name;
     public String description;
     public boolean newPreset;
 
-    public DirectionalLayoutWidget body = DirectionalLayoutWidget.vertical().spacing(20);
+    public LinearLayout body = LinearLayout.vertical().spacing(20);
 
 
     public PresetEditScreen(Screen parent, PresetLoader.KeybindPreset preset, boolean newPreset) {
-        super(parent, Text.translatable(TextUtils.getSettingsTranslationKey(newPreset ? "preset.new" : "preset")));
+        super(parent, Component.translatable(TextUtils.getSettingsTranslationKey(newPreset ? "preset.new" : "preset")));
         this.preset = preset;
         this.name = preset.getName();
         this.description = preset.getDescription();
@@ -43,54 +43,54 @@ public class PresetEditScreen extends SettingsScreen {
     @Override
     protected void initBody() {
         initButtons();
-        threePartsLayout.addBody(body);
+        threePartsLayout.addToContents(body);
     }
 
     @Override
     public void initFooter() {
-        DirectionalLayoutWidget directionalLayoutWidget = this.threePartsLayout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
-        directionalLayoutWidget.add(ButtonWidget.builder(ScreenTexts.BACK, button -> client.setScreen(parent)
+        LinearLayout directionalLayoutWidget = this.threePartsLayout.addToFooter(LinearLayout.horizontal().spacing(8));
+        directionalLayoutWidget.addChild(Button.builder(CommonComponents.GUI_BACK, button -> minecraft.setScreen(parent)
         ).build());
 
-        directionalLayoutWidget.add(doneButton);
+        directionalLayoutWidget.addChild(doneButton);
     }
 
     public void initButtons() {
-        doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
-            preset.setName(nameWidget.getText());
-            preset.setDescription(descriptionWidget.getText());
+        doneButton = Button.builder(CommonComponents.GUI_DONE, button -> {
+            preset.setName(nameWidget.getValue());
+            preset.setDescription(descriptionWidget.getValue());
             PresetLoader.writePreset(preset, preset.getContent().isEmpty() ? Utils.bindingsToList(true) : preset.getContent());
             PresetLoader.reload(false);
 
             if (parent instanceof PresetsSettingScreen presetsSettingScreen) {
-                presetsSettingScreen.clearAndInit();
+                presetsSettingScreen.rebuildWidgets();
             }
 
             Utils.showToastNotification(TextUtils.getText("preset." + (newPreset ? "create" : "edit") + ".toast", preset.getName()));
 
-            assert client != null;
-            client.setScreen(parent);
+            assert minecraft != null;
+            minecraft.setScreen(parent);
         }).build();
 
-        DirectionalLayoutWidget top = DirectionalLayoutWidget.vertical().spacing(2);
-        DirectionalLayoutWidget bottom = DirectionalLayoutWidget.vertical().spacing(2);
+        LinearLayout top = LinearLayout.vertical().spacing(2);
+        LinearLayout bottom = LinearLayout.vertical().spacing(2);
 
-        top.add(new TextWidget(200, 20, NAME_TEXT, textRenderer));
-        nameWidget = new TextFieldWidget(textRenderer, 310, 20, NAME_TEXT);
-        nameWidget.setChangedListener(s -> updateChildren());
+        top.addChild(new StringWidget(200, 20, NAME_TEXT, font));
+        nameWidget = new EditBox(font, 310, 20, NAME_TEXT);
+        nameWidget.setResponder(s -> updateChildren());
         nameWidget.setMaxLength(Integer.MAX_VALUE);
-        nameWidget.setText(name);
-        top.add(nameWidget);
+        nameWidget.setValue(name);
+        top.addChild(nameWidget);
 
 
-        bottom.add(new TextWidget(200, 20, DESCRIPTION_TEXT, textRenderer));
-        descriptionWidget = new TextFieldWidget(textRenderer, 310, 20, DESCRIPTION_TEXT);
+        bottom.addChild(new StringWidget(200, 20, DESCRIPTION_TEXT, font));
+        descriptionWidget = new EditBox(font, 310, 20, DESCRIPTION_TEXT);
         descriptionWidget.setMaxLength(Integer.MAX_VALUE);
-        descriptionWidget.setText(description);
-        bottom.add(descriptionWidget);
+        descriptionWidget.setValue(description);
+        bottom.addChild(descriptionWidget);
 
-        body.add(top);
-        body.add(bottom);
+        body.addChild(top);
+        body.addChild(bottom);
 
         setInitialFocus(nameWidget);
         updateChildren();
@@ -98,22 +98,22 @@ public class PresetEditScreen extends SettingsScreen {
 
     public void updateChildren() {
         try {
-            description = descriptionWidget.getText();
-            name = nameWidget.getText();
-            doneButton.active = !nameWidget.getText().isEmpty();
+            description = descriptionWidget.getValue();
+            name = nameWidget.getValue();
+            doneButton.active = !nameWidget.getValue().isEmpty();
         } catch (NullPointerException ignored) {
         }
     }
 
     @Override
-    public boolean keyPressed(KeyInput input) {
+    public boolean keyPressed(KeyEvent input) {
         if (getFocused() == null || getFocused() == descriptionWidget || getFocused() == nameWidget) {
-            if (input.getKeycode() == GLFW.GLFW_KEY_DELETE) {
-                client.setScreen(parent);
+            if (input.input() == GLFW.GLFW_KEY_DELETE) {
+                minecraft.setScreen(parent);
                 return true;
             }
 
-            if (input.getKeycode() == GLFW.GLFW_KEY_ENTER) {
+            if (input.input() == GLFW.GLFW_KEY_ENTER) {
                 doneButton.onPress(input);
                 return true;
             }

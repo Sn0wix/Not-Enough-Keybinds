@@ -3,18 +3,23 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen;
 import java.util.function.Consumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.*;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.layouts.FrameLayout;
+import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
+import net.minecraft.client.gui.layouts.LayoutElement;
+import net.minecraft.client.gui.layouts.LayoutSettings;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.network.chat.Component;
 
 @Environment(EnvType.CLIENT)
-public class BasicLayoutWidget extends ThreePartsLayoutWidget {
+public class BasicLayoutWidget extends HeaderAndFooterLayout {
     public static final int DEFAULT_HEADER_FOOTER_HEIGHT = 33;
     private int BODY_MARGIN_TOP = 5;
-    private final SimplePositioningWidget header = new SimplePositioningWidget();
-    private final SimplePositioningWidget footer = new SimplePositioningWidget();
-    private final SimplePositioningWidget body = new SimplePositioningWidget();
+    private final FrameLayout header = new FrameLayout();
+    private final FrameLayout footer = new FrameLayout();
+    private final FrameLayout body = new FrameLayout();
     private final Screen screen;
     private int headerHeight;
     private int footerHeight;
@@ -25,7 +30,7 @@ public class BasicLayoutWidget extends ThreePartsLayoutWidget {
     }
 
     public BasicLayoutWidget(Screen screen) {
-        this(screen, DEFAULT_HEADER_FOOTER_HEIGHT);
+        this(screen, DEFAULT_HEADER_AND_FOOTER_HEIGHT);
     }
 
     public BasicLayoutWidget(Screen screen, int headerFooterHeight) {
@@ -37,8 +42,8 @@ public class BasicLayoutWidget extends ThreePartsLayoutWidget {
         this.screen = screen;
         this.headerHeight = headerHeight;
         this.footerHeight = footerHeight;
-        this.header.getMainPositioner().relative(0.5F, 0.5F);
-        this.footer.getMainPositioner().relative(0.5F, 0.5F);
+        this.header.defaultChildLayoutSetting().align(0.5F, 0.5F);
+        this.footer.defaultChildLayoutSetting().align(0.5F, 0.5F);
     }
 
     @Override
@@ -72,56 +77,56 @@ public class BasicLayoutWidget extends ThreePartsLayoutWidget {
     }
 
     @Override
-    public void forEachElement(Consumer<Widget> consumer) {
-        this.header.forEachElement(consumer);
-        this.body.forEachElement(consumer);
-        this.footer.forEachElement(consumer);
+    public void visitChildren(Consumer<LayoutElement> consumer) {
+        this.header.visitChildren(consumer);
+        this.body.visitChildren(consumer);
+        this.footer.visitChildren(consumer);
     }
 
     @Override
-    public void refreshPositions() {
+    public void arrangeElements() {
         int i = this.getHeaderHeight();
         int j = this.getFooterHeight();
         this.header.setMinWidth(this.screen.width);
         this.header.setMinHeight(i);
         this.header.setPosition(0, 0);
-        this.header.refreshPositions();
+        this.header.arrangeElements();
         this.footer.setMinWidth(this.screen.width);
         this.footer.setMinHeight(j);
-        this.footer.refreshPositions();
+        this.footer.arrangeElements();
         this.footer.setY(this.screen.height - j);
         this.body.setMinWidth(this.screen.width);
-        this.body.refreshPositions();
+        this.body.arrangeElements();
         int k = i + BODY_MARGIN_TOP;
         int l = this.screen.height - j - this.body.getHeight();
         this.body.setPosition(0, Math.min(k, l));
     }
 
-    public <T extends Widget> T addHeader(T widget) {
-        return this.header.add(widget);
+    public <T extends LayoutElement> T addToHeader(T widget) {
+        return this.header.addChild(widget);
     }
 
-    public <T extends Widget> T addHeader(T widget, Consumer<Positioner> callback) {
-        return this.header.add(widget, callback);
+    public <T extends LayoutElement> T addToHeader(T widget, Consumer<LayoutSettings> callback) {
+        return this.header.addChild(widget, callback);
     }
 
-    public void addHeader(Text text, TextRenderer textRenderer) {
-        this.header.add(new TextWidget(text, textRenderer));
+    public void addTitleHeader(Component text, Font textRenderer) {
+        this.header.addChild(new StringWidget(text, textRenderer));
     }
 
-    public <T extends Widget> T addFooter(T widget) {
-        return this.footer.add(widget);
+    public <T extends LayoutElement> T addToFooter(T widget) {
+        return this.footer.addChild(widget);
     }
 
-    public <T extends Widget> T addFooter(T widget, Consumer<Positioner> callback) {
-        return this.footer.add(widget, callback);
+    public <T extends LayoutElement> T addToFooter(T widget, Consumer<LayoutSettings> callback) {
+        return this.footer.addChild(widget, callback);
     }
 
-    public <T extends Widget> T addBody(T widget) {
-        return this.body.add(widget);
+    public <T extends LayoutElement> T addToContents(T widget) {
+        return this.body.addChild(widget);
     }
 
-    public <T extends Widget> T addBody(T widget, Consumer<Positioner> callback) {
-        return this.body.add(widget, callback);
+    public <T extends LayoutElement> T addToContents(T widget, Consumer<LayoutSettings> callback) {
+        return this.body.addChild(widget, callback);
     }
 }

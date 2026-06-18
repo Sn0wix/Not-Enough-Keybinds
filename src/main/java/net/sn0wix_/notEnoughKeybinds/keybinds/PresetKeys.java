@@ -1,8 +1,8 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -14,20 +14,20 @@ import java.util.NoSuchElementException;
 
 public class PresetKeys extends NotEKKeyBindings {
     public static final String PRESET_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".presets";
-    public static final KeyBinding.Category PRESET_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(PRESET_CATEGORY_KEY));
+    public static final KeyMapping.Category PRESET_CATEGORY = KeyMapping.Category.register(NotEnoughKeybinds.getIdentifier(PRESET_CATEGORY_KEY));
 
     public static final NotEKKeyBinding NEXT_PRESET = registerModKeyBinding(new NotEKKeyBinding("next_preset", PRESET_CATEGORY, new PresetBinding(true)));
     public static final NotEKKeyBinding PREVIOUS_PRESET = registerModKeyBinding(new NotEKKeyBinding("previous_preset", PRESET_CATEGORY, new PresetBinding(false)));
 
     public static final NotEKKeyBinding NEXT_PRESET_GLOBAL = registerModKeyBinding(new NotEKKeyBinding("next_preset_global", PRESET_CATEGORY, new PresetBinding(true)) {
         @Override
-        public Text getTooltip() {
+        public Component getTooltip() {
             return TextUtils.getText("key_global", true);
         }
     });
     public static final NotEKKeyBinding PREVIOUS_PRESET_GLOBAL = registerModKeyBinding(new NotEKKeyBinding("previous_preset_global", PRESET_CATEGORY, new PresetBinding(false)) {
         @Override
-        public Text getTooltip() {
+        public Component getTooltip() {
             return TextUtils.getText("key_global", true);
         }
     });
@@ -45,7 +45,7 @@ public class PresetKeys extends NotEKKeyBindings {
         }
 
         @Override
-        public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
+        public void onWasPressed(Minecraft client, NotEKKeyBinding keyBinding) {
             try {
                 if (PresetLoader.getCurrentPreset() == null) {
                     try {

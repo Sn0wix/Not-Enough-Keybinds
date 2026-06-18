@@ -1,44 +1,43 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.option.ControlsListWidget;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.screens.options.controls.KeyBindsList;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.CommonColors;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 import java.util.List;
 
-public class PresetsButton extends ControlsListWidget.CategoryEntry {
-    public final ButtonWidget presetSettings;
-    public final TextRenderer textRenderer;
+public class PresetsButton extends KeyBindsList.CategoryEntry {
+    public final Button presetSettings;
+    public final Font textRenderer;
 
-    public PresetsButton(ControlsListWidget widget, TextRenderer renderer) {
-        widget.super(new KeyBinding.Category(Identifier.of("")));
+    public PresetsButton(KeyBindsList widget, Font renderer) {
+        widget.super(new KeyMapping.Category(Identifier.parse("")));
         this.textRenderer = renderer;
 
-        presetSettings = ButtonWidget.builder(TextUtils.getText("presets"), button1 ->
-                        MinecraftClient.getInstance().setScreen(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
+        presetSettings = Button.builder(TextUtils.getText("presets"), button1 ->
+                        Minecraft.getInstance().setScreen(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
                 .size(132, 20).build();
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+    public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
         String textToRender = TextUtils.getText("current_preset").getString() + PresetLoader.getCurrentPresetName();
 
         int x = getContentX();
 
         //location of the presets button
         int buttonPos = x + getContentWidth() / 2 - 340 / 2 + 340 - presetSettings.getWidth();
-        int textLength = textRenderer.getWidth(textToRender) + 20;
+        int textLength = textRenderer.width(textToRender) + 20;
         int padding = 5;
 
         try {
@@ -50,7 +49,7 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
                     //the text is so large, it doesn't fit on the screen
                     StringBuilder builder = new StringBuilder();
 
-                    for (int i = 0; textRenderer.getWidth(builder + "...") <= buttonPos - padding * 2; i++) {
+                    for (int i = 0; textRenderer.width(builder + "...") <= buttonPos - padding * 2; i++) {
                         builder.append(textToRender.charAt(i));
                     }
 
@@ -61,20 +60,20 @@ public class PresetsButton extends ControlsListWidget.CategoryEntry {
         } catch (IndexOutOfBoundsException ignored) {
         }
 
-        context.drawText(textRenderer, textToRender, x, getContentY() + getContentHeight() / 2 - 9 / 2, Colors.GRAY, true);
+        context.text(textRenderer, textToRender, x, getContentY() + getContentHeight() / 2 - 9 / 2, CommonColors.GRAY, true);
 
         presetSettings.setPosition(buttonPos, getContentY());
-        presetSettings.render(context, mouseX, mouseY, deltaTicks);
+        presetSettings.extractRenderState(context, mouseX, mouseY, deltaTicks);
     }
 
 
     @Override
-    public List<? extends Element> children() {
+    public List<? extends GuiEventListener> children() {
         return List.of(presetSettings);
     }
 
     @Override
-    public List<? extends Selectable> selectableChildren() {
+    public List<? extends NarratableEntry> narratables() {
         return List.of(presetSettings);
     }
 }

@@ -1,12 +1,12 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.SwapTotemShieldSettings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.EquipElytraBinding;
@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryKeys extends NotEKKeyBindings {
     public static final String INVENTORY_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".inventory";
-    public static final KeyBinding.Category INVENTORY_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(INVENTORY_CATEGORY_KEY));
+    public static final KeyMapping.Category INVENTORY_CATEGORY = KeyMapping.Category.register(NotEnoughKeybinds.getIdentifier(INVENTORY_CATEGORY_KEY));
 
 
     public static int lastSwitchedTotemShieldSlot = -1;
@@ -32,9 +32,9 @@ public class InventoryKeys extends NotEKKeyBindings {
         boolean elytra = false;
         boolean swapFirstOrSecond = false;
 
-        if (client.player.getInventory().getStack(EquipmentSlot.CHEST.getOffsetEntitySlotId(PlayerInventory.MAIN_SIZE)).isOf(Items.ELYTRA)) {
+        if (client.player.getInventory().getItem(EquipmentSlot.CHEST.getIndex(Inventory.INVENTORY_SIZE)).is(Items.ELYTRA)) {
             itemSlot.set(InventoryUtils.getSlotWithChestplate(client));
-        } else if (!client.player.getInventory().getStack(EquipmentSlot.CHEST.getOffsetEntitySlotId(PlayerInventory.MAIN_SIZE)).isEmpty()) {
+        } else if (!client.player.getInventory().getItem(EquipmentSlot.CHEST.getIndex(Inventory.INVENTORY_SIZE)).isEmpty()) {
             itemSlot.set(InventoryUtils.getSlotWithElytra(client));
             elytra = true;
         }
@@ -84,18 +84,18 @@ public class InventoryKeys extends NotEKKeyBindings {
                         }
                         case 2 -> {
                             //current slotIn
-                            InventoryUtils.switchInvHandSlot(client, Hand.MAIN_HAND, itemSlot.get());
+                            InventoryUtils.switchInvHandSlot(client, InteractionHand.MAIN_HAND, itemSlot.get());
                             swapBackSlot = client.player.getInventory().getSelectedSlot();
                         }
                         case 3 -> {
                             //offhand
-                            InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, itemSlot.get());
+                            InventoryUtils.switchInvHandSlot(client, InteractionHand.OFF_HAND, itemSlot.get());
                             swapBackSlot = 40;
                         }
                     }
                     if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem && swapBackSlot != -1 && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode != 4) {
                         //write swap back
-                        ElytraController.setSwapBackItem(itemSlot.get(), swapBackSlot, client.player.getInventory().getStack(itemSlot.get()).getItem());
+                        ElytraController.setSwapBackItem(itemSlot.get(), swapBackSlot, client.player.getInventory().getItem(itemSlot.get()).getItem());
                     }
                 }
 
@@ -106,8 +106,8 @@ public class InventoryKeys extends NotEKKeyBindings {
                         return;
                     }
 
-                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket && client.player.getStackInHand(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? Hand.OFF_HAND : Hand.MAIN_HAND).isOf(Items.FIREWORK_ROCKET))
-                        InventoryUtils.interactItem(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? Hand.OFF_HAND : Hand.MAIN_HAND, client);
+                    if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket && client.player.getItemInHand(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).is(Items.FIREWORK_ROCKET))
+                        InventoryUtils.interactItem(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 3 ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND, client);
                 };
 
                 if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode) {
@@ -119,7 +119,7 @@ public class InventoryKeys extends NotEKKeyBindings {
             } else if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem && !swapFirstOrSecond) {
                 //execute swap back
 
-                if (ElytraController.hasSwapBack() && ElytraController.shouldSwapBack(client.player.getInventory().getStack(ElytraController.getSwapBackItemSlot()))) {
+                if (ElytraController.hasSwapBack() && ElytraController.shouldSwapBack(client.player.getInventory().getItem(ElytraController.getSwapBackItemSlot()))) {
                     InventoryUtils.switchInvHotbarSlot(client, ElytraController.getSwapBackRocketSlot(), ElytraController.getSwapBackItemSlot());
                     ElytraController.clearSwapBackData();
                 }
@@ -129,17 +129,17 @@ public class InventoryKeys extends NotEKKeyBindings {
 
     public static final NotEKKeyBinding SWITCH_TOTEM_SHIELD = registerModKeyBinding(new NotEKKeyBinding("switch_totem_shield", INVENTORY_CATEGORY, (client, keyBinding) -> {
         assert client.player != null;
-        Hand hand = client.player.getStackInHand(Hand.OFF_HAND).isEmpty() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+        InteractionHand hand = client.player.getItemInHand(InteractionHand.OFF_HAND).isEmpty() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 
         if (lastSwitchedTotemShieldSlot > -1)
-            lastSwitchedTotemShieldSlot = client.player.getInventory().getStack(lastSwitchedTotemShieldSlot).isOf(client.player.getStackInHand(hand).getItem()) ?
-                    -1 : client.player.getInventory().getStack(lastSwitchedTotemShieldSlot).isEmpty() ? -1 : lastSwitchedTotemShieldSlot;
+            lastSwitchedTotemShieldSlot = client.player.getInventory().getItem(lastSwitchedTotemShieldSlot).is(client.player.getItemInHand(hand).getItem()) ?
+                    -1 : client.player.getInventory().getItem(lastSwitchedTotemShieldSlot).isEmpty() ? -1 : lastSwitchedTotemShieldSlot;
 
         int slot = -1;
 
-        if (client.player.getStackInHand(hand).isOf(Items.SHIELD)) {
+        if (client.player.getItemInHand(hand).is(Items.SHIELD)) {
             slot = InventoryUtils.getTotemSwapSlot(client, lastSwitchedTotemShieldSlot);
-        } else if (client.player.getStackInHand(hand).isOf(Items.TOTEM_OF_UNDYING)) {
+        } else if (client.player.getItemInHand(hand).is(Items.TOTEM_OF_UNDYING)) {
             slot = InventoryUtils.getShieldSwapSlot(client);
         }
 
@@ -160,7 +160,7 @@ public class InventoryKeys extends NotEKKeyBindings {
                 }
 
                 if (slot > -1 && slot != 40) {
-                    InventoryUtils.switchInvHandSlot(client, Hand.OFF_HAND, slot);
+                    InventoryUtils.switchInvHandSlot(client, InteractionHand.OFF_HAND, slot);
                     break;
                 } else if (NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.swapSecond) {
                     string = NotEnoughKeybinds.TOTEM_SHIELD_CONFIG.getOppositeSwap();
@@ -169,7 +169,7 @@ public class InventoryKeys extends NotEKKeyBindings {
         }
     }) {
         @Override
-        public Text getTooltip() {
+        public Component getTooltip() {
             return TextUtils.getText("switch_totem_shield", true);
         }
 
@@ -181,8 +181,8 @@ public class InventoryKeys extends NotEKKeyBindings {
 
 
     public static final NotEKKeyBinding THROW_ENDER_PEARL = registerModKeyBinding(new NotEKKeyBinding("throw_ender_pearl", INVENTORY_CATEGORY, (client, keyBinding) -> {
-        for (Hand hand : Hand.values()) {
-            if (client.player.getStackInHand(hand).isOf(Items.ENDER_PEARL)) {
+        for (InteractionHand hand : InteractionHand.values()) {
+            if (client.player.getItemInHand(hand).is(Items.ENDER_PEARL)) {
                 InventoryUtils.interactItem(hand, client);
                 return;
             }
@@ -195,15 +195,15 @@ public class InventoryKeys extends NotEKKeyBindings {
         }
     }) {
         @Override
-        public Text getTooltip() {
+        public Component getTooltip() {
             return TextUtils.getText("throw_ender_pearl", true);
         }
     });
 
 
     public static final NotEKKeyBinding THROW_WIND_CHARGE = registerModKeyBinding(new NotEKKeyBinding("throw_wind_charge", INVENTORY_CATEGORY, (client, keyBinding) -> {
-        for (Hand hand : Hand.values()) {
-            if (client.player.getStackInHand(hand).isOf(Items.WIND_CHARGE)) {
+        for (InteractionHand hand : InteractionHand.values()) {
+            if (client.player.getItemInHand(hand).is(Items.WIND_CHARGE)) {
                 InventoryUtils.interactItem(hand, client);
                 return;
             }
@@ -215,7 +215,7 @@ public class InventoryKeys extends NotEKKeyBindings {
         }
     }) {
         @Override
-        public Text getTooltip() {
+        public Component getTooltip() {
             return TextUtils.getText("throw_wind_charge", true);
         }
     });

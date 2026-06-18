@@ -1,31 +1,31 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 
 public interface INotEKKeybinding {
-    void setBoundKey(InputUtil.Key key);
+    void setBoundKey(InputConstants.Key key);
 
-    KeyBinding getBinding();
+    KeyMapping getBinding();
 
     boolean isUnbound();
 
-    InputUtil.Key getDefaultKey();
+    InputConstants.Key getDefaultKey();
 
     String getId();
 
-    KeyBinding.Category getCategory();
+    KeyMapping.Category getCategory();
 
-    Text getBoundKeyLocalizedText();
+    Component getBoundKeyLocalizedText();
 
     boolean isDefault();
 
-    default Text getTooltip() {
-        return Text.empty();
+    default Component getTooltip() {
+        return Component.empty();
     }
 
     default Screen getSettingsScreen(Screen parent) {
@@ -34,14 +34,14 @@ public interface INotEKKeybinding {
 
     String getBoundKeyTranslationKey();
 
-    void tick(MinecraftClient client);
+    void tick(Minecraft client);
 
-    boolean matchesKey(KeyInput key);
+    boolean matchesKey(KeyEvent key);
 
-    void setAndSaveKeyBinding(InputUtil.Key key);
+    void setAndSaveKeyBinding(InputConstants.Key key);
 
-    default Text getSettingsDisplayName() {
-        return Text.translatable(getId());
+    default Component getSettingsDisplayName() {
+        return Component.translatable(getId());
     }
 
     default String getBoundKeyTranslation() {
@@ -54,18 +54,18 @@ public interface INotEKKeybinding {
         /**
          * Executes if the keybind is pressed while a world is loaded
          */
-        void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding);
+        void onWasPressed(Minecraft client, NotEKKeyBinding keyBinding);
 
         /**
          * Executes every tick
          */
-        default void onTick(MinecraftClient client, NotEKKeyBinding keyBinding) {
-            while (keyBinding.wasPressed() && isInGame(client)) {
+        default void onTick(Minecraft client, NotEKKeyBinding keyBinding) {
+            while (keyBinding.consumeClick() && isInGame(client)) {
                 onWasPressed(client, keyBinding);
             }
         }
 
-        default boolean isInGame(MinecraftClient client) {
+        default boolean isInGame(Minecraft client) {
             return client.player != null;
         }
     }
