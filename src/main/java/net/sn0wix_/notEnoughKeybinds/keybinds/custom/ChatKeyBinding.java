@@ -1,11 +1,11 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
 
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.StringUtil;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
+import net.minecraft.util.StringHelper;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
@@ -22,12 +22,12 @@ public class ChatKeyBinding extends NotEKKeyBinding {
         this.displayName = displayName;
     }
 
-    public ChatKeyBinding(String translationKey, String displayName, String chatMessage, InputConstants.Key boundKey) {
+    public ChatKeyBinding(String translationKey, String displayName, String chatMessage, InputUtil.Key boundKey) {
         //this keybinding was loaded from the config file with the prefix, so we don't add the prefix for the second time
         super(translationKey, ChatKeys.CHAT_KEYS_CATEGORY, new ChatKeysTicker(), false);
         this.chatMessage = chatMessage;
         this.displayName = displayName;
-        setKey(boundKey);
+        setBoundKey(boundKey);
     }
 
     public String getChatMessage() {
@@ -43,14 +43,14 @@ public class ChatKeyBinding extends NotEKKeyBinding {
     }
 
     @Override
-    public Component getSettingsDisplayName() {
-        return Component.literal(displayName);
+    public Text getSettingsDisplayName() {
+        return Text.literal(displayName);
     }
 
     @Override
-    public void setAndSaveKeyBinding(InputConstants.Key key) {
+    public void setAndSaveKeyBinding(InputUtil.Key key) {
         super.setAndSaveKeyBinding(key);
-        NotEnoughKeybinds.CHAT_KEYS_CONFIG.updateKey(this.getName(), key);
+        NotEnoughKeybinds.CHAT_KEYS_CONFIG.updateKey(this.getId(), key);
     }
 
     @Override
@@ -59,29 +59,29 @@ public class ChatKeyBinding extends NotEKKeyBinding {
     }
 
     @Override
-    public Component getTooltip() {
-        return Component.translatable(TextUtils.getTranslationKey(chatMessage.startsWith("/") ? "executes_command" : "sends_message", true), chatMessage);
+    public Text getTooltip() {
+        return Text.translatable(TextUtils.getTranslationKey(chatMessage.startsWith("/") ? "executes_command" : "sends_message", true), chatMessage);
     }
 
     public static class ChatKeysTicker implements KeybindingTicker {
         @Override
-        public void onWasPressed(Minecraft client, NotEKKeyBinding keyBinding) {
+        public void onWasPressed(MinecraftClient client, NotEKKeyBinding keyBinding) {
             if (keyBinding instanceof ChatKeyBinding chatKeyBinding) {
-                sendMessage(chatKeyBinding.getChatMessage(), client.gui.getChat() != null, client);
+                sendMessage(chatKeyBinding.getChatMessage(), client.inGameHud.getChatHud() != null, client);
             }
         }
 
-        public static void sendMessage(String chatText, boolean addToHistory, Minecraft client) {
+        public static void sendMessage(String chatText, boolean addToHistory, MinecraftClient client) {
             chatText = normalize(chatText);
             if (!chatText.isEmpty()) {
                 if (addToHistory) {
-                    client.gui.getChat().addRecentChat(chatText);
+                    client.inGameHud.getChatHud().addToMessageHistory(chatText);
                 }
                 assert client.player != null;
                 if (chatText.startsWith("/")) {
-                    client.player.connection.sendCommand(chatText.substring(1));
+                    client.player.networkHandler.sendChatCommand(chatText.substring(1));
                 } else {
-                    client.player.connection.sendChat(chatText);
+                    client.player.networkHandler.sendChatMessage(chatText);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class ChatKeyBinding extends NotEKKeyBinding {
          * {@return the {@code message} normalized by trimming it and then normalizing spaces}
          */
         public static String normalize(String chatText) {
-            return StringUtil.trimChatMessage(StringUtils.normalizeSpace(chatText.trim()));
+            return StringHelper.truncateChat(StringUtils.normalizeSpace(chatText.trim()));
         }
     }
 }

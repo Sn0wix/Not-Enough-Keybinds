@@ -2,11 +2,10 @@ package net.sn0wix_.notEnoughKeybinds.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.components.*;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.*;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 
 @Environment(EnvType.CLIENT)
@@ -14,12 +13,12 @@ public abstract class SettingsScreen extends Screen {
     protected final Screen parent;
     public BasicLayoutWidget threePartsLayout = new BasicLayoutWidget(this);
 
-    public SettingsScreen(Screen parent, Component title) {
+    public SettingsScreen(Screen parent, Text title) {
         super(title);
         this.parent = parent;
     }
 
-    public SettingsScreen(Screen parent, Component title, int headerHeight, int footerHeight) {
+    public SettingsScreen(Screen parent, Text title, int headerHeight, int footerHeight) {
         this(parent, title);
         this.threePartsLayout.setHeaderHeight(headerHeight);
         this.threePartsLayout.setFooterHeight(footerHeight);
@@ -37,39 +36,39 @@ public abstract class SettingsScreen extends Screen {
         this.initHeader();
         this.initBody();
         this.initFooter();
-        this.threePartsLayout.visitWidgets(this::addRenderableWidget);
+        this.threePartsLayout.forEachChild(this::addDrawableChild);
 
-        this.repositionElements();
+        this.refreshWidgetPositions();
     }
 
     protected void initBody() {}
 
     public void initFooter() {
-        this.threePartsLayout.addToFooter(Button.builder(CommonComponents.GUI_DONE, button -> this.onClose()).width(200).build());
+        this.threePartsLayout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());
     }
 
     public void initHeader() {
-        this.threePartsLayout.addTitleHeader(this.title, this.font);
+        this.threePartsLayout.addHeader(this.title, this.textRenderer);
     }
 
 
     @Override
-    public void repositionElements() {
-        this.threePartsLayout.arrangeElements();
+    public void refreshWidgetPositions() {
+        this.threePartsLayout.refreshPositions();
     }
 
     @Override
     public void removed() {
-        assert this.minecraft != null;
-        this.minecraft.options.save();
+        assert this.client != null;
+        this.client.options.write();
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         saveOptions();
 
-        assert this.minecraft != null;
-        this.minecraft.setScreen(this.parent);
+        assert this.client != null;
+        this.client.setScreen(this.parent);
     }
 
     public void saveOptions() {

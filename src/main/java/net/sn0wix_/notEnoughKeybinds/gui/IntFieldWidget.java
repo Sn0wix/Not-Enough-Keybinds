@@ -1,29 +1,29 @@
 package net.sn0wix_.notEnoughKeybinds.gui;
 
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.input.CharacterEvent;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
-public class IntFieldWidget extends EditBox {
+public class IntFieldWidget extends TextFieldWidget {
     //TODO fix ctrl + v text bug
-    public IntFieldWidget(Font textRenderer, int width, int height, Component text) {
+    public IntFieldWidget(TextRenderer textRenderer, int width, int height, Text text) {
         super(textRenderer, width, height, text);
     }
 
-    public IntFieldWidget(Font textRenderer, int x, int y, int width, int height, Component text) {
+    public IntFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, Text text) {
         super(textRenderer, x, y, width, height, text);
     }
 
-    public IntFieldWidget(Font textRenderer, int x, int y, int width, int height, @Nullable EditBox copyFrom, Component text) {
+    public IntFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, @Nullable TextFieldWidget copyFrom, Text text) {
         super(textRenderer, x, y, width, height, copyFrom, text);
     }
 
     @Override
-    public boolean charTyped(CharacterEvent input) {
+    public boolean charTyped(CharInput input) {
         try {
-            Integer.parseInt(input.codepointAsString());
+            Integer.parseInt(input.asString());
         } catch (NumberFormatException e) {
             return false;
         }
@@ -32,8 +32,8 @@ public class IntFieldWidget extends EditBox {
     }
 
     @Override
-    public void setValue(String text) {
-        super.setValue(parseString(text));
+    public void setText(String text) {
+        super.setText(parseString(text));
     }
 
     public String parseString(String s) {

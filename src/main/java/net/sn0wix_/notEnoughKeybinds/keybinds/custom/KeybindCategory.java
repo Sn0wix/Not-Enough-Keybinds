@@ -1,9 +1,9 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
+import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import net.minecraft.client.gui.screens.Screen;
 
 public class KeybindCategory {
     private final String TRANSLATION_KEY;

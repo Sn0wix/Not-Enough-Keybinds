@@ -1,6 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.KeyMapping;
+import net.minecraft.client.option.KeyBinding;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3ShortcutKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class F3ShortcutsKeys extends NotEKKeyBindings {
     public static final String F3_SHORTCUTS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".f3_shortcuts";
-    public static final KeyMapping.Category F3_SHORTCUTS_CATEGORY = KeyMapping.Category.register(NotEnoughKeybinds.getIdentifier(F3_SHORTCUTS_CATEGORY_KEY));
+    public static final KeyBinding.Category F3_SHORTCUTS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(F3_SHORTCUTS_CATEGORY_KEY));
 
     public static final NotEKKeyBinding TOGGLE_HITBOXES = registerModKeyBinding(new F3ShortcutKeybinding("toggle_hitboxes", 66));
     public static final NotEKKeyBinding TOGGLE_CHUNK_GRID = registerModKeyBinding(new F3ShortcutKeybinding("toggle_chunk_grid", 71));

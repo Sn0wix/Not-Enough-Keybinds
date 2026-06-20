@@ -1,7 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.option.KeyBinding;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings.ChatKeyScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
@@ -16,7 +16,7 @@ import java.util.Random;
 public class ChatKeys extends NotEKKeyBindings {
     public static final String CHAT_KEYS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".chat_keys";
     public static final ChatKeysCategory CHAT_KEYS_MOD_CATEGORY = new ChatKeysCategory(CHAT_KEYS_CATEGORY_KEY, 1);
-    public static final KeyMapping.Category CHAT_KEYS_CATEGORY = KeyMapping.Category.register(NotEnoughKeybinds.getIdentifier(CHAT_KEYS_CATEGORY_KEY));
+    public static final KeyBinding.Category CHAT_KEYS_CATEGORY = KeyBinding.Category.create(NotEnoughKeybinds.getIdentifier(CHAT_KEYS_CATEGORY_KEY));
 
 
 
@@ -67,7 +67,7 @@ public class ChatKeys extends NotEKKeyBindings {
         }
 
         public boolean addKeyIf(ChatKeyBinding keyBinding) {
-            boolean bl = chatKeys.removeIf((binding) -> binding.getName().equals(keyBinding.getName()));
+            boolean bl = chatKeys.removeIf((binding) -> binding.getId().equals(keyBinding.getId()));
             chatKeys.add(keyBinding);
             NotEnoughKeybinds.CHAT_KEYS_CONFIG.addKeyIf(keyBinding);
             update();
@@ -77,12 +77,12 @@ public class ChatKeys extends NotEKKeyBindings {
 
         public void update() {
             NotEKKeyBindings.updateCategory(this);
-            KeyMapping.resetMapping();
+            KeyBinding.updateKeysByCode();
         }
 
         public void initializeKeys() {
             chatKeys.addAll(NotEnoughKeybinds.CHAT_KEYS_CONFIG.loadKeys());
-            KeyMapping.resetMapping();
+            KeyBinding.updateKeysByCode();
         }
     }
 }

@@ -1,19 +1,19 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen;
 
-import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
-import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 
 public interface INotEKLayoutTemplate {
-    default void initBodyWidget(LinearLayout left, LinearLayout right, HeaderAndFooterLayout layoutWidget) {
-        LinearLayout body = LinearLayout.horizontal().spacing(5);
-        body.addChild(left);
-        body.addChild(right);
+    default void initBodyWidget(DirectionalLayoutWidget left, DirectionalLayoutWidget right, ThreePartsLayoutWidget layoutWidget) {
+        DirectionalLayoutWidget body = DirectionalLayoutWidget.horizontal().spacing(5);
+        body.add(left);
+        body.add(right);
 
-        layoutWidget.addToContents(body);
+        layoutWidget.addBody(body);
     }
 
-    default LinearLayout getColumnWidget() {
-        return LinearLayout.vertical().spacing(2);
+    default DirectionalLayoutWidget getColumnWidget() {
+        return DirectionalLayoutWidget.vertical().spacing(2);
     }
 
     void initButtons();

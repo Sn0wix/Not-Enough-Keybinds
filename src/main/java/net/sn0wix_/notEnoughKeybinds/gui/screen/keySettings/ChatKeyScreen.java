@@ -1,14 +1,14 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.StringWidget;
-import net.minecraft.client.gui.layouts.LinearLayout;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.input.KeyEvent;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.TextWidget;
+import net.minecraft.client.input.KeyInput;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
@@ -18,26 +18,26 @@ import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.lwjgl.glfw.GLFW;
 
 public class ChatKeyScreen extends SettingsScreen {
-    public static final Component KEYBIND_NAME_TEXT = Component.translatable(TextUtils.getTranslationKey("keybind_name")).withStyle(ChatFormatting.GRAY);
-    public static final Component MESSAGE_TEXT_FORMATTED = Component.translatable(TextUtils.getTranslationKey("text")).withStyle(ChatFormatting.GRAY);
-    public static final Component MESSAGE_TEXT = Component.translatable(TextUtils.getTranslationKey("set_to_message"));
-    public static final Component COMMAND_TEXT = Component.translatable(TextUtils.getTranslationKey("set_to_command"));
+    public static final Text KEYBIND_NAME_TEXT = Text.translatable(TextUtils.getTranslationKey("keybind_name")).formatted(Formatting.GRAY);
+    public static final Text MESSAGE_TEXT_FORMATTED = Text.translatable(TextUtils.getTranslationKey("text")).formatted(Formatting.GRAY);
+    public static final Text MESSAGE_TEXT = Text.translatable(TextUtils.getTranslationKey("set_to_message"));
+    public static final Text COMMAND_TEXT = Text.translatable(TextUtils.getTranslationKey("set_to_command"));
 
 
     public final ChatKeyBinding binding;
-    public EditBox nameWidget;
-    public EditBox messageWidget;
-    public Button commandMessageWidget;
-    public Button doneButton;
-    public Button deleteButton;
+    public TextFieldWidget nameWidget;
+    public TextFieldWidget messageWidget;
+    public ButtonWidget commandMessageWidget;
+    public ButtonWidget doneButton;
+    public ButtonWidget deleteButton;
 
     public String name;
     public String message;
 
-    public LinearLayout body = LinearLayout.vertical().spacing(20);
+    public DirectionalLayoutWidget body = DirectionalLayoutWidget.vertical().spacing(20);
 
     public ChatKeyScreen(Screen parent, ChatKeyBinding binding) {
-        super(parent, Component.translatable(TextUtils.getSettingsTranslationKey("chat_keys")));
+        super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("chat_keys")));
         this.binding = binding;
         this.name = binding.getSettingsDisplayName().getString();
         this.message = binding.getChatMessage();
@@ -46,57 +46,57 @@ public class ChatKeyScreen extends SettingsScreen {
     @Override
     protected void initBody() {
         initButtons();
-        threePartsLayout.addToContents(body);
+        threePartsLayout.addBody(body);
     }
 
     @Override
     public void initFooter() {
-        LinearLayout directionalLayoutWidget = this.threePartsLayout.addToFooter(LinearLayout.horizontal().spacing(8));
-        directionalLayoutWidget.addChild(deleteButton);
-        directionalLayoutWidget.addChild(doneButton);
+        DirectionalLayoutWidget directionalLayoutWidget = this.threePartsLayout.addFooter(DirectionalLayoutWidget.horizontal().spacing(8));
+        directionalLayoutWidget.add(deleteButton);
+        directionalLayoutWidget.add(doneButton);
     }
 
     public void initButtons() {
-        LinearLayout top = LinearLayout.vertical().spacing(2);
-        LinearLayout bottom = LinearLayout.vertical().spacing(2);
+        DirectionalLayoutWidget top = DirectionalLayoutWidget.vertical().spacing(2);
+        DirectionalLayoutWidget bottom = DirectionalLayoutWidget.vertical().spacing(2);
 
-        top.addChild(new StringWidget(200, 20, KEYBIND_NAME_TEXT, font));
-        bottom.addChild(new StringWidget(200, 20, MESSAGE_TEXT_FORMATTED, font));
+        top.add(new TextWidget(200, 20, KEYBIND_NAME_TEXT, textRenderer));
+        bottom.add(new TextWidget(200, 20, MESSAGE_TEXT_FORMATTED, textRenderer));
 
-        doneButton = Button.builder(CommonComponents.GUI_DONE, button -> {
-            binding.setChatMessage(messageWidget.getValue());
-            binding.setSettingDisplayName(nameWidget.getValue());
+        doneButton = ButtonWidget.builder(ScreenTexts.DONE, button -> {
+            binding.setChatMessage(messageWidget.getText());
+            binding.setSettingDisplayName(nameWidget.getText());
 
             if (!ChatKeys.CHAT_KEYS_MOD_CATEGORY.addKeyIf(binding)) {
                 Utils.showToastNotification(TextUtils.getText("chat_binding.create", binding.getSettingsDisplayName()));
             }
-            assert minecraft != null;
-            minecraft.setScreen(parent);
+            assert client != null;
+            client.setScreen(parent);
         }).build();
 
-        deleteButton = Button.builder(TextUtils.getText("delete"), button -> {
-            assert minecraft != null;
-            minecraft.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+        deleteButton = ButtonWidget.builder(TextUtils.getText("delete"), button -> {
+            assert client != null;
+            client.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
                         ChatKeys.CHAT_KEYS_MOD_CATEGORY.removeKey(binding);
-                        minecraft.setScreen(parent);
+                        client.setScreen(parent);
                         Utils.showToastNotification(TextUtils.getText("chat_binding.delete", binding.getSettingsDisplayName()));
                     }, false),
-                    Component.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getValue())));
+                    Text.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getText())));
         }).build();
 
-        nameWidget = new EditBox(font, 150, 20, KEYBIND_NAME_TEXT);
-        nameWidget.setResponder(s -> updateChildren());
-        nameWidget.setValue(name);
+        nameWidget = new TextFieldWidget(textRenderer, 150, 20, KEYBIND_NAME_TEXT);
+        nameWidget.setChangedListener(s -> updateChildren());
+        nameWidget.setText(name);
 
 
-        commandMessageWidget = Button.builder(
+        commandMessageWidget = ButtonWidget.builder(
                 COMMAND_TEXT,
                 button -> {
-                    if (messageWidget.getValue().startsWith("/")) {
-                        messageWidget.setValue(messageWidget.getValue().replaceFirst("/", ""));
+                    if (messageWidget.getText().startsWith("/")) {
+                        messageWidget.setText(messageWidget.getText().replaceFirst("/", ""));
                         button.setMessage(COMMAND_TEXT);
                     } else {
-                        messageWidget.setValue("/" + messageWidget.getValue());
+                        messageWidget.setText("/" + messageWidget.getText());
                         button.setMessage(MESSAGE_TEXT);
                     }
 
@@ -105,9 +105,9 @@ public class ChatKeyScreen extends SettingsScreen {
                 }).size(150, 20).build();
 
 
-        messageWidget = new EditBox(font, 310, 20, MESSAGE_TEXT_FORMATTED);
+        messageWidget = new TextFieldWidget(textRenderer, 310, 20, MESSAGE_TEXT_FORMATTED);
         messageWidget.setMaxLength(Integer.MAX_VALUE);
-        messageWidget.setResponder(s -> {
+        messageWidget.setChangedListener(s -> {
             if (s.startsWith("/")) {
                 commandMessageWidget.setMessage(MESSAGE_TEXT);
             } else {
@@ -116,39 +116,39 @@ public class ChatKeyScreen extends SettingsScreen {
 
             updateChildren();
         });
-        messageWidget.setValue(message);
+        messageWidget.setText(message);
 
-        LinearLayout nameLayout = LinearLayout.horizontal().spacing(10);
-        nameLayout.addChild(nameWidget);
-        nameLayout.addChild(commandMessageWidget);
+        DirectionalLayoutWidget nameLayout = DirectionalLayoutWidget.horizontal().spacing(10);
+        nameLayout.add(nameWidget);
+        nameLayout.add(commandMessageWidget);
 
-        top.addChild(nameLayout);
-        bottom.addChild(messageWidget);
+        top.add(nameLayout);
+        bottom.add(messageWidget);
 
-        body.addChild(top);
-        body.addChild(bottom);
+        body.add(top);
+        body.add(bottom);
 
         setInitialFocus(messageWidget);
     }
 
     public void updateChildren() {
         try {
-            message = messageWidget.getValue();
-            name = nameWidget.getValue();
-            doneButton.active = !messageWidget.getValue().isEmpty() && !nameWidget.getValue().isEmpty();
+            message = messageWidget.getText();
+            name = nameWidget.getText();
+            doneButton.active = !messageWidget.getText().isEmpty() && !nameWidget.getText().isEmpty();
         } catch (NullPointerException ignored) {
         }
     }
 
     @Override
-    public boolean keyPressed(KeyEvent input) {
+    public boolean keyPressed(KeyInput input) {
         if (getFocused() == null || getFocused() == nameWidget || getFocused() == messageWidget) {
-            if (input.input() == GLFW.GLFW_KEY_DELETE) {
+            if (input.getKeycode() == GLFW.GLFW_KEY_DELETE) {
                 deleteButton.onPress(input);
                 return true;
             }
 
-            if (input.input() == GLFW.GLFW_KEY_ENTER) {
+            if (input.getKeycode() == GLFW.GLFW_KEY_ENTER) {
                 doneButton.onPress(input);
                 return true;
             }

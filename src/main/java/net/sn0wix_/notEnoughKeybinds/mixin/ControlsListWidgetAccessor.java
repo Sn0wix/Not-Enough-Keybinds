@@ -1,12 +1,12 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
-import net.minecraft.client.gui.screens.options.controls.KeyBindsList;
-import net.minecraft.client.gui.screens.options.controls.KeyBindsScreen;
+import net.minecraft.client.gui.screen.option.ControlsListWidget;
+import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(KeyBindsList.class)
+@Mixin(ControlsListWidget.class)
 public interface ControlsListWidgetAccessor {
-    @Accessor("keyBindsScreen")
-    KeyBindsScreen getParent();
+    @Accessor("parent")
+    KeybindsScreen getParent();
 }

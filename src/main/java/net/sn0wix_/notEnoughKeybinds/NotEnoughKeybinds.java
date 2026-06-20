@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.resources.Identifier;
+import net.minecraft.util.Identifier;
 import net.sn0wix_.notEnoughKeybinds.config.*;
 import net.sn0wix_.notEnoughKeybinds.events.ClientEndTickEvent;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
@@ -18,7 +18,7 @@ public class NotEnoughKeybinds implements ClientModInitializer {
     public static final String MOD_ID = "not-enough-keybinds";
     public static final String MOD_NAME = "NotEnoughKeybinds";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final Identifier ICON = Identifier.fromNamespaceAndPath(MOD_ID, "icon.png");
+    public static final Identifier ICON = Identifier.of(MOD_ID, "icon.png");
 
     public static final DebugKeysConfig DEBUG_KEYS_CONFIG = DebugKeysConfig.getConfig();
     public static final ChatKeysConfig CHAT_KEYS_CONFIG = ChatKeysConfig.getConfig();
@@ -38,6 +38,6 @@ public class NotEnoughKeybinds implements ClientModInitializer {
     }
 
     public static Identifier getIdentifier(String path) {
-        return Identifier.fromNamespaceAndPath(MOD_ID, path);
+        return Identifier.of(MOD_ID, path);
     }
 }

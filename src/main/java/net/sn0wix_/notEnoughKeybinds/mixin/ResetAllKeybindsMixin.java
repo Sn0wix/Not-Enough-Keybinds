@@ -1,11 +1,11 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.options.controls.KeyBindsList;
-import net.minecraft.client.gui.screens.options.controls.KeyBindsScreen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.option.ControlsListWidget;
+import net.minecraft.client.gui.screen.option.KeybindsScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.text.Text;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
@@ -17,16 +17,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(KeyBindsScreen.class)
+@Mixin(KeybindsScreen.class)
 public abstract class ResetAllKeybindsMixin {
-    @Shadow private KeyBindsList keyBindsList;
+    @Shadow private ControlsListWidget controlsList;
 
     //confirmation dialog
     @Inject(method = "method_60342", at = @At("HEAD"), cancellable = true)
-    private void injectUpdate(Button button, CallbackInfo ci) {
-        Minecraft.getInstance().setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeyBindsScreen) (Object) this), client -> {
-            for (KeyMapping keyBinding : client.options.keyMappings) {
-                keyBinding.setKey(keyBinding.getDefaultKey());
+    private void injectUpdate(ButtonWidget button, CallbackInfo ci) {
+        MinecraftClient.getInstance().setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeybindsScreen) (Object) this), client -> {
+            for (KeyBinding keyBinding : client.options.allKeys) {
+                keyBinding.setBoundKey(keyBinding.getDefaultKey());
             }
 
             for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
@@ -39,8 +39,8 @@ public abstract class ResetAllKeybindsMixin {
                 keybinding.setBoundKey(keybinding.getDefaultKey());
             }
 
-            this.keyBindsList.resetMappingAndUpdateButtons();
-        }, true), Component.translatable("text.not-enough-keybinds.resetAllKeys")));
+            this.controlsList.update();
+        }, true), Text.translatable("text.not-enough-keybinds.resetAllKeys")));
         ci.cancel();
     }
 }
