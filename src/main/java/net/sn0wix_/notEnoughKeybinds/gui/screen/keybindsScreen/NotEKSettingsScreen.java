@@ -1,14 +1,14 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
 import net.minecraft.util.Util;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
@@ -26,33 +26,33 @@ public class NotEKSettingsScreen extends SettingsScreen {
 
 
     public NotEKSettingsScreen(Screen parent) {
-        super(parent, Text.translatable("settings." + NotEnoughKeybinds.MOD_ID));
+        super(parent, Component.translatable("settings." + NotEnoughKeybinds.MOD_ID));
         threePartsLayout = new BasicLayoutWidget(33, this);
     }
 
     @Override
     protected void init() {
-        controlsList = new ControlsListWidget(this, this.client);
-        controlsList.setScrollY(scrollAmount);
+        controlsList = new ControlsListWidget(this, this.minecraft);
+        controlsList.setScrollAmount(scrollAmount);
         super.init();
     }
 
     @Override
     public void initBody() {
-        this.threePartsLayout.addBody(controlsList);
+        this.threePartsLayout.addToContents(controlsList);
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        scrollAmount = controlsList.getScrollY();
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(context, mouseX, mouseY, delta);
+        scrollAmount = controlsList.scrollAmount();
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean doubled) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
         if (this.selectedKeyBinding != null && selectedKeyBinding.getBinding() != null) {
-            assert this.client != null;
-            selectedKeyBinding.getBinding().setBoundKey(InputUtil.Type.MOUSE.createFromCode(click.button()));
+            assert this.minecraft != null;
+            selectedKeyBinding.getBinding().setKey(InputConstants.Type.MOUSE.getOrCreate(click.button()));
             this.selectedKeyBinding = null;
             this.controlsList.update();
             return true;
@@ -62,16 +62,16 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    public boolean keyPressed(KeyInput input) {
+    public boolean keyPressed(KeyEvent input) {
         if (this.selectedKeyBinding != null) {
             if (input.key() == GLFW.GLFW_KEY_ESCAPE) {
-                selectedKeyBinding.setAndSaveKeyBinding(InputUtil.UNKNOWN_KEY);
+                selectedKeyBinding.setAndSaveKeyBinding(InputConstants.UNKNOWN);
             } else {
-                selectedKeyBinding.setAndSaveKeyBinding(InputUtil.fromKeyCode(input));
+                selectedKeyBinding.setAndSaveKeyBinding(InputConstants.getKey(input));
             }
 
             this.selectedKeyBinding = null;
-            this.lastKeyCodeUpdateTime = Util.getMeasuringTimeMs();
+            this.lastKeyCodeUpdateTime = Util.getMillis();
             this.controlsList.update();
             return true;
         } else {
@@ -80,13 +80,13 @@ public class NotEKSettingsScreen extends SettingsScreen {
     }
 
     @Override
-    public void refreshWidgetPositions() {
-        this.controlsList.position(this.width, this.threePartsLayout);
-        super.refreshWidgetPositions();
+    public void repositionElements() {
+        this.controlsList.updateSize(this.width, this.threePartsLayout);
+        super.repositionElements();
     }
 
     @Override
-    public void onDisplayed() {
+    public void added() {
         if (controlsList != null) {
             controlsList.initEntries();
             controlsList.update();

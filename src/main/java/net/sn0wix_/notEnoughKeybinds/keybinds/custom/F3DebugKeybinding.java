@@ -1,34 +1,33 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import org.jetbrains.annotations.NotNull;
-
+import com.mojang.blaze3d.platform.InputConstants;
 import java.util.Objects;
 
 public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKeybinding> {
     public final String translationKey;
     public final String category;
-    public InputUtil.Key boundKey;
-    public final InputUtil.Key defaultKey;
+    public InputConstants.Key boundKey;
+    public final InputConstants.Key defaultKey;
 
     public F3DebugKeybinding(String translationKey, int code) {
         this.translationKey = NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey;
-        this.boundKey = InputUtil.fromKeyCode(new KeyInput(code, 0, 0));
+        this.boundKey = InputConstants.getKey(new KeyEvent(code, 0, 0));
         this.defaultKey = this.boundKey;
         this.category = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY_KEY;
     }
 
     @Override
-    public Text getBoundKeyLocalizedText() {
-        return Text.literal("F3 + " + boundKey.getLocalizedText().getString());
+    public Component getBoundKeyLocalizedText() {
+        return Component.literal("F3 + " + boundKey.getDisplayName().getString());
     }
 
     @Override
@@ -38,46 +37,46 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
 
     @Override
     public String getBoundKeyTranslationKey() {
-        return this.boundKey.getTranslationKey();
+        return this.boundKey.getName();
     }
 
     @Override
-    public void tick(MinecraftClient client) {
+    public void tick(Minecraft client) {
     }
 
     @Override
-    public boolean matchesKey(KeyInput key) {
-        if (key.key() == InputUtil.UNKNOWN_KEY.getCode()) {
-            return this.boundKey.getCategory() == InputUtil.Type.SCANCODE && this.boundKey.getCode() == key.scancode();
+    public boolean matchesKey(KeyEvent key) {
+        if (key.key() == InputConstants.UNKNOWN.getValue()) {
+            return this.boundKey.getType() == InputConstants.Type.SCANCODE && this.boundKey.getValue() == key.scancode();
         }
-        return this.boundKey.getCategory() == InputUtil.Type.KEYSYM && this.boundKey.getCode() == key.key();
+        return this.boundKey.getType() == InputConstants.Type.KEYSYM && this.boundKey.getValue() == key.key();
     }
 
     @Override
-    public void setAndSaveKeyBinding(InputUtil.Key key) {
+    public void setAndSaveKeyBinding(InputConstants.Key key) {
         setBoundKey(key);
     }
 
     @Override
-    public void setBoundKey(InputUtil.Key boundKey) {
+    public void setBoundKey(InputConstants.Key boundKey) {
         this.boundKey = boundKey;
         if (NotEnoughKeybinds.DEBUG_KEYS_CONFIG != null) {
-            NotEnoughKeybinds.DEBUG_KEYS_CONFIG.saveBoundKey(getId(), boundKey.getTranslationKey());
+            NotEnoughKeybinds.DEBUG_KEYS_CONFIG.saveBoundKey(getId(), boundKey.getName());
         }
     }
 
     @Override
-    public KeyBinding getBinding() {
+    public KeyMapping getBinding() {
         return null;
     }
 
     @Override
     public boolean isUnbound() {
-        return boundKey.equals(InputUtil.UNKNOWN_KEY);
+        return boundKey.equals(InputConstants.UNKNOWN);
     }
 
     @Override
-    public InputUtil.Key getDefaultKey() {
+    public InputConstants.Key getDefaultKey() {
         return defaultKey;
     }
 
@@ -87,14 +86,14 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
     }
 
     @Override
-    public KeyBinding.Category getCategory() {
+    public KeyMapping.Category getCategory() {
         return null;
     }
 
     @Override
     public int compareTo(@NotNull F3DebugKeybinding keyBinding) {
         if (Objects.equals(this.category, keyBinding.category)) {
-            return I18n.translate(this.translationKey).compareTo(I18n.translate(keyBinding.translationKey));
+            return I18n.get(this.translationKey).compareTo(I18n.get(keyBinding.translationKey));
         }
         return 0; //Integer.compare(KeyBinding.Category.CATEGORIES.indexOf(this.category), KeyBinding.Category.CATEGORIES.indexOf(keyBinding.category));
     }

@@ -1,29 +1,29 @@
 package net.sn0wix_.notEnoughKeybinds.gui;
 
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.input.CharInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-public class IntFieldWidget extends TextFieldWidget {
+public class IntFieldWidget extends EditBox {
     //TODO fix ctrl + v text bug
-    public IntFieldWidget(TextRenderer textRenderer, int width, int height, Text text) {
+    public IntFieldWidget(Font textRenderer, int width, int height, Component text) {
         super(textRenderer, width, height, text);
     }
 
-    public IntFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, Text text) {
+    public IntFieldWidget(Font textRenderer, int x, int y, int width, int height, Component text) {
         super(textRenderer, x, y, width, height, text);
     }
 
-    public IntFieldWidget(TextRenderer textRenderer, int x, int y, int width, int height, @Nullable TextFieldWidget copyFrom, Text text) {
+    public IntFieldWidget(Font textRenderer, int x, int y, int width, int height, @Nullable EditBox copyFrom, Component text) {
         super(textRenderer, x, y, width, height, copyFrom, text);
     }
 
     @Override
-    public boolean charTyped(CharInput input) {
+    public boolean charTyped(CharacterEvent input) {
         try {
-            Integer.parseInt(input.asString());
+            Integer.parseInt(input.codepointAsString());
         } catch (NumberFormatException e) {
             return false;
         }
@@ -32,8 +32,8 @@ public class IntFieldWidget extends TextFieldWidget {
     }
 
     @Override
-    public void setText(String text) {
-        super.setText(parseString(text));
+    public void setValue(String text) {
+        super.setValue(parseString(text));
     }
 
     public String parseString(String s) {

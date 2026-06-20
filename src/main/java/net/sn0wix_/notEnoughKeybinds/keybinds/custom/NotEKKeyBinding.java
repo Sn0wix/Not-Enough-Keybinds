@@ -1,13 +1,13 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 
-public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
+public class NotEKKeyBinding extends KeyMapping implements INotEKKeybinding {
     private final KeybindingTicker onWasPressed;
 
 
@@ -16,7 +16,7 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
         this.onWasPressed = onTick;
     }
 
-    public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, Category category, KeybindingTicker onTick, boolean useCustomTranslation) {
+    public NotEKKeyBinding(String translationKey, InputConstants.Type type, int code, Category category, KeybindingTicker onTick, boolean useCustomTranslation) {
         super(useCustomTranslation ? NotEKKeyBindings.KEY_BINDING_PREFIX + translationKey : translationKey, type, code, category);
         this.onWasPressed = onTick;
     }
@@ -25,36 +25,41 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
         this(translationKey, code, category, onTick, true);
     }
 
-    public NotEKKeyBinding(String translationKey, InputUtil.Type type, int code, Category category, KeybindingTicker onTick) {
+    public NotEKKeyBinding(String translationKey, InputConstants.Type type, int code, Category category, KeybindingTicker onTick) {
         this(translationKey, type, code, category, onTick, true);
     }
 
     public NotEKKeyBinding(String translationKey, Category category, KeybindingTicker onTick) {
-        this(translationKey, InputUtil.UNKNOWN_KEY.getCode(), category, onTick, true);
+        this(translationKey, InputConstants.UNKNOWN.getValue(), category, onTick, true);
     }
 
     public NotEKKeyBinding(String translationKey, Category category, KeybindingTicker onTick, boolean useCustomTranslation) {
-        this(translationKey, InputUtil.UNKNOWN_KEY.getCode(), category, onTick, useCustomTranslation);
+        this(translationKey, InputConstants.UNKNOWN.getValue(), category, onTick, useCustomTranslation);
     }
 
 
     @Override
-    public KeyBinding getBinding() {
+    public KeyMapping getBinding() {
         return this;
     }
 
     @Override
-    public void setAndSaveKeyBinding(InputUtil.Key key) {
-        this.setBoundKey(key);
+    public void setAndSaveKeyBinding(InputConstants.Key key) {
+        this.setKey(key);
     }
 
-    public void tick(MinecraftClient client) {
+    @Override
+    public void setBoundKey(InputConstants.Key key) {
+        this.setKey(key);
+    }
+
+    public void tick(Minecraft client) {
         if (onWasPressed != null) {
             onWasPressed.onTick(client, this);
         }
     }
 
-    public void onWasPressed(MinecraftClient client) {
+    public void onWasPressed(Minecraft client) {
         if (onWasPressed != null) {
             onWasPressed.onWasPressed(client, this);
         }
@@ -62,8 +67,8 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
 
     //Idk why this has to be there, but it doesn't work without it
     @Override
-    public void setBoundKey(InputUtil.Key boundKey) {
-        super.setBoundKey(boundKey);
+    public void setKey(InputConstants.Key boundKey) {
+        super.setKey(boundKey);
     }
 
     @Override
@@ -72,13 +77,18 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
     }
 
     @Override
-    public InputUtil.Key getDefaultKey() {
+    public InputConstants.Key getDefaultKey() {
         return super.getDefaultKey();
     }
 
     @Override
+    public String getName() {
+        return super.getName(); //?
+    }
+
+    @Override
     public String getId() {
-        return super.getId(); //?
+        return this.getName();
     }
 
     @Override
@@ -87,8 +97,13 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
     }
 
     @Override
-    public Text getBoundKeyLocalizedText() {
-        return super.getBoundKeyLocalizedText();
+    public Component getTranslatedKeyMessage() {
+        return super.getTranslatedKeyMessage();
+    }
+
+    @Override
+    public Component getBoundKeyLocalizedText() {
+        return this.getTranslatedKeyMessage();
     }
 
     @Override
@@ -97,12 +112,17 @@ public class NotEKKeyBinding extends KeyBinding implements INotEKKeybinding {
     }
 
     @Override
-    public String getBoundKeyTranslationKey() {
-        return super.getBoundKeyTranslationKey();
+    public String saveString() {
+        return super.saveString();
     }
 
     @Override
-    public boolean matchesKey(KeyInput key) {
-        return super.matchesKey(key);
+    public String getBoundKeyTranslationKey() {
+        return this.saveString();
+    }
+
+    @Override
+    public boolean matchesKey(KeyEvent key) {
+        return super.matches(key);
     }
 }

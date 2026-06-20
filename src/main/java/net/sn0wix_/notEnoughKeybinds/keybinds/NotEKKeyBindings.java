@@ -1,13 +1,12 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.client.KeyMapping;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
-
+import com.mojang.blaze3d.platform.InputConstants;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -19,7 +18,7 @@ public abstract class NotEKKeyBindings {
 
 
     //why this isn't a thing in vanilla
-    public static final KeyBinding TOGGLE_HIDE_HUD = registerKeyBinding(new KeyBinding(KEY_BINDING_PREFIX + "toggle_hide_hud", InputUtil.GLFW_KEY_F1, KeyBinding.Category.MISC));
+    public static final KeyMapping TOGGLE_HIDE_HUD = registerKeyMapping(new KeyMapping(KEY_BINDING_PREFIX + "toggle_hide_hud", InputConstants.KEY_F1, KeyMapping.Category.MISC));
 
 
     public static void registerModKeybinds() {
@@ -63,11 +62,11 @@ public abstract class NotEKKeyBindings {
 
 
     public static NotEKKeyBinding registerModKeyBinding(NotEKKeyBinding keyBinding) {
-        return (NotEKKeyBinding) KeyBindingHelper.registerKeyBinding(keyBinding);
+        return (NotEKKeyBinding) KeyMappingHelper.registerKeyMapping(keyBinding);
     }
 
-    public static KeyBinding registerKeyBinding(KeyBinding keyBinding) {
-        return KeyBindingHelper.registerKeyBinding(keyBinding);
+    public static KeyMapping registerKeyMapping(KeyMapping keyBinding) {
+        return KeyMappingHelper.registerKeyMapping(keyBinding);
     }
 
     //Helper methods

@@ -1,14 +1,14 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
-import net.minecraft.client.gui.widget.TextWidget;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Language;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.locale.Language;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Items;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.config.EquipElytraConfig;
 import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
@@ -16,27 +16,27 @@ import net.sn0wix_.notEnoughKeybinds.gui.screen.INotEKLayoutTemplate;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 public class EquipElytraSettings extends SettingsScreen implements INotEKLayoutTemplate {
-    public ButtonWidget swapFirstButton;
-    public ButtonWidget swapSecondButton;
-    public ButtonWidget chooseElytraButton;
-    public ButtonWidget chooseChestplateButton;
-    public ButtonWidget acceptCurseOfVanishingButton;
-    public ButtonWidget acceptCurseOfBindingButton;
-    public ButtonWidget enterFlightButton;
+    public Button swapFirstButton;
+    public Button swapSecondButton;
+    public Button chooseElytraButton;
+    public Button chooseChestplateButton;
+    public Button acceptCurseOfVanishingButton;
+    public Button acceptCurseOfBindingButton;
+    public Button enterFlightButton;
 
-    public ButtonWidget fireworkDurationButton;
-    public ButtonWidget canExplodeButton;
-    public ButtonWidget equipSlotButton;
-    public ButtonWidget fireworkEquipMode;
-    public ButtonWidget swapBackOldItemButton;
-    public ButtonWidget useRocket;
-    public ButtonWidget selectRocket;
+    public Button fireworkDurationButton;
+    public Button canExplodeButton;
+    public Button equipSlotButton;
+    public Button fireworkEquipMode;
+    public Button swapBackOldItemButton;
+    public Button useRocket;
+    public Button selectRocket;
 
-    public DirectionalLayoutWidget leftWidget = getColumnWidget();
-    public DirectionalLayoutWidget rightWidget = getColumnWidget();
+    public LinearLayout leftWidget = getColumnWidget();
+    public LinearLayout rightWidget = getColumnWidget();
 
     public EquipElytraSettings(Screen parent) {
-        super(parent, Text.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
+        super(parent, Component.translatable(TextUtils.getSettingsTranslationKey("equip_elytra")));
     }
 
     @Override
@@ -46,153 +46,153 @@ public class EquipElytraSettings extends SettingsScreen implements INotEKLayoutT
     }
 
     public void initButtons() {
-        leftWidget.add(new TextWidget(TextUtils.getText("elytra_and_chestplate").copy().formatted(Formatting.GRAY), textRenderer));
-        rightWidget.add(new TextWidget(TextUtils.getText("fireworks").copy().formatted(Formatting.GRAY), textRenderer));
+        leftWidget.addChild(new StringWidget(TextUtils.getText("elytra_and_chestplate").copy().withStyle(ChatFormatting.GRAY), font));
+        rightWidget.addChild(new StringWidget(TextUtils.getText("fireworks").copy().withStyle(ChatFormatting.GRAY), font));
 
         //Elytra
-        swapFirstButton = ButtonWidget.builder(Text.empty(), button -> {
+        swapFirstButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.cycleSwapFirst();
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("swap_first.elytra")).build();
-        leftWidget.add(swapFirstButton);
+        leftWidget.addChild(swapFirstButton);
 
-        swapSecondButton = ButtonWidget.builder(Text.empty(), button -> {
+        swapSecondButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond;
             updateButtons();
         }).size(150, 20).build();
-        leftWidget.add(swapSecondButton);
+        leftWidget.addChild(swapSecondButton);
 
-        chooseElytraButton = ButtonWidget.builder(Text.empty(), button -> {
+        chooseElytraButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra;
             updateButtons();
-        }).size(150, 20).tooltip(Tooltip.of(Text.translatable(TextUtils.getTranslationKey("choose", true), Language.getInstance().get(Items.ELYTRA.getTranslationKey())))).build();
-        leftWidget.add(chooseElytraButton);
+        }).size(150, 20).tooltip(Tooltip.create(Component.translatable(TextUtils.getTranslationKey("choose", true), Language.getInstance().getOrDefault(Items.ELYTRA.getDescriptionId())))).build();
+        leftWidget.addChild(chooseElytraButton);
 
-        chooseChestplateButton = ButtonWidget.builder(Text.empty(), button -> {
+        chooseChestplateButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate;
             updateButtons();
-        }).size(150, 20).tooltip(Tooltip.of(Text.translatable(TextUtils.getTranslationKey("choose", true), Language.getInstance().get(TextUtils.getTranslationKey("chestplate"))))).build();
-        leftWidget.add(chooseChestplateButton);
+        }).size(150, 20).tooltip(Tooltip.create(Component.translatable(TextUtils.getTranslationKey("choose", true), Language.getInstance().getOrDefault(TextUtils.getTranslationKey("chestplate"))))).build();
+        leftWidget.addChild(chooseChestplateButton);
 
-        acceptCurseOfVanishingButton = ButtonWidget.builder(Text.empty(), button -> {
+        acceptCurseOfVanishingButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing;
             updateButtons();
-        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get("enchantment.minecraft.vanishing_curse"))).build();
-        leftWidget.add(acceptCurseOfVanishingButton);
+        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().getOrDefault("enchantment.minecraft.vanishing_curse"))).build();
+        leftWidget.addChild(acceptCurseOfVanishingButton);
 
-        acceptCurseOfBindingButton = ButtonWidget.builder(Text.empty(), button -> {
+        acceptCurseOfBindingButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding;
             updateButtons();
-        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().get("enchantment.minecraft.binding_curse"))).build();
-        leftWidget.add(acceptCurseOfBindingButton);
+        }).size(150, 20).tooltip(TextUtils.getTooltip("accept_enchantment", Language.getInstance().getOrDefault("enchantment.minecraft.binding_curse"))).build();
+        leftWidget.addChild(acceptCurseOfBindingButton);
 
-        enterFlightButton = ButtonWidget.builder(Text.empty(), button -> {
+        enterFlightButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("toggle_flight")).build();
-        leftWidget.add(enterFlightButton);
+        leftWidget.addChild(enterFlightButton);
 
         //Fireworks
-        fireworkEquipMode = ButtonWidget.builder(Text.empty(), button -> {
+        fireworkEquipMode = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.cycleUseMode();
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("firework.equip")).build();
-        rightWidget.add(fireworkEquipMode);
+        rightWidget.addChild(fireworkEquipMode);
 
-        equipSlotButton = ButtonWidget.builder(Text.empty(), button -> {
+        equipSlotButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.cycleSlot();
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("firework.slot")).build();
-        rightWidget.add(equipSlotButton);
+        rightWidget.addChild(equipSlotButton);
 
 
-        DirectionalLayoutWidget widget = DirectionalLayoutWidget.horizontal().spacing(2);
+        LinearLayout widget = LinearLayout.horizontal().spacing(2);
 
-        useRocket = ButtonWidget.builder(Text.empty(), button -> {
+        useRocket = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket;
             updateButtons();
         }).size(74, 20).tooltip(TextUtils.getTooltip("firework.use")).build();
-        widget.add(useRocket);
+        widget.addChild(useRocket);
 
-        selectRocket = ButtonWidget.builder(Text.empty(), button -> {
+        selectRocket = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket;
             updateButtons();
         }).size(74, 20).tooltip(TextUtils.getTooltip("firework.select")).build();
-        widget.add(selectRocket);
+        widget.addChild(selectRocket);
 
-        rightWidget.add(widget);
+        rightWidget.addChild(widget);
 
-        swapBackOldItemButton = ButtonWidget.builder(Text.empty(), button -> {
+        swapBackOldItemButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("swap_old")).build();
-        rightWidget.add(swapBackOldItemButton);
+        rightWidget.addChild(swapBackOldItemButton);
 
-        fireworkDurationButton = ButtonWidget.builder(Text.empty(), button -> {
+        fireworkDurationButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration;
             updateButtons();
         }).size(150, 20).tooltip(TextUtils.getTooltip("firework.duration")).build();
-        rightWidget.add(fireworkDurationButton);
+        rightWidget.addChild(fireworkDurationButton);
 
-        canExplodeButton = ButtonWidget.builder(Text.empty(), button -> {
+        canExplodeButton = Button.builder(Component.empty(), button -> {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode;
             updateButtons();
         }).size(150, 20).build();
-        rightWidget.add(canExplodeButton);
+        rightWidget.addChild(canExplodeButton);
 
         updateButtons();
     }
 
     public void updateButtons() {
         swapFirstButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("swap_first"),
-                Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getSwapTranslationKey())));
+                Component.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getSwapTranslationKey())));
 
         swapSecondButton.active = !NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst.equals("off");
         swapSecondButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("swap_second"),
-                Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
-        swapSecondButton.setTooltip(Tooltip.of(swapSecondButton.active ? Text.translatable(TextUtils.getTranslationKey("swap_second", true),
-                Language.getInstance().get(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getSwapTranslationKey()),
-                Language.getInstance().get(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getSwapTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getOppositeSwap()))) : Text.empty()));
+                Component.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
+        swapSecondButton.setTooltip(Tooltip.create(swapSecondButton.active ? Component.translatable(TextUtils.getTranslationKey("swap_second", true),
+                Language.getInstance().getOrDefault(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getSwapTranslationKey()),
+                Language.getInstance().getOrDefault(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getSwapTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getOppositeSwap()))) : Component.empty()));
 
-        chooseElytraButton.setMessage(Text.translatable(TextUtils.getTranslationKey("pick"),
-                Language.getInstance().get(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra ? "best" : "first_found")),
-                Language.getInstance().get(Items.ELYTRA.getTranslationKey())));
+        chooseElytraButton.setMessage(Component.translatable(TextUtils.getTranslationKey("pick"),
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestElytra ? "best" : "first_found")),
+                Language.getInstance().getOrDefault(Items.ELYTRA.getDescriptionId())));
 
-        chooseChestplateButton.setMessage(Text.translatable(TextUtils.getTranslationKey("pick"),
-                Language.getInstance().get(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate ? "best" : "first_found")),
-                Language.getInstance().get(TextUtils.getTranslationKey("chestplate"))));
+        chooseChestplateButton.setMessage(Component.translatable(TextUtils.getTranslationKey("pick"),
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.chooseBestChestplate ? "best" : "first_found")),
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey("chestplate"))));
 
         acceptCurseOfBindingButton.setMessage(TextUtils.getText("accept",
-                Language.getInstance().get("enchantment.minecraft.binding_curse"),
-                Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding)))));
+                Language.getInstance().getOrDefault("enchantment.minecraft.binding_curse"),
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfBinding)))));
 
         acceptCurseOfVanishingButton.setMessage(TextUtils.getText("accept",
-                Language.getInstance().get("enchantment.minecraft.vanishing_curse"),
-                Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing)))));
+                Language.getInstance().getOrDefault("enchantment.minecraft.vanishing_curse"),
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.acceptCurseOfVanishing)))));
 
         enterFlightButton.setMessage(TextUtils.getCombinedTranslation(TextUtils.getText("enter_flight_mode"),
-                Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
+                Component.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
 
 
-        fireworkDurationButton.setMessage(Text.translatable(TextUtils.getTranslationKey("firework.duration"),
-                Language.getInstance().get(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration ? "longest" : "shortest"))));
+        fireworkDurationButton.setMessage(Component.translatable(TextUtils.getTranslationKey("firework.duration"),
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.longestDuration ? "longest" : "shortest"))));
 
         canExplodeButton.setMessage(TextUtils.getText("firework.can_explode",
-                Language.getInstance().get(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode)))));
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.canExplode)))));
 
         equipSlotButton.setMessage(TextUtils.getText("firework.slot", String.valueOf(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.fireworkSwapSlot + 1)));
 
         fireworkEquipMode.setMessage(TextUtils.getText("firework.equip",
-                Language.getInstance().get(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getUseModeString()))));
+                Language.getInstance().getOrDefault(TextUtils.getTranslationKey(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.getUseModeString()))));
 
         swapBackOldItemButton.setMessage(TextUtils.getText("swap_old",
-                Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
+                Component.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapBackOldItem ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
 
         useRocket.setMessage(TextUtils.getText("firework.use",
-                Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
+                Component.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.useRocket ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
 
         selectRocket.setMessage(TextUtils.getText("firework.select",
-                Text.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
+                Component.translatable(NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.selectRocket ? TextUtils.getTranslationKey("on") : TextUtils.getTranslationKey("off"))));
 
         equipSlotButton.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode == 1;
         useRocket.active = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode >= 1 && NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.equipMode <= 3;
