@@ -28,6 +28,8 @@ public class TexturedButtonWidget extends Button {
 
     @Override
     public void extractContents(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        this.extractDefaultSprite(context);
+
         if (TEXTURE != null) {
             context.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, this.getX() + (this.width - spriteWidth) / 2,
                     this.getY() + (this.height - spriteHeight) / 2, 0, 0,
