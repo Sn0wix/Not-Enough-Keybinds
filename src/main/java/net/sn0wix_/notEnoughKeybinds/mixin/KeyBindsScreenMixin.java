@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(KeyBindsScreen.class)
-public abstract class ResetAllKeybindsMixin {
+public abstract class KeyBindsScreenMixin {
     @Shadow private KeyBindsList keyBindsList;
 
     //confirmation dialog

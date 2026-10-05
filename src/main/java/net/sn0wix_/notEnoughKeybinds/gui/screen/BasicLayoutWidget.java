@@ -1,6 +1,5 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen;
 
-import java.util.function.Consumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
@@ -10,8 +9,9 @@ import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.layouts.LayoutSettings;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.components.*;
 import net.minecraft.network.chat.Component;
+
+import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 public class BasicLayoutWidget extends HeaderAndFooterLayout {

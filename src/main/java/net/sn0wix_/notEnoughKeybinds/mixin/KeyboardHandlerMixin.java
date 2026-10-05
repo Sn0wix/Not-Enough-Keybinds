@@ -25,33 +25,28 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(KeyboardHandler.class)
-public abstract class KeyboardMixin {
-    @Shadow
-    @Final
-    private Minecraft minecraft;
-
-    @Shadow
-    protected abstract boolean handleDebugKeys(KeyEvent keyInput);
-
+public abstract class KeyboardHandlerMixin {
+    @Shadow @Final private Minecraft minecraft;
+    @Shadow protected abstract boolean handleDebugKeys(KeyEvent keyInput);
 
     //missing F1 keybind
     @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;showProfilerChart()Z", shift = At.Shift.BEFORE))
-    private void injectOnKey(long window, int action, KeyEvent input, CallbackInfo ci) {
-        if (input.key() == InputConstants.KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), SDLKeyboard.nSDL_GetScancodeFromKey(input.key(), 0), 0))) {
+    private void injectOnKey(long handle, int action, KeyEvent event, CallbackInfo ci) {
+        if (event.key() == InputConstants.KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(event.key(), SDLKeyboard.nSDL_GetScancodeFromKey(event.key(), 0), 0))) {
             this.minecraft.gui.hud.toggle();
         }
-        if (input.key() != InputConstants.KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), SDLKeyboard.nSDL_GetScancodeFromKey(input.key(), 0), 0))) {
+        if (event.key() != InputConstants.KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(event.key(), SDLKeyboard.nSDL_GetScancodeFromKey(event.key(), 0), 0))) {
             this.minecraft.gui.hud.toggle();
         }
     }
 
     //f3 shortcuts
     @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;set(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V", ordinal = 1, shift = At.Shift.BEFORE))
-    private void injectShortcuts(long window, int action, KeyEvent input, CallbackInfo ci) {
-        List<Integer> codes = Utils.checkF3Shortcuts(input);
+    private void injectShortcuts(long handle, int action, KeyEvent event, CallbackInfo ci) {
+        List<Integer> codes = Utils.checkF3Shortcuts(event);
 
         if (minecraft.player != null && !codes.isEmpty() && !(minecraft.gui.screen() instanceof NotEKSettingsScreen)) {
-            codes.forEach(scanCode -> this.handleDebugKeys(new KeyEvent(scanCode, input.keycode(), 0))); //Will only codes work?
+            codes.forEach(scanCode -> this.handleDebugKeys(new KeyEvent(scanCode, event.keycode(), 0))); //Will only codes work?
         }
     }
 

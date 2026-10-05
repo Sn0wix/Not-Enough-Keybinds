@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(KeyBindsList.class)
-public abstract class ModSettingsButtonMixin extends ContainerObjectSelectionList<KeyBindsList.Entry> {
-    public ModSettingsButtonMixin(Minecraft minecraftClient, int i, int j, int k, int l) {
+public abstract class KeyBindsListMixin extends ContainerObjectSelectionList<KeyBindsList.Entry> {
+    public KeyBindsListMixin(Minecraft minecraftClient, int i, int j, int k, int l) {
         super(minecraftClient, i, j, k, l);
     }
 
@@ -26,9 +26,10 @@ public abstract class ModSettingsButtonMixin extends ContainerObjectSelectionLis
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injectTail(KeyBindsScreen parent, Minecraft client, CallbackInfo ci) {
-        this.addEntryToTop(new PresetsButton(((KeyBindsList)(Object)this), client.font));
-        this.addEntryToTop(new ModKeybindsButton(((KeyBindsList)(Object)this)));
+    private void injectTail(KeyBindsScreen keyBindsScreen, Minecraft minecraft, CallbackInfo ci) {
+        var self = (KeyBindsList) (Object) this;
+        this.addEntryToTop(new PresetsButton(self, minecraft.font));
+        this.addEntryToTop(new ModKeybindsButton(self));
         this.setScrollAmount(0);
     }
 }

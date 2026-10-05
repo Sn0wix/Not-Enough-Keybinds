@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.presets;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -14,7 +15,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.PresetKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
-import com.mojang.blaze3d.platform.InputConstants;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

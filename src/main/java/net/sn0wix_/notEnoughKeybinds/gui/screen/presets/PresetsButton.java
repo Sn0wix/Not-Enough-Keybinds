@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screens.options.controls.KeyBindsList;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.CommonColors;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
-import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
+import net.sn0wix_.notEnoughKeybinds.mixin.KeyBindsListAccessor;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class PresetsButton extends KeyBindsList.CategoryEntry {
         this.textRenderer = renderer;
 
         presetSettings = Button.builder(TextUtils.getText("presets"), button1 ->
-                        Minecraft.getInstance().setScreenAndShow(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
+                        Minecraft.getInstance().setScreenAndShow(new PresetsSettingScreen(((KeyBindsListAccessor) widget).getParent())))
                 .size(132, 20).build();
     }
 

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(KeyBindsList.class)
-public interface ControlsListWidgetAccessor {
+public interface KeyBindsListAccessor {
     @Accessor("keyBindsScreen")
     KeyBindsScreen getParent();
 }

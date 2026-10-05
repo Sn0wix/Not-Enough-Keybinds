@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
-import net.sn0wix_.notEnoughKeybinds.mixin.ControlsListWidgetAccessor;
+import net.sn0wix_.notEnoughKeybinds.mixin.KeyBindsListAccessor;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class ModKeybindsButton extends KeyBindsList.CategoryEntry {
         widget.super(new KeyMapping.Category(Identifier.parse("")));
 
         button = Button.builder(Component.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
-                Minecraft.getInstance().setScreenAndShow(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
+                Minecraft.getInstance().setScreenAndShow(new NotEKSettingsScreen(((KeyBindsListAccessor) widget).getParent()))
         ).size(340, 20).build();
     }
 

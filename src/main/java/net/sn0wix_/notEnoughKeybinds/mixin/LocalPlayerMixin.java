@@ -17,14 +17,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
-public abstract class ClientPlayerEntityMixin {
+public abstract class LocalPlayerMixin {
     //Auto elytra detection
     @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;tryToStartFallFlying()Z", shift = At.Shift.AFTER))
     private void injectTickMovement(CallbackInfo ci) {
+        var self = (LocalPlayer) (Object) this;
         if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect
-                && checkFallFlying(((LocalPlayer) (Object) this))
-                && !((LocalPlayer) (Object) this).getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
-                && InventoryUtils.getSlotWithItem(Items.ELYTRA, ((LocalPlayer) (Object) this).getInventory()) > -1) {
+                && checkFallFlying(self)
+                && !self.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
+                && InventoryUtils.getSlotWithItem(Items.ELYTRA, self.getInventory()) > -1) {
 
             String swapFirstBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapFirst;
             boolean swapSecondBefore = NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.swapSecond;
@@ -43,16 +44,16 @@ public abstract class ClientPlayerEntityMixin {
             NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.enterFlightMode = enterFlightBefore;
 
             ElytraController.nextTick(() -> {
-                ((LocalPlayer) (Object) this).startFallFlying();
-                ((LocalPlayer) (Object) this).connection.send(new ServerboundPlayerCommandPacket(((LocalPlayer) (Object) this), ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
+                self.startFallFlying();
+                self.connection.send(new ServerboundPlayerCommandPacket(self, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
             });
         }
     }
 
 
     @Unique
-    public boolean checkFallFlying(LocalPlayer clientPlayerEntity) {
-        //return clientPlayerEntity.checkGliding();
-        return !clientPlayerEntity.isInWater() && !clientPlayerEntity.isFallFlying() && !clientPlayerEntity.getAbilities().flying && !clientPlayerEntity.onGround() && !clientPlayerEntity.isPassenger() && !clientPlayerEntity.hasEffect(MobEffects.LEVITATION);
+    public boolean checkFallFlying(LocalPlayer localPlayer) {
+        //return localPlayer.checkGliding();
+        return !localPlayer.isInWater() && !localPlayer.isFallFlying() && !localPlayer.getAbilities().flying && !localPlayer.onGround() && !localPlayer.isPassenger() && !localPlayer.hasEffect(MobEffects.LEVITATION);
     }
 }
