@@ -12,10 +12,10 @@ public record ParentScreenBlConsumer(Screen parent, Consumer<Minecraft> consumer
             consumer.accept(Minecraft.getInstance());
 
             if (setParentIf) {
-                Minecraft.getInstance().setScreen(parent);
+                Minecraft.getInstance().setScreenAndShow(parent);
             }
         } else {
-            Minecraft.getInstance().setScreen(parent);
+            Minecraft.getInstance().setScreenAndShow(parent);
         }
     }
 }

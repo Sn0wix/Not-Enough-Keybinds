@@ -101,7 +101,7 @@ public class ControlsListWidget extends ContainerObjectSelectionList<ControlsLis
             this.textWidth = ControlsListWidget.this.minecraft.font.width(this.text);
 
             resetCategoryButton = Button.builder(TextUtils.getText("reset_category"), button ->
-                            minecraft.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(parent, client1 -> {
+                            minecraft.setScreenAndShow(Utils.getModConfirmScreen(new ParentScreenBlConsumer(parent, client1 -> {
                                 for (int i = 0; i < category.getKeyBindings().length; i++) {
                                     category.getKeyBindings()[i].setAndSaveKeyBinding(category.getKeyBindings()[i].getDefaultKey());
                                 }
@@ -111,7 +111,7 @@ public class ControlsListWidget extends ContainerObjectSelectionList<ControlsLis
 
         @Override
         public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
-            assert ControlsListWidget.this.minecraft.screen != null;
+            assert ControlsListWidget.this.minecraft.gui.screen() != null;
             context.text(
                     ControlsListWidget.this.minecraft.font,
                     this.text,
@@ -165,7 +165,7 @@ public class ControlsListWidget extends ContainerObjectSelectionList<ControlsLis
 
         public AddNewKeyButtonEntry(Screen screen, String translationKey) {
             button = Button.builder(Component.translatable(translationKey), button1 ->
-                    Minecraft.getInstance().setScreen(screen)
+                    Minecraft.getInstance().setScreenAndShow(screen)
             ).size(200, 20).build();
 
             this.translationKey = translationKey;
@@ -242,7 +242,7 @@ public class ControlsListWidget extends ContainerObjectSelectionList<ControlsLis
                 binding.setAndSaveKeyBinding(binding.getDefaultKey());
                 ControlsListWidget.this.update();
             }).bounds(0, 0, 50, 20).createNarration(textSupplier -> Component.translatable("narrator.controls.reset", bindingName)).build();
-            this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Component.empty(), button -> minecraft.setScreen(binding.getSettingsScreen(parent))
+            this.settingsButton = new TexturedButtonWidget(0, 0, 20, 20, Component.empty(), button -> minecraft.setScreenAndShow(binding.getSettingsScreen(parent))
                     , Supplier::get, Identifier.fromNamespaceAndPath(NotEnoughKeybinds.MOD_ID, "textures/settings.png"), 14, 14, 14, 14);
 
             this.settingsButton.setTooltip(TextUtils.getTooltip("settings"));

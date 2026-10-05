@@ -67,7 +67,7 @@ public class ChatKeyBinding extends NotEKKeyBinding {
         @Override
         public void onWasPressed(Minecraft client, NotEKKeyBinding keyBinding) {
             if (keyBinding instanceof ChatKeyBinding chatKeyBinding) {
-                sendMessage(chatKeyBinding.getChatMessage(), client.gui.getChat() != null, client);
+                sendMessage(chatKeyBinding.getChatMessage(), true, client);
             }
         }
 
@@ -75,7 +75,7 @@ public class ChatKeyBinding extends NotEKKeyBinding {
             chatText = normalize(chatText);
             if (!chatText.isEmpty()) {
                 if (addToHistory) {
-                    client.gui.getChat().addRecentChat(chatText);
+                    client.gui.hud.getChat().addRecentChat(chatText);
                 }
                 assert client.player != null;
                 if (chatText.startsWith("/")) {

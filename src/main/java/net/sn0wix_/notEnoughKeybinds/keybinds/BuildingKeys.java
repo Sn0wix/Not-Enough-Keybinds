@@ -37,8 +37,8 @@ public class BuildingKeys extends NotEKKeyBindings {
                         int i = itemStack.getCount();
                         InteractionResult actionResult2 = client.gameMode.useItemOn(client.player, hand, blockHitResult);
                         if (actionResult2.consumesAction()) {
-                            if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.CLIENT) {
-                                client.player.swing(hand);
+                            if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.PREDICTED) {
+                                client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
                                 if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.gameMode.getPlayerMode().isCreative())) {
                                     client.gameRenderer.itemInHandRenderer.itemUsed(hand);
                                 }
@@ -73,7 +73,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                         BlockPos blockPos = blockHitResult.getBlockPos();
                         if (!client.level.getBlockState(blockPos).isAir()) {
                             client.gameMode.startDestroyBlock(blockPos, blockHitResult.getDirection());
-                            client.player.swing(hand);
+                            client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
                             break;
                         }
                     }
@@ -98,8 +98,8 @@ public class BuildingKeys extends NotEKKeyBindings {
                     InteractionResult actionResult2 = client.gameMode.useItemOn(client.player, hand, blockHitResult);
                     if (actionResult2.consumesAction()) {
                         itemUseCooldown = 4;
-                        if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.CLIENT) {
-                            client.player.swing(hand);
+                        if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.PREDICTED) {
+                            client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
                             if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.gameMode.getPlayerMode().isCreative())) {
                                 client.gameRenderer.itemInHandRenderer.itemUsed(hand);
                             }

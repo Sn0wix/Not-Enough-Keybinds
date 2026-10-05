@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -13,7 +14,6 @@ import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
-import org.lwjgl.glfw.GLFW;
 
 public class PresetEditScreen extends SettingsScreen {
     public static final Component NAME_TEXT = Component.translatable(TextUtils.getTranslationKey("name")).withStyle(ChatFormatting.GRAY);
@@ -49,7 +49,7 @@ public class PresetEditScreen extends SettingsScreen {
     @Override
     public void initFooter() {
         LinearLayout directionalLayoutWidget = this.threePartsLayout.addToFooter(LinearLayout.horizontal().spacing(8));
-        directionalLayoutWidget.addChild(Button.builder(CommonComponents.GUI_BACK, button -> minecraft.setScreen(parent)
+        directionalLayoutWidget.addChild(Button.builder(CommonComponents.GUI_BACK, button -> minecraft.setScreenAndShow(parent)
         ).build());
 
         directionalLayoutWidget.addChild(doneButton);
@@ -69,7 +69,7 @@ public class PresetEditScreen extends SettingsScreen {
             Utils.showToastNotification(TextUtils.getText("preset." + (newPreset ? "create" : "edit") + ".toast", preset.getName()));
 
             assert minecraft != null;
-            minecraft.setScreen(parent);
+            minecraft.setScreenAndShow(parent);
         }).build();
 
         LinearLayout top = LinearLayout.vertical().spacing(2);
@@ -108,12 +108,12 @@ public class PresetEditScreen extends SettingsScreen {
     @Override
     public boolean keyPressed(KeyEvent input) {
         if (getFocused() == null || getFocused() == descriptionWidget || getFocused() == nameWidget) {
-            if (input.input() == GLFW.GLFW_KEY_DELETE) {
-                minecraft.setScreen(parent);
+            if (input.input() == InputConstants.KEY_DELETE) {
+                minecraft.setScreenAndShow(parent);
                 return true;
             }
 
-            if (input.input() == GLFW.GLFW_KEY_ENTER) {
+            if (input.input() == InputConstants.KEY_RETURN) {
                 doneButton.onPress(input);
                 return true;
             }

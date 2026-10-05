@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -15,7 +16,6 @@ import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
-import org.lwjgl.glfw.GLFW;
 
 public class PresetsSettingScreen extends SettingsScreen {
     public Button deleteButton;
@@ -104,14 +104,14 @@ public class PresetsSettingScreen extends SettingsScreen {
             updateScreen();
         }).size(150, 20).build();
 
-        this.createNewButton = Button.builder(TextUtils.getText("create_preset"), button -> minecraft.setScreen(new PresetEditScreen(this, new PresetLoader.KeybindPreset(), true))).bounds(this.width / 2 + 4, this.height - 52, 150, 20).tooltip(TextUtils.getTooltip("create_preset")).build();
+        this.createNewButton = Button.builder(TextUtils.getText("create_preset"), button -> minecraft.setScreenAndShow(new PresetEditScreen(this, new PresetLoader.KeybindPreset(), true))).bounds(this.width / 2 + 4, this.height - 52, 150, 20).tooltip(TextUtils.getTooltip("create_preset")).build();
         this.editButton = Button.builder(TextUtils.getText("edit"), button -> {
             if (presetsList.getSelected() != null) {
-                minecraft.setScreen(new PresetEditScreen(this, presetsList.getSelected().getPreset(), false));
+                minecraft.setScreenAndShow(new PresetEditScreen(this, presetsList.getSelected().getPreset(), false));
             }
         }).size(72, 20).build();
 
-        this.deleteButton = Button.builder(TextUtils.getText("delete"), button -> minecraft.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+        this.deleteButton = Button.builder(TextUtils.getText("delete"), button -> minecraft.setScreenAndShow(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
             if (presetsList.getSelected() != null) {
                 PresetLoader.KeybindPreset p = presetsList.getSelected().getPreset();
                 PresetLoader.deletePreset(p);
@@ -121,7 +121,7 @@ public class PresetsSettingScreen extends SettingsScreen {
         }, true), TextUtils.getText("preset.delete.confirm", presetsList.getSelected().getPreset().getName())))).size(72, 20).build();
 
         this.writeButton = Button.builder(TextUtils.getText("write"), button -> {
-            minecraft.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+            minecraft.setScreenAndShow(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
                 if (presetsList.getSelected() != null) {
                     PresetLoader.writePreset(presetsList.getSelected().getPreset(), Utils.bindingsToList(false));
                     Utils.showToastNotification(TextUtils.getText("preset.write", presetsList.getSelected().getPreset().getName()));
@@ -140,7 +140,7 @@ public class PresetsSettingScreen extends SettingsScreen {
                 });
             }
 
-            minecraft.setScreen(parent);
+            minecraft.setScreenAndShow(parent);
         }).size(72, 20).build();
 
         updateScreen();
@@ -165,24 +165,24 @@ public class PresetsSettingScreen extends SettingsScreen {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (input.input() == GLFW.GLFW_KEY_F5) {
+        if (input.input() == InputConstants.KEY_F5) {
             PresetLoader.reload(true);
             this.rebuildWidgets();
             return true;
         }
 
         if (getFocused() != null && getFocused() == presetsList) {
-            if (input.input() == GLFW.GLFW_KEY_DELETE && presetsList.getSelected() != null) {
+            if (input.input() == InputConstants.KEY_DELETE && presetsList.getSelected() != null) {
                 deleteButton.onPress(input);
                 return true;
-            } else if (input.input() == GLFW.GLFW_KEY_ENTER && presetsList.getSelected() != null) {
+            } else if (input.input() == InputConstants.KEY_RETURN && presetsList.getSelected() != null) {
                 loadButton.onPress(input);
                 return true;
-            } else if (input.input() == GLFW.GLFW_KEY_KP_ADD) {
+            } else if (input.input() == InputConstants.KEY_ADD) {
                 createNewButton.onPress(input);
                 return true;
             }
-        } else if (input.input() == GLFW.GLFW_KEY_ENTER && getFocused() instanceof Button buttonWidget) {
+        } else if (input.input() == InputConstants.KEY_RETURN && getFocused() instanceof Button buttonWidget) {
             buttonWidget.onPress(input);
         }
 

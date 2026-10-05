@@ -24,7 +24,7 @@ public abstract class ResetAllKeybindsMixin {
     //confirmation dialog
     @Inject(method = "lambda$addFooter$0", at = @At("HEAD"), cancellable = true)
     private void injectUpdate(Button button, CallbackInfo ci) {
-        Minecraft.getInstance().setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeyBindsScreen) (Object) this), client -> {
+        Minecraft.getInstance().setScreenAndShow(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeyBindsScreen) (Object) this), client -> {
             for (KeyMapping keyBinding : client.options.keyMappings) {
                 keyBinding.setKey(keyBinding.getDefaultKey());
             }

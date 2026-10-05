@@ -25,7 +25,7 @@ public class PresetsButton extends KeyBindsList.CategoryEntry {
         this.textRenderer = renderer;
 
         presetSettings = Button.builder(TextUtils.getText("presets"), button1 ->
-                        Minecraft.getInstance().setScreen(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
+                        Minecraft.getInstance().setScreenAndShow(new PresetsSettingScreen(((ControlsListWidgetAccessor) widget).getParent())))
                 .size(132, 20).build();
     }
 

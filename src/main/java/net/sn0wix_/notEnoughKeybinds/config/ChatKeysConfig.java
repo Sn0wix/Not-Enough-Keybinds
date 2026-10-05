@@ -10,7 +10,6 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.resources.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.HashMap;

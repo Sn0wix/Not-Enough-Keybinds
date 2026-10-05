@@ -133,10 +133,10 @@ public class Utils {
     }
 
     public static void showToastNotification(Component description) {
-        Minecraft.getInstance().getToastManager().addToast(new SystemToast(new SystemToast.SystemToastId(2769), Component.literal(NotEnoughKeybinds.MOD_NAME), description));
+        Minecraft.getInstance().gui.toastManager().addToast(new SystemToast(new SystemToast.SystemToastId(2769), Component.literal(NotEnoughKeybinds.MOD_NAME), description));
     }
 
     public static void showToastNotification(Component description, long displayDuration) {
-        Minecraft.getInstance().getToastManager().addToast(new SystemToast(new SystemToast.SystemToastId(displayDuration), Component.literal(NotEnoughKeybinds.MOD_NAME), description));
+        Minecraft.getInstance().gui.toastManager().addToast(new SystemToast(new SystemToast.SystemToastId(displayDuration), Component.literal(NotEnoughKeybinds.MOD_NAME), description));
     }
 }

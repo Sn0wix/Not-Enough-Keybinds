@@ -27,7 +27,7 @@ public class ModKeybindsButton extends KeyBindsList.CategoryEntry {
         widget.super(new KeyMapping.Category(Identifier.parse("")));
 
         button = Button.builder(Component.translatable("settings." + NotEnoughKeybinds.MOD_ID), button1 ->
-                Minecraft.getInstance().setScreen(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
+                Minecraft.getInstance().setScreenAndShow(new NotEKSettingsScreen(((ControlsListWidgetAccessor) widget).getParent()))
         ).size(340, 20).build();
     }
 

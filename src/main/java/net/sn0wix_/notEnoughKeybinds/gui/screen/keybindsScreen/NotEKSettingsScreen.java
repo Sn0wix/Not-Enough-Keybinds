@@ -14,7 +14,6 @@ import net.sn0wix_.notEnoughKeybinds.gui.SettingsScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.BasicLayoutWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class NotEKSettingsScreen extends SettingsScreen {
@@ -64,7 +63,7 @@ public class NotEKSettingsScreen extends SettingsScreen {
     @Override
     public boolean keyPressed(KeyEvent input) {
         if (this.selectedKeyBinding != null) {
-            if (input.key() == GLFW.GLFW_KEY_ESCAPE) {
+            if (input.key() == InputConstants.KEY_ESCAPE) {
                 selectedKeyBinding.setAndSaveKeyBinding(InputConstants.UNKNOWN);
             } else {
                 selectedKeyBinding.setAndSaveKeyBinding(InputConstants.getKey(input));
