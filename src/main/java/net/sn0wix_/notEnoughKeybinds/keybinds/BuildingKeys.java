@@ -40,7 +40,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                             if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.PREDICTED) {
                                 client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
                                 if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.gameMode.getPlayerMode().isCreative())) {
-                                    client.gameRenderer.itemInHandRenderer.itemUsed(hand);
+                                    client.player.firstPersonHandsAndItems().itemUsed(hand);
                                 }
                             }
                             return;
@@ -101,7 +101,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                         if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.PREDICTED) {
                             client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
                             if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.gameMode.getPlayerMode().isCreative())) {
-                                client.gameRenderer.itemInHandRenderer.itemUsed(hand);
+                                client.player.firstPersonHandsAndItems().itemUsed(hand);
                             }
                         }
                         return;
