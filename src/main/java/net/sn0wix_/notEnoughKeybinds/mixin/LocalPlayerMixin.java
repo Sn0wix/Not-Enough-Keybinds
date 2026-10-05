@@ -20,10 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LocalPlayerMixin {
     //Auto elytra detection
     @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;tryToStartFallFlying()Z", shift = At.Shift.AFTER))
-    private void injectTickMovement(CallbackInfo ci) {
+    private void notenoughkeybinds$injectTickMovement(CallbackInfo ci) {
         var self = (LocalPlayer) (Object) this;
         if (NotEnoughKeybinds.EQUIP_ELYTRA_CONFIG.autoDetect
-                && checkFallFlying(self)
+                && notenoughkeybinds$checkFallFlying(self)
                 && !self.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
                 && InventoryUtils.getSlotWithItem(Items.ELYTRA, self.getInventory()) > -1) {
 
@@ -50,9 +50,8 @@ public abstract class LocalPlayerMixin {
         }
     }
 
-
     @Unique
-    public boolean checkFallFlying(LocalPlayer localPlayer) {
+    public boolean notenoughkeybinds$checkFallFlying(LocalPlayer localPlayer) {
         //return localPlayer.checkGliding();
         return !localPlayer.isInWater() && !localPlayer.isFallFlying() && !localPlayer.getAbilities().flying && !localPlayer.onGround() && !localPlayer.isPassenger() && !localPlayer.hasEffect(MobEffects.LEVITATION);
     }

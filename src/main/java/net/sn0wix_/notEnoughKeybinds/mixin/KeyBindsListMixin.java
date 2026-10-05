@@ -21,12 +21,12 @@ public abstract class KeyBindsListMixin extends ContainerObjectSelectionList<Key
     }
 
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/apache/commons/lang3/ArrayUtils;clone([Ljava/lang/Object;)[Ljava/lang/Object;"), remap = false)
-    private Object[] filterKeybinds(Object[] keyBindings) {
+    private Object[] notenoughkeybinds$filterKeybinds(Object[] keyBindings) {
         return Utils.filterModKeybindings((KeyMapping[]) keyBindings);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injectTail(KeyBindsScreen keyBindsScreen, Minecraft minecraft, CallbackInfo ci) {
+    private void notenoughkeybinds$injectTail(KeyBindsScreen keyBindsScreen, Minecraft minecraft, CallbackInfo ci) {
         var self = (KeyBindsList) (Object) this;
         this.addEntryToTop(new PresetsButton(self, minecraft.font));
         this.addEntryToTop(new ModKeybindsButton(self));

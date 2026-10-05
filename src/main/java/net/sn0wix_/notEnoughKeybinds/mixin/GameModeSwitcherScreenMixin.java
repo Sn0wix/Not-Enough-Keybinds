@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(GameModeSwitcherScreen.class)
 public abstract class GameModeSwitcherScreenMixin {
     @ModifyVariable(method = "keyPressed", at = @At("HEAD"), argsOnly = true, name = "event")
-    public KeyEvent modifyF4(KeyEvent event) {
+    public KeyEvent notenoughkeybinds$modifyF4(KeyEvent event) {
         if (F3DebugKeys.GAMEMODES.boundKey.getValue() == event.key()) {
             return new KeyEvent(InputConstants.KEY_F4, event.keycode(), event.modifiers());
         }
