@@ -1,5 +1,7 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Mixin(KeyboardHandler.class)
 public abstract class KeyboardHandlerMixin {
@@ -85,18 +88,16 @@ public abstract class KeyboardHandlerMixin {
     }
 
 
-    @ModifyArg(method = "keyPress", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(Lcom/mojang/blaze3d/platform/Window;I)Z"), index = 1)
+    @ModifyArg(method = "keyPress", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(I)Z"), index = 0)
     public int notenoughkeybinds$fixF3C(int code) {
-        if (code == InputConstants.KEY_C) {
-            code = F3DebugKeys.COPY_LOCATION.boundKey.getValue();
-        }
-
+        if (code == InputConstants.KEY_C) code = F3DebugKeys.COPY_LOCATION.boundKey.getValue();
         return code;
     }
 
-    @ModifyArg(method = "handleDebugKeys", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;showDebugChat(Lnet/minecraft/network/chat/Component;)V"), require = 0)
-    public Component notenoughkeybinds$fixHelpMessage(Component message) {
-        return Utils.correctF3DebugMessage(message);
+    @WrapOperation(method = "handleDebugKeys", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/commands/VersionCommand;dumpVersion(Ljava/util/function/Consumer;)V"))
+    public void notenoughkeybinds$fixHelpMessage(Consumer<Component> output, Operation<Void> original) {
+        Consumer<Component> consumer = c -> output.accept(Utils.correctF3DebugMessage(c));
+        original.call(consumer);
     }
 
 
