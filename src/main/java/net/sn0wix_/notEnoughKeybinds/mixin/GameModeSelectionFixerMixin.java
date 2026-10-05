@@ -13,9 +13,9 @@ public abstract class GameModeSelectionFixerMixin {
     @ModifyVariable(method = "keyPressed", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public KeyEvent modifyF4(KeyEvent input) {
         if (F3DebugKeys.GAMEMODES.boundKey.getValue() == input.key()) {
-            return new KeyEvent(InputConstants.KEY_F4, input.scancode(), input.modifiers());
+            return new KeyEvent(InputConstants.KEY_F4, input.keycode(), input.modifiers());
         } else if (input.key() == InputConstants.KEY_F4) {
-            return new KeyEvent(F3DebugKeys.GAMEMODES.boundKey.getValue(), input.scancode(), input.modifiers());
+            return new KeyEvent(F3DebugKeys.GAMEMODES.boundKey.getValue(), input.keycode(), input.modifiers());
         }
 
         return input;

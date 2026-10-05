@@ -46,10 +46,8 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
 
     @Override
     public boolean matchesKey(KeyEvent key) {
-        if (key.key() == InputConstants.UNKNOWN.getValue()) {
-            return this.boundKey.getType() == InputConstants.Type.SCANCODE && this.boundKey.getValue() == key.scancode();
-        }
-        return this.boundKey.getType() == InputConstants.Type.KEYSYM && this.boundKey.getValue() == key.key();
+        if (key.key() == InputConstants.UNKNOWN.getValue()) return false;
+        return this.boundKey.getType() == InputConstants.Type.KEYBOARD && this.boundKey.getValue() == key.key();
     }
 
     @Override

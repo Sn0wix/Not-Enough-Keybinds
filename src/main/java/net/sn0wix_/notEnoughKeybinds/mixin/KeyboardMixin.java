@@ -10,6 +10,7 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
+import org.lwjgl.sdl.SDLKeyboard;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,10 +37,10 @@ public abstract class KeyboardMixin {
     //missing F1 keybind
     @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;showProfilerChart()Z", shift = At.Shift.BEFORE))
     private void injectOnKey(long window, int action, KeyEvent input, CallbackInfo ci) {
-        if (input.key() == InputConstants.KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), GLFW.glfwGetKeyScancode(input.key()),0 ))) {
+        if (input.key() == InputConstants.KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), SDLKeyboard.nSDL_GetScancodeFromKey(input.key(), 0), 0))) {
             this.minecraft.gui.hud.toggle();
         }
-        if (input.key() != InputConstants.KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), GLFW.glfwGetKeyScancode(input.key()), 0))) {
+        if (input.key() != InputConstants.KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(input.key(), SDLKeyboard.nSDL_GetScancodeFromKey(input.key(), 0), 0))) {
             this.minecraft.gui.hud.toggle();
         }
     }
@@ -50,7 +51,7 @@ public abstract class KeyboardMixin {
         List<Integer> codes = Utils.checkF3Shortcuts(input);
 
         if (minecraft.player != null && !codes.isEmpty() && !(minecraft.gui.screen() instanceof NotEKSettingsScreen)) {
-            codes.forEach(scanCode -> this.handleDebugKeys(new KeyEvent(scanCode, input.scancode(), 0))); //Will only codes work?
+            codes.forEach(scanCode -> this.handleDebugKeys(new KeyEvent(scanCode, input.keycode(), 0))); //Will only codes work?
         }
     }
 
@@ -76,7 +77,7 @@ public abstract class KeyboardMixin {
             key = pressedF3Keys.getFirst();
             pressedF3Keys.removeFirst();
 
-            finalInput = new KeyEvent(key, input.scancode(), 0);
+            finalInput = new KeyEvent(key, input.keycode(), 0);
 
             if (!pressedF3Keys.isEmpty()) {
                 this.handleDebugKeys(finalInput);

@@ -10,6 +10,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.resources.Identifier;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
+import org.lwjgl.sdl.SDLKeyboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class ChatKeysConfig {
         }
 
         public InputConstants.Key getKey() {
-            return keyCode == -1 ? InputConstants.UNKNOWN : InputConstants.getKey(new KeyEvent(keyCode, GLFW.glfwGetKeyScancode(keyCode), 0));
+            return keyCode == -1 ? InputConstants.UNKNOWN : InputConstants.getKey(new KeyEvent(keyCode, SDLKeyboard.nSDL_GetScancodeFromKey(keyCode, 0), 0));
         }
 
         public String getMessage() {
