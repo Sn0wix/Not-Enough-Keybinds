@@ -20,7 +20,6 @@ public class NotEnoughKeybinds implements ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final Identifier ICON = Identifier.fromNamespaceAndPath(MOD_ID, "icon.png");
 
-    public static final DebugKeysConfig DEBUG_KEYS_CONFIG = DebugKeysConfig.getConfig();
     public static final ChatKeysConfig CHAT_KEYS_CONFIG = ChatKeysConfig.getConfig();
     public static final SwapTotemShieldConfig TOTEM_SHIELD_CONFIG = SwapTotemShieldConfig.getConfig();
     public static final EquipElytraConfig EQUIP_ELYTRA_CONFIG = EquipElytraConfig.getConfig();

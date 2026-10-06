@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screens.options.controls.KeyBindsScreen;
 import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,11 +26,6 @@ public abstract class KeyBindsScreenMixin {
         Minecraft.getInstance().setScreenAndShow(Utils.getModConfirmScreen(new ParentScreenBlConsumer(((KeyBindsScreen) (Object) this), client -> {
             for (KeyMapping keyBinding : client.options.keyMappings) {
                 keyBinding.setKey(keyBinding.getDefaultKey());
-            }
-
-            for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
-                INotEKKeybinding keybinding = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i];
-                keybinding.setBoundKey(keybinding.getDefaultKey());
             }
 
             for (int i = 0; i < ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings().length; i++) {

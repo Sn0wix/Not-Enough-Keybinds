@@ -26,7 +26,6 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.gui.TexturedButtonWidget;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.F3DebugKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
@@ -288,7 +287,7 @@ public class ControlsListWidget extends ContainerObjectSelectionList<ControlsLis
             MutableComponent mutableText = Component.empty();
             if (!this.binding.isUnbound()) {
                 for (KeyMapping keyBinding : Minecraft.getInstance().options.keyMappings) {
-                    if (!(binding instanceof F3DebugKeybinding) && keyBinding != this.binding.getBinding() && this.binding.getBinding().same(keyBinding)) {
+                    if (keyBinding != this.binding.getBinding() && this.binding.getBinding().same(keyBinding)) {
                         if (this.duplicate) {
                             mutableText.append(", ");
                         }

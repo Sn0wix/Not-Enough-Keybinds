@@ -1,6 +1,5 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
@@ -21,16 +20,11 @@ public abstract class NotEKKeyBindings {
     public static final String KEY_BINDING_PREFIX = "key." + NotEnoughKeybinds.MOD_ID + ".";
 
 
-    //why this isn't a thing in vanilla
-    public static final KeyMapping TOGGLE_HIDE_HUD = registerKeyMapping(new KeyMapping(KEY_BINDING_PREFIX + "toggle_hide_hud", InputConstants.KEY_F1, KeyMapping.Category.MISC));
-
-
     public static void registerModKeybinds() {
         registerKeyCategory(new BuildingKeys().getModCategory());
         registerKeyCategory(new F3ShortcutsKeys().getModCategory());
         registerKeyCategory(new InventoryKeys().getModCategory());
         registerKeyCategory(new SkinLayersKeys().getModCategory());
-        registerKeyCategory(new F3DebugKeys().getModCategory());
         registerKeyCategory(new ChatKeys().getModCategory());
         registerKeyCategory(new SoundKeys().getModCategory());
         registerKeyCategory(new PresetKeys().getModCategory());

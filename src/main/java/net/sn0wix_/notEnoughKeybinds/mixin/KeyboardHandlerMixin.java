@@ -1,47 +1,23 @@
 package net.sn0wix_.notEnoughKeybinds.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.network.chat.Component;
 import net.sn0wix_.notEnoughKeybinds.gui.screen.keybindsScreen.NotEKSettingsScreen;
-import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
-import org.lwjgl.sdl.SDLKeyboard;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Mixin(KeyboardHandler.class)
 public abstract class KeyboardHandlerMixin {
     @Shadow @Final private Minecraft minecraft;
     @Shadow protected abstract boolean handleDebugKeys(KeyEvent keyInput);
-
-    //missing F1 keybind
-    @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;showProfilerChart()Z", shift = At.Shift.BEFORE))
-    private void notenoughkeybinds$injectOnKey(long handle, int action, KeyEvent event, CallbackInfo ci) {
-        if (event.key() == InputConstants.KEY_F1 && !NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(event.key(), SDLKeyboard.nSDL_GetScancodeFromKey(event.key(), 0), 0))) {
-            this.minecraft.gui.hud.toggle();
-        }
-        if (event.key() != InputConstants.KEY_F1 && NotEKKeyBindings.TOGGLE_HIDE_HUD.matches(new KeyEvent(event.key(), SDLKeyboard.nSDL_GetScancodeFromKey(event.key(), 0), 0))) {
-            this.minecraft.gui.hud.toggle();
-        }
-    }
 
     //f3 shortcuts
     @Inject(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyMapping;set(Lcom/mojang/blaze3d/platform/InputConstants$Key;Z)V", ordinal = 1, shift = At.Shift.BEFORE))
@@ -49,60 +25,9 @@ public abstract class KeyboardHandlerMixin {
         List<Integer> codes = Utils.checkF3Shortcuts(event);
 
         if (minecraft.player != null && !codes.isEmpty() && !(minecraft.gui.screen() instanceof NotEKSettingsScreen)) {
-            codes.forEach(scanCode -> this.handleDebugKeys(new KeyEvent(scanCode, event.keycode(), 0))); //Will only codes work?
+            codes.forEach(scanCode -> {
+                this.handleDebugKeys(new KeyEvent(scanCode, event.keycode(), 0));
+            }); //Will only codes work?
         }
-    }
-
-    //f3 debug keys
-    @ModifyArg(method = "keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;handleDebugKeys(Lnet/minecraft/client/input/KeyEvent;)Z"))
-    private KeyEvent notenoughkeybinds$injectProcessF3(KeyEvent input) {
-        int key;
-
-        Iterator<INotEKKeybinding> iterator = Arrays.stream(F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).iterator();
-        ArrayList<Integer> pressedF3Keys = new ArrayList<>(1);
-
-        while (iterator.hasNext()) {
-            INotEKKeybinding keyBinding = iterator.next();
-
-            if (keyBinding.matchesKey(input)) {
-                pressedF3Keys.add(keyBinding.getDefaultKey().getValue());
-            }
-        }
-
-        KeyEvent finalInput = new KeyEvent(0, 0, 0);
-
-        while (!pressedF3Keys.isEmpty()) {
-            key = pressedF3Keys.getFirst();
-            pressedF3Keys.removeFirst();
-
-            finalInput = new KeyEvent(key, input.keycode(), 0);
-
-            if (!pressedF3Keys.isEmpty()) {
-                this.handleDebugKeys(finalInput);
-            }
-
-            pressedF3Keys.trimToSize();
-        }
-
-        return finalInput;
-    }
-
-
-    @ModifyArg(method = "keyPress", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(I)Z"), index = 0)
-    public int notenoughkeybinds$fixF3C(int code) {
-        if (code == InputConstants.KEY_C) code = F3DebugKeys.COPY_LOCATION.boundKey.getValue();
-        return code;
-    }
-
-    @WrapOperation(method = "handleDebugKeys", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/commands/VersionCommand;dumpVersion(Ljava/util/function/Consumer;)V"))
-    public void notenoughkeybinds$fixHelpMessage(Consumer<Component> output, Operation<Void> original) {
-        Consumer<Component> consumer = c -> output.accept(Utils.correctF3DebugMessage(c));
-        original.call(consumer);
-    }
-
-
-    @ModifyArg(method = "debugFeedbackComponent(Lnet/minecraft/network/chat/Component;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/KeyboardHandler;decorateDebugComponent(Lnet/minecraft/ChatFormatting;Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/Component;"), index = 1)
-    public Component notenoughkeybinds$fixF3CMessage(Component message) {
-        return message.getContents().toString().contains("debug.crash.message") ? Component.translatable("debug.crash.message", F3DebugKeys.COPY_LOCATION.boundKey.getDisplayName()) : message;
     }
 }

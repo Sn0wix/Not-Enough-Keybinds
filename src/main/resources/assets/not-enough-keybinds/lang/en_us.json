@@ -131,7 +131,6 @@
   "key.not-enough-keybinds.throw_wind_charge": "Throw Wind Charge",
 
   "key.not-enough-keybinds.disconnect": "Disconnect",
-
   "key.not-enough-keybinds.next_preset": "Next Preset",
   "key.not-enough-keybinds.previous_preset": "Previous Preset",
   "key.not-enough-keybinds.previous_preset_global": "Previous Preset Global",
@@ -146,7 +145,6 @@
   "key.not-enough-keybinds.increase_master_volume": "Increase Master Volume",
   "key.not-enough-keybinds.decrease_master_volume": "Decrease Master Volume",
 
-  "key.not-enough-keybinds.toggle_hide_hud": "Toggle Hide Hud",
   "key.not-enough-keybinds.toggle_hitboxes": "Toggle Hitboxes",
   "key.not-enough-keybinds.toggle_chunk_grid": "Toggle Chunk Grid",
   "key.not-enough-keybinds.toggle_advanced_tooltips": "Toggle Advanced Tooltips",
@@ -180,6 +178,6 @@
   "key.not-enough-keybinds.reload_resourcepacks": "Reload Resourcepacks",
   "key.not-enough-keybinds.gamemodes": "Open Game Mode Switcher",
 
-  "link.not-enough-keybinds.curseforge": "§6§n§lCurseforge",
-  "link.not-enough-keybinds.modrinth": "§2§n§lMondrinth"
+  "link.not-enough-keybinds.curseforge": "§6§nCurseforge",
+  "link.not-enough-keybinds.modrinth": "§2§nMondrinth"
 }

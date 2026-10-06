@@ -10,7 +10,6 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.gui.AdvancedConfirmScreen;
 import net.sn0wix_.notEnoughKeybinds.gui.ParentScreenBlConsumer;
 import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
-import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3ShortcutsKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
@@ -63,22 +62,6 @@ public class Utils {
         return codes;
     }
 
-
-    public static Component correctF3DebugMessage(Component message) {
-        String translatedMessage = message.getString();
-        String f3String = "F3 + ";
-        for (int i = 0; i < F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings().length; i++) {
-            String newKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getBoundKeyLocalizedText().getString().replace(f3String, "");
-            String oldKey = F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()[i].getDefaultKey().getDisplayName().getString();
-
-            if (translatedMessage.contains(f3String + oldKey)) {
-                translatedMessage = translatedMessage.replace(f3String + oldKey, f3String + newKey);
-            }
-        }
-
-        return Component.nullToEmpty(translatedMessage);
-    }
-
     public static Object[] addArgToEnd(Object[] args, Object addedArg) {
         Object[] newArgs = new Object[args.length + 1];
         System.arraycopy(args, 0, newArgs, 0, args.length);
@@ -119,7 +102,7 @@ public class Utils {
     public static List<String> bindingsToList(boolean defaultBindings) {
         ArrayList<String> bindingsList = new ArrayList<>();
 
-        Stream.of(Minecraft.getInstance().options.keyMappings, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings(), F3DebugKeys.F3_DEBUG_KEYS_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
+        Stream.of(Minecraft.getInstance().options.keyMappings, ChatKeys.CHAT_KEYS_MOD_CATEGORY.getKeyBindings()).toList().forEach(bindings -> {
             if (bindings instanceof INotEKKeybinding[] newBindings) {
                 for (INotEKKeybinding binding : newBindings) {
                     bindingsList.add(binding.getId() + ":" + (defaultBindings ? binding.getDefaultKey().getName() : binding.getBoundKeyTranslation()));
