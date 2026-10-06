@@ -26,7 +26,7 @@ public abstract class KeyboardHandlerMixin {
 
         if (minecraft.player != null && !codes.isEmpty() && !(minecraft.gui.screen() instanceof NotEKSettingsScreen)) {
             codes.forEach(scanCode -> {
-                this.handleDebugKeys(new KeyEvent(scanCode, event.keycode(), 0));
+                this.handleDebugKeys(new KeyEvent(scanCode, event.scancode(), 0));
             }); //Will only codes work?
         }
     }

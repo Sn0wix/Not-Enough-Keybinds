@@ -134,8 +134,8 @@ public class InventoryUtils {
      */
     public static void interactItem(InteractionHand hand, Minecraft client) throws NullPointerException {
         if (client.gameMode.useItem(client.player, hand) instanceof InteractionResult.Success swingSource) {
-            if (swingSource.swingSource() == InteractionResult.SwingSource.PREDICTED) {
-                client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
+            if (swingSource.swingSource() == InteractionResult.SwingSource.CLIENT) {
+                client.player.swing(hand, true);
             }
         }
     }

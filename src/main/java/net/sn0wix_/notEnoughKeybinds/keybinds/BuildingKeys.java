@@ -20,7 +20,6 @@ public class BuildingKeys extends NotEKKeyBindings {
     public static final KeyMapping.Category BUILDING_CATEGORY = KeyMapping.Category.register(NotEnoughKeybinds.getIdentifier(BUILDING_CATEGORY_KEY));
 
 
-
     public static final NotEKKeyBinding FAST_BUILDING = registerModKeyBinding(new NotEKKeyBinding("fast_building", BUILDING_CATEGORY, new NotEKKeyBinding.KeybindingTicker() {
         @Override
         public void onWasPressed(Minecraft client, NotEKKeyBinding keyBinding) {
@@ -37,10 +36,10 @@ public class BuildingKeys extends NotEKKeyBindings {
                         int i = itemStack.getCount();
                         InteractionResult actionResult2 = client.gameMode.useItemOn(client.player, hand, blockHitResult);
                         if (actionResult2.consumesAction()) {
-                            if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.PREDICTED) {
-                                client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
+                            if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.CLIENT) {
+                                client.player.swing(hand, true);
                                 if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.gameMode.getPlayerMode().isCreative())) {
-                                    client.player.firstPersonHandsAndItems().itemUsed(hand);
+                                    client.gameRenderer.itemInHandRenderer.itemUsed(hand);
                                 }
                             }
                             return;
@@ -73,7 +72,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                         BlockPos blockPos = blockHitResult.getBlockPos();
                         if (!client.level.getBlockState(blockPos).isAir()) {
                             client.gameMode.startDestroyBlock(blockPos, blockHitResult.getDirection());
-                            client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
+                            client.player.swing(hand, true);
                             break;
                         }
                     }
@@ -98,10 +97,10 @@ public class BuildingKeys extends NotEKKeyBindings {
                     InteractionResult actionResult2 = client.gameMode.useItemOn(client.player, hand, blockHitResult);
                     if (actionResult2.consumesAction()) {
                         itemUseCooldown = 4;
-                        if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.PREDICTED) {
-                            client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
+                        if (actionResult2 instanceof InteractionResult.Success success && success.swingSource() == InteractionResult.SwingSource.CLIENT) {
+                            client.player.swing(hand, true);
                             if (!itemStack.isEmpty() && (itemStack.getCount() != i || client.gameMode.getPlayerMode().isCreative())) {
-                                client.player.firstPersonHandsAndItems().itemUsed(hand);
+                                client.gameRenderer.itemInHandRenderer.itemUsed(hand);
                             }
                         }
                         return;
@@ -112,7 +111,7 @@ public class BuildingKeys extends NotEKKeyBindings {
                 }
             }
         }
-    }){
+    }) {
         @Override
         public Component getTooltip() {
             return TextUtils.getText("always_place_item", true);
