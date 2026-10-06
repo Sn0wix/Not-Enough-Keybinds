@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.keybinds.custom;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.KeyEvent;
@@ -9,7 +10,7 @@ import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
 import net.sn0wix_.notEnoughKeybinds.keybinds.F3DebugKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.NotEKKeyBindings;
 import org.jetbrains.annotations.NotNull;
-import com.mojang.blaze3d.platform.InputConstants;
+
 import java.util.Objects;
 
 public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKeybinding> {
@@ -46,10 +47,8 @@ public class F3DebugKeybinding implements INotEKKeybinding, Comparable<F3DebugKe
 
     @Override
     public boolean matchesKey(KeyEvent key) {
-        if (key.key() == InputConstants.UNKNOWN.getValue()) {
-            return this.boundKey.getType() == InputConstants.Type.SCANCODE && this.boundKey.getValue() == key.scancode();
-        }
-        return this.boundKey.getType() == InputConstants.Type.KEYSYM && this.boundKey.getValue() == key.key();
+        if (key.key() == InputConstants.UNKNOWN.getValue()) return false;
+        return this.boundKey.getType() == InputConstants.Type.KEYBOARD && this.boundKey.getValue() == key.key();
     }
 
     @Override

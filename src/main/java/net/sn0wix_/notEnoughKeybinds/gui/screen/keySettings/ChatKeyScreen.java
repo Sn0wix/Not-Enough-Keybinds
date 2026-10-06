@@ -1,5 +1,6 @@
 package net.sn0wix_.notEnoughKeybinds.gui.screen.keySettings;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -15,7 +16,6 @@ import net.sn0wix_.notEnoughKeybinds.keybinds.ChatKeys;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.ChatKeyBinding;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
 import net.sn0wix_.notEnoughKeybinds.util.Utils;
-import org.lwjgl.glfw.GLFW;
 
 public class ChatKeyScreen extends SettingsScreen {
     public static final Component KEYBIND_NAME_TEXT = Component.translatable(TextUtils.getTranslationKey("keybind_name")).withStyle(ChatFormatting.GRAY);
@@ -71,14 +71,14 @@ public class ChatKeyScreen extends SettingsScreen {
                 Utils.showToastNotification(TextUtils.getText("chat_binding.create", binding.getSettingsDisplayName()));
             }
             assert minecraft != null;
-            minecraft.setScreen(parent);
+            minecraft.setScreenAndShow(parent);
         }).build();
 
         deleteButton = Button.builder(TextUtils.getText("delete"), button -> {
             assert minecraft != null;
-            minecraft.setScreen(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
+            minecraft.setScreenAndShow(Utils.getModConfirmScreen(new ParentScreenBlConsumer(this, client1 -> {
                         ChatKeys.CHAT_KEYS_MOD_CATEGORY.removeKey(binding);
-                        minecraft.setScreen(parent);
+                        minecraft.setScreenAndShow(parent);
                         Utils.showToastNotification(TextUtils.getText("chat_binding.delete", binding.getSettingsDisplayName()));
                     }, false),
                     Component.translatable(TextUtils.getTranslationKey("delete_keybind.confirm"), nameWidget.getValue())));
@@ -143,12 +143,12 @@ public class ChatKeyScreen extends SettingsScreen {
     @Override
     public boolean keyPressed(KeyEvent input) {
         if (getFocused() == null || getFocused() == nameWidget || getFocused() == messageWidget) {
-            if (input.input() == GLFW.GLFW_KEY_DELETE) {
+            if (input.input() == InputConstants.KEY_DELETE) {
                 deleteButton.onPress(input);
                 return true;
             }
 
-            if (input.input() == GLFW.GLFW_KEY_ENTER) {
+            if (input.input() == InputConstants.KEY_RETURN) {
                 doneButton.onPress(input);
                 return true;
             }

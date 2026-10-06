@@ -1,10 +1,10 @@
 package net.sn0wix_.notEnoughKeybinds.gui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 
 public class AdvancedConfirmScreen extends ConfirmScreen {
     public AdvancedConfirmScreen(BooleanConsumer callback, Component title, Component message) {
@@ -17,15 +17,15 @@ public class AdvancedConfirmScreen extends ConfirmScreen {
 
     @Override
     public boolean keyPressed(KeyEvent input) {
-        if (getFocused() == null && input.input() == GLFW.GLFW_KEY_ENTER) {
+        if (getFocused() == null && input.input() == InputConstants.KEY_RETURN) {
             this.callback.accept(true);
             return true;
         }
 
-        if (input.input() == GLFW.GLFW_KEY_BACKSPACE) {
+        if (input.input() == InputConstants.KEY_BACKSPACE) {
             this.callback.accept(false);
             return true;
-        } else if (input.input() == GLFW.GLFW_KEY_DELETE) {
+        } else if (input.input() == InputConstants.KEY_DELETE) {
             this.callback.accept(true);
             return true;
         }

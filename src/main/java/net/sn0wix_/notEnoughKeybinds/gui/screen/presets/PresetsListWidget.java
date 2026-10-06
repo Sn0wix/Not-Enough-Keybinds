@@ -2,13 +2,13 @@ package net.sn0wix_.notEnoughKeybinds.gui.screen.presets;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.CommonColors;
 import net.sn0wix_.notEnoughKeybinds.keybinds.presets.PresetLoader;
 import net.sn0wix_.notEnoughKeybinds.util.TextUtils;
@@ -48,7 +48,7 @@ public class PresetsListWidget extends ObjectSelectionList<PresetsListWidget.Pre
         public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
             context.text(textRenderer, TextUtils.trimText(preset.getName(), textRenderer, getContentWidth() - 6), getContentX() + 3, getContentY() + 1, CommonColors.WHITE, false);
             context.text(textRenderer, TextUtils.trimText(preset.getDescription(), textRenderer, getContentWidth()), getContentX() + 3, getContentY() + 9 + 3, CommonColors.LIGHT_GRAY, false);
-            context.text(textRenderer, TextUtils.trimText(preset.getFileName(), textRenderer, getContentWidth()), getContentX() + 3, getContentY() + 9 + 9 + 3, ChatFormatting.DARK_GRAY.getColor(), false);
+            context.text(textRenderer, TextUtils.trimText(preset.getFileName(), textRenderer, getContentWidth()), getContentX() + 3, getContentY() + 9 + 9 + 3, TextColor.DARK_GRAY.getValue(), false);
 
         }
 

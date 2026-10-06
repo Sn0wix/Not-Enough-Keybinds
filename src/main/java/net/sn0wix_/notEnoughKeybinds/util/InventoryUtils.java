@@ -5,8 +5,6 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.*;
-import net.minecraft.core.registries.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
@@ -136,8 +134,8 @@ public class InventoryUtils {
      */
     public static void interactItem(InteractionHand hand, Minecraft client) throws NullPointerException {
         if (client.gameMode.useItem(client.player, hand) instanceof InteractionResult.Success swingSource) {
-            if (swingSource.swingSource() == InteractionResult.SwingSource.CLIENT) {
-                client.player.swing(hand);
+            if (swingSource.swingSource() == InteractionResult.SwingSource.PREDICTED) {
+                client.player.swing(hand, client.player.getItemInHand(hand).getInteractAnimation(), true);
             }
         }
     }

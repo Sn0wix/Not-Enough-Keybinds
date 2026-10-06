@@ -7,6 +7,9 @@
 	"authors": [
 		"Sn0wix_"
 	],
+	"contributors": [
+		"AmyMialee"
+	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/not-enough-keybinds",
 		"sources": "https://github.com/Sn0wix/Not-Enough-Keybinds",
@@ -27,8 +30,7 @@
 		"not-enough-keybinds.mixins.json"
 	],
 	"depends": {
-		"fabricloader": "*",
-		"minecraft": ">=26.1 <=26.1.2",
+		"minecraft": ">=26.3",
 		"java": ">=25",
 		"fabric-api": "*",
 		"yet_another_config_lib_v3": "*"

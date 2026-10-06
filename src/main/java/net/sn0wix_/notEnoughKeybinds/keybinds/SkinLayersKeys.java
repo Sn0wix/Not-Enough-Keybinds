@@ -4,9 +4,9 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.sn0wix_.notEnoughKeybinds.NotEnoughKeybinds;
+import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.KeybindCategory;
 import net.sn0wix_.notEnoughKeybinds.keybinds.custom.NotEKKeyBinding;
-import net.sn0wix_.notEnoughKeybinds.keybinds.custom.INotEKKeybinding;
 
 public class SkinLayersKeys extends NotEKKeyBindings {
     public static final String SKIN_LAYERS_CATEGORY_KEY = "key.category." + NotEnoughKeybinds.MOD_ID + ".skin_layers";
